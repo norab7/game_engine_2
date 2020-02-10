@@ -12,19 +12,30 @@
 
 #include "Render.h"
 
-/* Variables */
-_Render::Render* render;
-
-bool shut_down = false;
-bool KEY_PRESS[1024];
-
+/* Initial Settings */
 const char* WINDOW_NAME = "Game Engine";
 const unsigned int WINDOW_WIDTH = 1920;
 const unsigned int WINDOW_HEIGHT = 1080;
 
+/* Class Instances */		// TODO: Decouple
+_Render::Render* render;
+
+/* Variables */
+bool shut_down = false;
+bool KEY_PRESS[1024];
+
 bool firstMouse = true;
-float lastX = 0;
-float lastY = 0;
+float lastX = 0.0f, lastY = 0.0f;
+
+float last_time = 0.0f;
+float current_time = 0.0f;
+float delta_time = 0.0f;
+float lag = 0.0f;
+float ms_per_frame = (1.0f/60.0f);
+float second_timer = 0.0f;
+
+/* Stats and Analytics */
+unsigned frames = 0, updates = 0;
 
 /* Functions */
 void setup();

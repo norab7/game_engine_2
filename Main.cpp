@@ -6,23 +6,34 @@ int main(int argc, char** argv) {
 	setup();
 
 	while(!shut_down) {
+		// Timing
+		current_time = glfwGetTime();
+		delta_time = current_time - last_time;
+		last_time = current_time;
+		lag += delta_time;
 
-
-		// Update Camera
-
-
-		// Update Position
+		// Process Input
 		process_input();
 
 
+		// Update Things
+		while(lag >= ms_per_frame) {
+			updates++;
+			lag -= ms_per_frame;
+		}
+
 		// Render Scene
-
-
-		// Swap Buffers
-
-
-
 		render->update();
+		frames++;
+
+
+		// Analytics and fps
+		if(glfwGetTime() - second_timer > 1) {
+			std::cout << "Frames[" << frames << "] : Updates[" << updates << "]" << std::endl;
+			second_timer++;
+			updates = 0;
+			frames = 0;
+		}
 	}
 
 
@@ -32,8 +43,14 @@ int main(int argc, char** argv) {
 }
 
 void setup() {
+	// Timing
+	last_time = glfwGetTime();
+	second_timer = last_time;
+
+	// Rendering
 	render = new _Render::Render(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME);
 
+	// Callbacks
 	GLFWwindow* window = render->get_window();
 	glfwSetWindowSizeCallback(window, callback_window_resize);
 	glfwSetKeyCallback(window, callback_keyboard_input);

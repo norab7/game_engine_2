@@ -22,8 +22,20 @@
     <Filter Include="Rendering">
       <UniqueIdentifier>{c523d038-cd89-498b-8a79-f43c98386b58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components">
+    <Filter Include="Interfaces">
       <UniqueIdentifier>{0092d31f-8fd7-4f66-9e67-c4a54076bfcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{b9799b2b-2d51-4a79-bf0d-d93ec040590b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Physics">
+      <UniqueIdentifier>{ce3ca5a9-881a-45b3-bf85-aa285b079f29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Graphics">
+      <UniqueIdentifier>{a3ac26e0-31b0-442b-81ac-617f1490dcd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Inputs">
+      <UniqueIdentifier>{bffd0f9b-9888-490d-8403-a4d2fffedb11}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +62,12 @@
     </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Inputs.cpp">
+      <Filter>Components\Inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,16 +102,25 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="I_AABB.h">
-      <Filter>Components</Filter>
+      <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="I_Input.h">
-      <Filter>Components</Filter>
+      <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="I_Physics.h">
-      <Filter>Components</Filter>
+      <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="I_Graphics.h">
-      <Filter>Components</Filter>
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="I_Component.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Physics.h">
+      <Filter>Components\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Inputs.h">
+      <Filter>Components\Inputs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
