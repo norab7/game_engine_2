@@ -1,4 +1,5 @@
 #define STB_IMAGE_IMPLEMENTATION // Must be done before using stb_image.h
+#define GLFW_INCLUDE_NONE // fixes glfw errors
 #include "Main.h"
 
 int main(int argc, char** argv) {

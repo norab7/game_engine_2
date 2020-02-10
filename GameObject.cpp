@@ -1,5 +1,11 @@
 #include "GameObject.h"
 
-GameObject::GameObject(I_Input* input) : input_(input) {
+GameObject::GameObject() {
+	// Linking Interfaces
+}
 
+void GameObject::update() {
+	// if(input_ != nullptr) { input_->update(*this); }
+
+	std::cout << "Position(" << x << ", " << y << ", " << z << ")" << std::endl;
 }
