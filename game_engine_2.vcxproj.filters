@@ -22,6 +22,9 @@
     <Filter Include="Rendering">
       <UniqueIdentifier>{c523d038-cd89-498b-8a79-f43c98386b58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{0092d31f-8fd7-4f66-9e67-c4a54076bfcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -56,9 +59,6 @@
     <ClInclude Include="AABB_Tree.h">
       <Filter>AABB</Filter>
     </ClInclude>
-    <ClInclude Include="I_AABB.h">
-      <Filter>AABB</Filter>
-    </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>AABB</Filter>
     </ClInclude>
@@ -76,6 +76,24 @@
     </ClInclude>
     <ClInclude Include="Render.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="I_AABB.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="I_Input.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="I_Physics.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="I_Graphics.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

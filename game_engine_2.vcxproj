@@ -162,13 +162,18 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AABB_Tree.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="I_AABB.h" />
+    <ClInclude Include="I_Graphics.h" />
+    <ClInclude Include="I_Input.h" />
+    <ClInclude Include="I_Physics.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
