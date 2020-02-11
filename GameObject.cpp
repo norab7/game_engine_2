@@ -2,9 +2,11 @@
 
 /* Component Includes */
 #include "I_Input.h"
+#include "I_Graphics.h"
 
-GameObject::GameObject(I_Input* input) : input_(input) {
+GameObject::GameObject(I_Graphics* graphics, I_Input* input) : graphics_(graphics), input_(input) {
 	// Linking Interfaces
+	components.push_back(graphics);
 	components.push_back(input);
 }
 

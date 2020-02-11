@@ -11,10 +11,12 @@
 #include <stb_image.h>
 #endif // !STB_IMAGE_H
 
+#include "I_Graphics.h"
 #include "Mesh.h"
 #include "Shader.h"
 
-class Model {
+class Model : public I_Graphics {
+	Shader* shader_;
 	std::string dir;
 	std::vector<Texture> loaded_textures;
 	std::vector<Mesh> meshes;
@@ -27,7 +29,8 @@ class Model {
 	std::vector<Texture> load_material_textures(aiMaterial* mat, aiTextureType type, std::string name);
 
 public:
-	Model(const char* dir);
+	Model(const char* dir, Shader* shader);
 
-	void Draw(Shader& shader);
+	void update(GameObject& g) override;
+	void receive(int message) override;
 };

@@ -1,7 +1,5 @@
 #include "Render.h"
 
-using namespace _Render;
-
 Render::Render(int window_width, int window_height, const char* title) {
 	this->window_width = window_width;
 	this->window_height = window_height;
@@ -38,10 +36,6 @@ Render::Render(int window_width, int window_height, const char* title) {
 
 	glEnable(GL_DEPTH_TEST);
 
-	// Shader Code (Moved into object)
-	shader = new Shader(vshader, fshader);
-	//nanosuit = new _Model::Model(suit);
-
 	glfwSwapInterval(0);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Uncomment for Wireframe
 }
@@ -50,17 +44,17 @@ Render::~Render() {
 	glfwTerminate();
 }
 
-void Render::update(std::vector<GameObject>& game_objects) {
+void Render::update(std::vector<GameObject>& game_objects, Shader& shader) {
 
 	// Render
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	shader->use();
+	shader.use();
 
 	projection = glm::perspective(glm::radians(45.0f), (float) (window_width / window_height), 0.1f, 1000.0f);
-	shader->setMat4("projection", projection);
-	shader->setMat4("view", view);
+	shader.setMat4("projection", projection);
+	shader.setMat4("view", view);
 
 	// Buffers
 	glfwSwapBuffers(window);

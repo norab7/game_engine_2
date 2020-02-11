@@ -18,44 +18,31 @@
 #include "Shader.h"
 #include "GameObject.h"
 
-namespace _Render {
-	class Render {
-		const char* window_title;
-		int window_width;
-		int window_height;
+class Render {
+	const char* window_title;
+	int window_width;
+	int window_height;
 
-		GLFWwindow* window;
-		// unsigned int VBO, VAO, EBO;
+	GLFWwindow* window;
+	glm::mat4 model, projection, view;
 
-		unsigned int vertexShader;
-		unsigned int fragmentShader;
-		int shaderProgram;
+	// Timeing
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
 
-		glm::mat4 model, projection, view;
+	bool closing = false; // TODO: better way to close
 
-		// Shader
-		Shader* shader;
-		const char* vshader = "shader_vertex.vs";
-		const char* fshader = "shader_fragment.fs";
+protected:
+public:
+	Render(int width, int height, const char* title);
+	~Render();
 
-		// Timeing
-		float deltaTime = 0.0f;
-		float lastFrame = 0.0f;
+	GLFWwindow* get_window();
 
-		bool closing = false; // TODO: better way to close
+	void set_camera(glm::mat4& camera);
 
-	protected:
-	public:
-		Render(int width, int height, const char* title);
-		~Render();
-
-		GLFWwindow* get_window();
-		
-		void set_camera(glm::mat4& camera);
-
-		void update(std::vector<GameObject>& game_objects);
-	};
-}
+	void update(std::vector<GameObject>& game_objects, Shader& shader);
+};
 
 /* TODO LIST:
 conversion from obj to vertices/entites

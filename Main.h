@@ -17,8 +17,12 @@ const char* WINDOW_NAME = "Game Engine";
 const unsigned int WINDOW_WIDTH = 1920;
 const unsigned int WINDOW_HEIGHT = 1080;
 
-/* Class Instances */		// TODO: Decouple
-_Render::Render* render;
+/* Class Instances */
+Shader* shader;
+const char* vshader = "shader_vertex.vs";
+const char* fshader = "shader_fragment.fs";
+
+Render* render;
 
 /* Variables */
 bool shut_down = false;

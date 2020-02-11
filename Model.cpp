@@ -2,7 +2,7 @@
 
 #include "Model.h"
 
-Model::Model(const char* path) {
+Model::Model(const char* path, Shader* shader) : shader_(shader) {
 	load(path);
 }
 
@@ -18,10 +18,14 @@ void Model::load(const std::string& path) {
 	process_node(scene->mRootNode, scene);
 }
 
-void Model::Draw(Shader& shader) {
+void Model::update(GameObject& g) {
 	for(unsigned int i = 0; i < meshes.size(); i++) {
-		meshes[i].Draw(shader);
+		meshes[i].Draw(*shader_);
 	}
+}
+
+void Model::receive(int msg) {
+	std::cout << "Model Msg: " << msg << std::endl;
 }
 
 void Model::process_node(aiNode* node, const aiScene* scene) {

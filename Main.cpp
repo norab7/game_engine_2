@@ -3,13 +3,17 @@
 
 #include "GameObject.h"
 #include "Player_Inputs.h"
+#include "Model.h"
 
 int main(int argc, char** argv) {
 
 	setup();
 
 	std::vector<GameObject> game_objects;
-	game_objects.push_back(*new GameObject(new Player_Inputs(KEY_PRESS)));
+	game_objects.push_back(*new GameObject(
+		new Model("resources/graphics_objects/lamp_standing.obj", shader),
+		new Player_Inputs(KEY_PRESS)
+	));
 
 	while(!shut_down) {
 		// Timing
@@ -31,7 +35,7 @@ int main(int argc, char** argv) {
 		}
 
 		// Render Scene
-		render->update(game_objects);
+		render->update(game_objects, *shader);
 		frames++;
 
 
@@ -55,8 +59,9 @@ void setup() {
 	last_time = glfwGetTime();
 	second_timer = last_time;
 
-	// Rendering
-	render = new _Render::Render(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME);
+	// Graphics
+	render = new Render(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME);
+	shader = new Shader(vshader, fshader);
 
 	// Callbacks
 	GLFWwindow* window = render->get_window();
