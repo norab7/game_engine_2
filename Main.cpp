@@ -1,9 +1,14 @@
 #define STB_IMAGE_IMPLEMENTATION // Must be done before using stb_image.h
 #include "Main.h"
 
+#include "GameObject.h"
+#include "Player_Inputs.h"
+
 int main(int argc, char** argv) {
 
 	setup();
+
+	GameObject object = *new GameObject(new Player_Inputs());
 
 	while(!shut_down) {
 		// Timing
@@ -15,6 +20,8 @@ int main(int argc, char** argv) {
 		// Process Input
 		process_input();
 
+		object.update();
+		
 
 		// Update Things
 		while(lag >= ms_per_frame) {

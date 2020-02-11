@@ -3,6 +3,7 @@
 
 #include "Transform.h"
 
+
 class I_Input;
 
 class GameObject {
@@ -17,10 +18,10 @@ protected:
 public:
 
 	/* TEMP VARIABLES FOR TESTING */
-	float x, y, z;
+	float x = 0.0f, y = 0.0f, z = 0.0f;
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects
-	GameObject();
+	GameObject(I_Input* input);
 	~GameObject() = default;
 
 	void update(); // Give class everything required for an update

@@ -6,7 +6,9 @@ Player_Inputs::Player_Inputs() {
 }
 
 void Player_Inputs::update(GameObject& g) {
-	
+	g.x++;
+	g.y++;
+	g.z++;
 }
 
 void Player_Inputs::receive(int msg) {
