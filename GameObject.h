@@ -26,7 +26,7 @@ protected:
 	//Animation* animation;
 	//Rigid_body* rigid_body;
 public:
-	enum class UPDATE_TYPE { NONE, ALL, INPUT };
+	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT };
 
 	/* TEMP VARIABLES FOR TESTING */
 	float x = 0.0f, y = 0.0f, z = 0.0f;

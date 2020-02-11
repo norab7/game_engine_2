@@ -56,6 +56,10 @@ void Render::update(std::vector<GameObject>& game_objects, Shader& shader) {
 	shader.setMat4("projection", projection);
 	shader.setMat4("view", view);
 
+	for(GameObject g : game_objects) {
+		g.update();
+	}
+
 	// Buffers
 	glfwSwapBuffers(window);
 	glfwPollEvents();

@@ -19,13 +19,20 @@ void Model::load(const std::string& path) {
 }
 
 void Model::update(GameObject& g) {
+	glm::mat4 base(1);
+	base *= glm::translate(base, glm::vec3(0, 0, -1));
+
+	shader_->use();
+
+	shader_->setMat4("model", base);
+
 	for(unsigned int i = 0; i < meshes.size(); i++) {
 		meshes[i].Draw(*shader_);
 	}
 }
 
 void Model::receive(int msg) {
-	std::cout << "Model Msg: " << msg << std::endl;
+	// std::cout << "Model Msg: " << msg << std::endl;
 }
 
 void Model::process_node(aiNode* node, const aiScene* scene) {

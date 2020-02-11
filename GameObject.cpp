@@ -12,6 +12,7 @@ GameObject::GameObject(I_Graphics* graphics, I_Input* input) : graphics_(graphic
 
 void GameObject::update(UPDATE_TYPE update) {
 	if(input_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::INPUT)) { input_->update(*this); }
+	if(graphics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::GRAPHICS)) { graphics_->update(*this); }
 
 	if(x >= 3) { std::cout << "right" << std::endl; x = 0; }
 	if(x <= -3) { std::cout << "left" << std::endl; x = 0; }
