@@ -16,6 +16,7 @@
 #endif // !STB_IMAGE_H
 
 #include "Shader.h"
+#include "GameObject.h"
 
 namespace _Render {
 	class Render {
@@ -52,7 +53,7 @@ namespace _Render {
 		
 		void set_camera(glm::mat4& camera);
 
-		void update();
+		void update(std::vector<GameObject>& game_objects);
 	};
 }
 

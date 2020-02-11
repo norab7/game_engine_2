@@ -13,38 +13,21 @@
 
 #include "Mesh.h"
 #include "Shader.h"
-using namespace _Mesh;
 
-namespace _Model {
-	class Model {
-		const char* id;
+class Model {
+	std::string dir;
+	std::vector<Texture> loaded_textures;
+	std::vector<Mesh> meshes;
 
-		std::string dir;
-		std::vector<Texture> loaded_textures;
-		std::vector<Mesh> meshes;
+	void load(const std::string& path);
+	void process_node(aiNode* node, const aiScene* scene);
+	Mesh process_mesh(aiMesh* mesh, const aiScene* scene);
 
-		// Bounding information, first box is always overall
-		void check_min_max(glm::vec3 vertex);
-		Mesh process_bounds_mesh();
+	unsigned int texture_from_file(const char* path, const std::string& dir, bool gamma = false);
+	std::vector<Texture> load_material_textures(aiMaterial* mat, aiTextureType type, std::string name);
 
-		void load(const std::string& path);
-		void process_node(aiNode* node, const aiScene* scene);
-		Mesh process_mesh(aiMesh* mesh, const aiScene* scene);
+public:
+	Model(const char* dir);
 
-
-		unsigned int texture_from_file(const char* path, const std::string& dir, bool gamma = false);
-		std::vector<Texture> load_material_textures(aiMaterial* mat, aiTextureType type, std::string name);
-
-	protected:
-		glm::vec3 bounds_min = glm::vec3(0,0,0);
-		glm::vec3 bounds_max = glm::vec3(0,0,0);
-
-	public:
-		Model(const char* id, const char* dir);
-
-		const char* get_id();
-		void Draw(Shader& shader, bool show_bounds = false);
-		void randomize_mesh_vertices();
-
-	};
-}
+	void Draw(Shader& shader);
+};

@@ -26,24 +26,17 @@ struct Texture {
 	std::string path;
 };
 
-namespace _Mesh {
-	class Mesh {
-		unsigned int VAO, VBO, EBO;
+class Mesh {
+	unsigned int VAO, VBO, EBO;
 
-		void setup_mesh();
+	void setup_mesh();
 
-	public:
-		std::vector<Vertex> vertices;
-		std::vector<unsigned int> indices;
-		std::vector<Texture> textures;
-		glm::vec3 centre;
+public:
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
+	std::vector<Texture> textures;
 
-		Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
-		Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, glm::vec3 average_vertices);
+	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
 
-		void Draw(Shader& shader, bool show_bounds = false);
-
-		void randomize_vertices();
-
-	};
-}
+	void Draw(Shader& shader);
+};

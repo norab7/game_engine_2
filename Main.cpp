@@ -8,7 +8,8 @@ int main(int argc, char** argv) {
 
 	setup();
 
-	GameObject object = *new GameObject(new Player_Inputs(KEY_PRESS));
+	std::vector<GameObject> game_objects;
+	game_objects.push_back(*new GameObject(new Player_Inputs(KEY_PRESS)));
 
 	while(!shut_down) {
 		// Timing
@@ -19,8 +20,8 @@ int main(int argc, char** argv) {
 
 		// Process Input
 		process_input();
+		game_objects[0].update(GameObject::UPDATE_TYPE::INPUT);
 
-		object.update();
 
 
 		// Update Things
@@ -30,7 +31,7 @@ int main(int argc, char** argv) {
 		}
 
 		// Render Scene
-		render->update();
+		render->update(game_objects);
 		frames++;
 
 

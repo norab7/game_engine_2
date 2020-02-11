@@ -16,6 +16,7 @@ class GameObject {
 	std::vector<I_Component*> components;
 
 protected:
+
 	Transform transform; // used for transforming the object
 
 	/* Components */
@@ -24,6 +25,7 @@ protected:
 	//Animation* animation;
 	//Rigid_body* rigid_body;
 public:
+	enum class UPDATE_TYPE { NONE, ALL, INPUT };
 
 	/* TEMP VARIABLES FOR TESTING */
 	float x = 0.0f, y = 0.0f, z = 0.0f;
@@ -32,6 +34,6 @@ public:
 	GameObject(I_Input* input = nullptr);
 	~GameObject() = default;
 
-	void update(); // Give class everything required for an update
+	void update(UPDATE_TYPE type = UPDATE_TYPE::ALL); // Give class everything required for an update
 	void send(int msg);
 };

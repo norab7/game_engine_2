@@ -50,7 +50,7 @@ Render::~Render() {
 	glfwTerminate();
 }
 
-void Render::update() {
+void Render::update(std::vector<GameObject>& game_objects) {
 
 	// Render
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);

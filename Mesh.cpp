@@ -2,17 +2,10 @@
 
 #include "Mesh.h"
 
-using namespace _Mesh;
-
-Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures) : Mesh(vertices, indices, textures, glm::vec3(-1)) {
-
-}
-
-Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures, glm::vec3 centre) {
+Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures) {
 	this->vertices = vertices;
 	this->indices = indices;
 	this->textures = textures;
-	this->centre = centre;
 
 	setup_mesh();
 }
@@ -52,15 +45,11 @@ void Mesh::setup_mesh() {
 
 }
 
-void Mesh::Draw(Shader& shader, bool show_bounds) {
+void Mesh::Draw(Shader& shader) {
 	unsigned int diffuse_count = 1;
 	unsigned int specular_count = 1;
 
-	if(show_bounds) {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	} else {
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	for(unsigned int i = 0; i < textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
@@ -80,18 +69,4 @@ void Mesh::Draw(Shader& shader, bool show_bounds) {
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-}
-
-
-// TODO: An attempt to alter the vertices in real-time, does not work
-void Mesh::randomize_vertices() {
-
-	for(Vertex v : vertices) {
-		v.Position *= glm::vec3(0, 0, 0);
-	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex), &vertices[0]);
-
-	//glBufferSubData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 }

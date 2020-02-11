@@ -1,9 +1,10 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Model.h"
 
-class I_Graphics {
+class I_Graphics : public I_Component {
 public:
 	virtual ~I_Graphics() = default;
-	virtual void update(GameObject& Object, int graphics_placeholder) = 0;
+	virtual void update(GameObject& Object) = 0;
 };
