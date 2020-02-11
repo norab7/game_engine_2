@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
 
 	setup();
 
-	GameObject object = *new GameObject(new Player_Inputs());
+	GameObject object = *new GameObject(new Player_Inputs(KEY_PRESS));
 
 	while(!shut_down) {
 		// Timing
@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
 		process_input();
 
 		object.update();
-		
+
 
 		// Update Things
 		while(lag >= ms_per_frame) {
@@ -76,6 +76,7 @@ void callback_window_resize(GLFWwindow* window, int width, int height) {
 
 void callback_keyboard_input(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	// Moved to using bool array as checking for key & press caused choppy input
+
 	if(action == GLFW_PRESS) { KEY_PRESS[key] = true; }
 	if(action == GLFW_RELEASE) { KEY_PRESS[key] = false; }
 
