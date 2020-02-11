@@ -2,14 +2,15 @@
 #include <iostream>
 
 #include "Transform.h"
-// #include "I_Input.h"
+
+class I_Input;
 
 class GameObject {
 protected:
 	Transform transform; // used for transforming the object
 
 	/* Components */
-	// I_Input* input_;
+	I_Input* input_;
 	//Mesh* mesh;
 	//Animation* animation;
 	//Rigid_body* rigid_body;
