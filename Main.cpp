@@ -1,15 +1,12 @@
 #define STB_IMAGE_IMPLEMENTATION // Must be done before using stb_image.h
 #include "Main.h"
 
-#include "GameObject.h"
-#include "Player_Inputs.h"
-#include "Model.h"
-
 std::vector<GameObject> game_objects;
 int main(int argc, char** argv) {
 
 	setup();
 
+	// TODO: Change to container class for all object types so it can be called as a single line and not be built
 	game_objects.push_back(*new GameObject(
 		new Model("resources/graphics_objects/lamp_standing.obj", shader),
 		new Player_Inputs(KEY_PRESS, mouse_offset)
@@ -35,7 +32,7 @@ int main(int argc, char** argv) {
 		}
 
 		// Render Scene
-		render->update(game_objects, *shader);
+		render_scene();
 		frames++;
 
 
@@ -60,16 +57,59 @@ void setup() {
 	second_timer = last_time;
 
 	// Graphics
-	render = new Render(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME);
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+	try {
+		window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, NULL, NULL);
+		if(window == NULL) { std::cout << "GLFW window failed to create" << std::endl; }
+		glfwMakeContextCurrent(window);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) { std::cout << "GLAD failed to initialize" << std::endl; }
+		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	} catch(const std::exception & e) {
+		std::cout << "Render::init(): " << e.what() << std::endl;
+	}
+
+	glEnable(GL_DEPTH_TEST);
+
+	glfwSwapInterval(0);
+	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Uncomment for Wireframe
 	shader = new Shader(vshader, fshader);
 
 	// Callbacks
-	GLFWwindow* window = render->get_window();
 	glfwSetWindowSizeCallback(window, callback_window_resize);
 	glfwSetKeyCallback(window, callback_keyboard_input);
 	glfwSetCursorPosCallback(window, callback_mouse_movement);
 	glfwSetMouseButtonCallback(window, callback_mouse_input);
 	glfwSetScrollCallback(window, callback_mouse_scroll);
+}
+
+void render_scene() {
+	// Render
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	shader->use();
+
+	projection = glm::perspective(glm::radians(45.0f), (float) (WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 1000.0f);
+	shader->setMat4("projection", projection);
+	shader->setMat4("view", glm::mat4(1));
+
+	for(GameObject g : game_objects) {
+		g.update();
+	}
+
+	// Buffers
+	glfwSwapBuffers(window);
+	glfwPollEvents();
+
+	if(glfwWindowShouldClose(window)) {
+		glfwTerminate();
+	}
 }
 
 void process_input() {

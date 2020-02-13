@@ -20,7 +20,7 @@ void Model::load(const std::string& path) {
 
 void Model::update(GameObject& g) {
 	glm::mat4 base(1);
-	base *= glm::translate(base, glm::vec3(0, 0, -1));
+	base *= glm::translate(base, glm::vec3(0, -2, -8));
 
 	shader_->use();
 
