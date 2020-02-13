@@ -27,15 +27,16 @@ void Player_Inputs::process_keyboard(GameObject& g) {
 	float deltaSpeed = speed; //  *delta;
 	if(key_map[GLFW_KEY_LEFT_SHIFT]) { deltaSpeed *= 2; }
 	if(key_map[GLFW_KEY_LEFT_ALT]) { deltaSpeed /= 2; }
-	if(key_map[GLFW_KEY_W]) { g.transform.set_position(g.transform.get_position() + g.transform.front * deltaSpeed); }	//set_position(get_position() + front * deltaSpeed); }
-	if(key_map[GLFW_KEY_S]) { g.transform.set_position(g.transform.get_position() - g.transform.front * deltaSpeed); } //set_position(get_position() - front * deltaSpeed); }
-	if(key_map[GLFW_KEY_A]) { g.transform.set_position(g.transform.get_position() - g.transform.right * deltaSpeed); }//set_position(get_position() - right * deltaSpeed); }
-	if(key_map[GLFW_KEY_D]) { g.transform.set_position(g.transform.get_position() + g.transform.right * deltaSpeed); } //set_position(get_position() + right * deltaSpeed); }
-	if(key_map[GLFW_KEY_SPACE]) { g.transform.set_position(g.transform.get_position() + g.transform.up * deltaSpeed); } //set_position(get_position() + up * deltaSpeed); }
-	if(key_map[GLFW_KEY_LEFT_CONTROL]) { g.transform.set_position(g.transform.get_position() - g.transform.up * deltaSpeed); } //set_position(get_position() - up * deltaSpeed); }
+	if(key_map[GLFW_KEY_W]) { g.transform.set_position(g.transform.get_position() + g.transform.front * deltaSpeed); }
+	if(key_map[GLFW_KEY_S]) { g.transform.set_position(g.transform.get_position() - g.transform.front * deltaSpeed); }
+	if(key_map[GLFW_KEY_A]) { g.transform.set_position(g.transform.get_position() - g.transform.right * deltaSpeed); }
+	if(key_map[GLFW_KEY_D]) { g.transform.set_position(g.transform.get_position() + g.transform.right * deltaSpeed); }
+	if(key_map[GLFW_KEY_SPACE]) { g.transform.set_position(g.transform.get_position() + g.transform.up * deltaSpeed); }
+	if(key_map[GLFW_KEY_LEFT_CONTROL]) { g.transform.set_position(g.transform.get_position() - g.transform.up * deltaSpeed); }
 
-	g.send(g.x + g.y + g.z);
-	if(reset) { g.x = 0, g.y = 0, g.z = 0; }
+	g.send(g.transform.get_position().x + g.transform.get_position().y + g.transform.get_position().z);
+	if(reset) { g.transform.set_position(glm::vec3(0, 0, 0)); }
+
 }
 void Player_Inputs::process_mouse_movement(GameObject& g) {
 	float yaw = mouse_offset->first * 0.05;

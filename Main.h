@@ -46,9 +46,9 @@ float second_timer = 0.0f;
 
 // Game Objects
 std::vector<GameObject> game_objects;
-GameObject player(nullptr, new Player_Inputs(KEY_PRESS, mouse_offset));
-GameObject lamp(new Model("resources/graphics_objects/lamp_standing.obj", shader));
-GameObject lamp_2(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+GameObject player;
+GameObject lamp;
+GameObject lamp2;
 
 /* Stats and Analytics */
 unsigned frames = 0, updates = 0;

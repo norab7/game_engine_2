@@ -14,12 +14,12 @@ void GameObject::update(UPDATE_TYPE update) {
 	if(input_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::INPUT)) { input_->update(*this); }
 	if(graphics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::GRAPHICS)) { graphics_->update(*this); }
 
-	if(x >= 3) { std::cout << "right" << std::endl; x = 0; }
-	if(x <= -3) { std::cout << "left" << std::endl; x = 0; }
-	if(y >= 3) { std::cout << "up" << std::endl; y = 0; }
-	if(y <= -3) { std::cout << "down" << std::endl; y = 0; }
-	if(z >= 3) { std::cout << "forward" << std::endl; z = 0; }
-	if(z <= -3) { std::cout << "backward" << std::endl; z = 0; }
+	if(transform.get_position().x >= 3) { std::cout << "right" << std::endl; x = 0; }
+	if(transform.get_position().x <= -3) { std::cout << "left" << std::endl; x = 0; }
+	if(transform.get_position().y >= 3) { std::cout << "up" << std::endl; y = 0; }
+	if(transform.get_position().y <= -3) { std::cout << "down" << std::endl; y = 0; }
+	if(transform.get_position().z >= 3) { std::cout << "forward" << std::endl; z = 0; }
+	if(transform.get_position().z <= -3) { std::cout << "backward" << std::endl; z = 0; }
 
 }
 

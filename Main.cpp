@@ -6,6 +6,9 @@ int main(int argc, char** argv) {
 	setup();
 
 	// TODO: Change to container class for all object types so it can be called as a single line and not be built
+	player = *new GameObject(nullptr, new Player_Inputs(KEY_PRESS, mouse_offset));
+	lamp = *new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+	lamp2 = *new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
 	game_objects.push_back(player);
 	game_objects.push_back(lamp);
 
