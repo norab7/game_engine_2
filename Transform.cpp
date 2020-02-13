@@ -17,6 +17,7 @@ const glm::vec3 Transform::get_position() const {
 }
 
 void Transform::set_position(glm::vec3 pos) {
+	// TODO: Double check this work in all cases
 	matrix[3][0] = pos.x;
 	matrix[3][1] = pos.y;
 	matrix[3][2] = pos.z;

@@ -17,8 +17,8 @@ class GameObject {
 
 protected:
 	/* Components */
-	I_Graphics* graphics_;
-	I_Input* input_;
+	I_Graphics* graphics_ = nullptr;
+	I_Input* input_ = nullptr;
 	//Mesh* mesh;
 	//Animation* animation;
 	//Rigid_body* rigid_body;

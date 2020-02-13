@@ -1,16 +1,13 @@
 #define STB_IMAGE_IMPLEMENTATION // Must be done before using stb_image.h
 #include "Main.h"
 
-std::vector<GameObject> game_objects;
 int main(int argc, char** argv) {
 
 	setup();
 
 	// TODO: Change to container class for all object types so it can be called as a single line and not be built
-	game_objects.push_back(*new GameObject(
-		new Model("resources/graphics_objects/lamp_standing.obj", shader),
-		new Player_Inputs(KEY_PRESS, mouse_offset)
-	));
+	game_objects.push_back(player);
+	game_objects.push_back(lamp);
 
 	while(!shut_down) {
 		// Timing
@@ -21,6 +18,7 @@ int main(int argc, char** argv) {
 
 		// Process Input
 		process_input();
+
 		game_objects[0].update(GameObject::UPDATE_TYPE::INPUT);
 
 
@@ -97,10 +95,10 @@ void render_scene() {
 
 	projection = glm::perspective(glm::radians(45.0f), (float) (WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 1000.0f);
 	shader->setMat4("projection", projection);
-	shader->setMat4("view", glm::mat4(1));
+	shader->setMat4("view", player.transform.get_matrix());
 
 	for(GameObject g : game_objects) {
-		g.update();
+		g.update(GameObject::UPDATE_TYPE::GRAPHICS);
 	}
 
 	// Buffers

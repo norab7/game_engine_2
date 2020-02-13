@@ -44,6 +44,12 @@ float lag = 0.0f;
 float ms_per_frame = (1.0f/60.0f);
 float second_timer = 0.0f;
 
+// Game Objects
+std::vector<GameObject> game_objects;
+GameObject player(nullptr, new Player_Inputs(KEY_PRESS, mouse_offset));
+GameObject lamp(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+GameObject lamp_2(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+
 /* Stats and Analytics */
 unsigned frames = 0, updates = 0;
 

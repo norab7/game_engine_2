@@ -5,8 +5,16 @@
 #include <vector>
 
 class Transform {
-	glm::mat4 matrix {1};
+
 public:
+	glm::mat4 matrix {1};
+	glm::vec3 target{0, 0, 0};
+	glm::vec3 direction {0,0,1};
+	glm::vec3 up {0,1,0};
+	glm::vec3 right {1,0,0};
+	glm::vec3 front {0,0,-1};
+
+
 	Transform();
 	~Transform();
 	
