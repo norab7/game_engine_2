@@ -27,6 +27,7 @@ Render* render;
 /* Variables */
 bool shut_down = false;
 bool KEY_PRESS[1024];
+std::pair<float, float> mouse_offset;
 
 bool firstMouse = true;
 float lastX = 0.0f, lastY = 0.0f;

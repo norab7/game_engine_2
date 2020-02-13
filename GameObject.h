@@ -16,9 +16,6 @@ class GameObject {
 	std::vector<I_Component*> components;
 
 protected:
-
-	Transform transform; // used for transforming the object
-
 	/* Components */
 	I_Graphics* graphics_;
 	I_Input* input_;
@@ -26,6 +23,7 @@ protected:
 	//Animation* animation;
 	//Rigid_body* rigid_body;
 public:
+	Transform transform; // used for transforming the object
 	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT };
 
 	/* TEMP VARIABLES FOR TESTING */

@@ -160,6 +160,7 @@
     <ClCompile Include="Player_Inputs.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />

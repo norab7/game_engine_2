@@ -5,14 +5,14 @@
 #include "Player_Inputs.h"
 #include "Model.h"
 
+std::vector<GameObject> game_objects;
 int main(int argc, char** argv) {
 
 	setup();
 
-	std::vector<GameObject> game_objects;
 	game_objects.push_back(*new GameObject(
 		new Model("resources/graphics_objects/lamp_standing.obj", shader),
-		new Player_Inputs(KEY_PRESS)
+		new Player_Inputs(KEY_PRESS, mouse_offset)
 	));
 
 	while(!shut_down) {
@@ -73,7 +73,11 @@ void setup() {
 }
 
 void process_input() {
-	// Blank for now
+
+	// TODO: Test to see if faster than main loop
+	//for(GameObject& g : game_objects) {
+	//	g.update(GameObject::UPDATE_TYPE::INPUT);
+	//}
 }
 
 void callback_window_resize(GLFWwindow* window, int width, int height) {
@@ -98,6 +102,7 @@ void callback_mouse_movement(GLFWwindow* window, double xpos, double ypos) {
 		lastY = ypos;
 		firstMouse = false;
 	}
+	mouse_offset = std::pair<float, float>(xpos - lastX, lastY - ypos);
 	// player->process_mouse_movement(xpos - lastX, lastY - ypos);
 	lastX = xpos;
 	lastY = ypos;
