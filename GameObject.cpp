@@ -11,20 +11,57 @@ GameObject::GameObject(I_Graphics* graphics, I_Input* input) : graphics_(graphic
 }
 
 void GameObject::update(UPDATE_TYPE update) {
-	if(input_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::INPUT)) { input_->update(*this); }
 	if(graphics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::GRAPHICS)) { graphics_->update(*this); }
-
-	if(transform.get_position().x >= 3) { std::cout << "right" << std::endl; x = 0; }
-	if(transform.get_position().x <= -3) { std::cout << "left" << std::endl; x = 0; }
-	if(transform.get_position().y >= 3) { std::cout << "up" << std::endl; y = 0; }
-	if(transform.get_position().y <= -3) { std::cout << "down" << std::endl; y = 0; }
-	if(transform.get_position().z >= 3) { std::cout << "forward" << std::endl; z = 0; }
-	if(transform.get_position().z <= -3) { std::cout << "backward" << std::endl; z = 0; }
-
+	if(input_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::INPUT)) { input_->update(*this); }
 }
 
 void GameObject::send(int msg) {
 	for(unsigned i = 0; i < components.size(); i++) {
 		components[i]->receive(msg);
 	}
+}
+
+glm::mat4 GameObject::get_matrix() {
+	return this->matrix;
+}
+
+const glm::vec3 GameObject::get_position() const {
+	return glm::vec3(matrix[3][0], matrix[3][1], matrix[3][2]);
+}
+
+void GameObject::set_position(glm::vec3 pos) {
+	// TODO: Double check this work in all cases
+	static unsigned count = 0;
+	bool show = (count++ % 10 == -1);
+
+	if(show) { std::cout << "set_position_before: (" << get_position().x << "," << get_position().y << "," << get_position().z << ")" << std::endl; }
+	if(show) { std::cout << "matrix_set_position_before: (" << matrix[3][0] << "," << matrix[3][1] << "," << matrix[3][2] << ")" << std::endl; }
+
+	matrix[3][0] = pos.x;
+	matrix[3][1] = pos.y;
+	matrix[3][2] = pos.z;
+
+	if(show) { std::cout << "set_position_after: (" << get_position().x << "," << get_position().y << "," << get_position().z << ")" << std::endl; }
+	if(show) { std::cout << "matrix_set_position_after: (" << matrix[3][0] << "," << matrix[3][1] << "," << matrix[3][2] << ")" << std::endl; }
+
+}
+
+void GameObject::transform(glm::mat4 trans) {
+	matrix *= trans;
+}
+
+void GameObject::translate(glm::vec3 trans) {
+	matrix = glm::translate(matrix, trans);
+}
+
+void GameObject::rotate(float angle, glm::vec3 axis, bool radians) {
+	matrix = glm::rotate(matrix, (radians) ? angle : glm::radians(angle), axis);
+}
+
+void GameObject::scale(float scale) {
+	matrix = glm::scale(matrix, glm::vec3(scale));
+}
+
+void GameObject::scale(glm::vec3 scale) {
+	matrix = glm::scale(matrix, scale);
 }

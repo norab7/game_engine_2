@@ -10,7 +10,6 @@ Player_Inputs::Player_Inputs(const bool(&KEY_MAP)[1024], const std::pair<float, 
 void Player_Inputs::update(GameObject& g) {
 	process_keyboard(g);
 	process_mouse_movement(g);
-	if(reset) { g.x = 0, g.y = 0, g.z = 0; }
 }
 
 void Player_Inputs::receive(int msg) {
@@ -25,29 +24,28 @@ void Player_Inputs::receive(int msg) {
 
 void Player_Inputs::process_keyboard(GameObject& g) {
 	float deltaSpeed = speed; //  *delta;
+
+	static unsigned count = 0;
+	bool show = (count++ % 100 == -1);
+	if(show) { std::cout << "process_keyboard_before: (" << g.get_position().x << "," << g.get_position().y << "," << g.get_position().z << ")" << std::endl; }
+
 	if(key_map[GLFW_KEY_LEFT_SHIFT]) { deltaSpeed *= 2; }
 	if(key_map[GLFW_KEY_LEFT_ALT]) { deltaSpeed /= 2; }
-	if(key_map[GLFW_KEY_W]) { g.transform.set_position(g.transform.get_position() + g.transform.front * deltaSpeed); }
-	if(key_map[GLFW_KEY_S]) { g.transform.set_position(g.transform.get_position() - g.transform.front * deltaSpeed); }
-	if(key_map[GLFW_KEY_A]) { g.transform.set_position(g.transform.get_position() - g.transform.right * deltaSpeed); }
-	if(key_map[GLFW_KEY_D]) { g.transform.set_position(g.transform.get_position() + g.transform.right * deltaSpeed); }
-	if(key_map[GLFW_KEY_SPACE]) { g.transform.set_position(g.transform.get_position() + g.transform.up * deltaSpeed); }
-	if(key_map[GLFW_KEY_LEFT_CONTROL]) { g.transform.set_position(g.transform.get_position() - g.transform.up * deltaSpeed); }
+	if(key_map[GLFW_KEY_W]) { g.set_position(g.get_position() + g.front * deltaSpeed); }
+	if(key_map[GLFW_KEY_S]) { g.set_position(g.get_position() - g.front * deltaSpeed); }
+	if(key_map[GLFW_KEY_A]) { g.set_position(g.get_position() - g.right * deltaSpeed); }
+	if(key_map[GLFW_KEY_D]) { g.set_position(g.get_position() + g.right * deltaSpeed); }
+	if(key_map[GLFW_KEY_SPACE]) { g.set_position(g.get_position() + g.up * deltaSpeed); }
+	if(key_map[GLFW_KEY_LEFT_CONTROL]) { g.set_position(g.get_position() - g.up * deltaSpeed); }
 
-	g.send(g.transform.get_position().x + g.transform.get_position().y + g.transform.get_position().z);
-	if(reset) { g.transform.set_position(glm::vec3(0, 0, 0)); }
+	if(show) { std::cout << "process_keyboard_after: (" << g.get_position().x << "," << g.get_position().y << "," << g.get_position().z << ")" << std::endl; }
 
 }
 void Player_Inputs::process_mouse_movement(GameObject& g) {
 	float yaw = mouse_offset->first * 0.05;
 	float pitch = mouse_offset->second * 0.05;
-
 	if(pitch > 89.0f) { pitch = 89.0f; }
 	if(pitch < -89.0f) { pitch = -89.0f; }
-
-	g.send(-1); // TODO: Change to sending message to camera interfaces for updating viewport
-
-	// std::cout << "Mouse: ("<< yaw << "," << pitch << ")" << std::endl;
 }
 
 void Player_Inputs::process_mouse_scroll(GameObject& g) {

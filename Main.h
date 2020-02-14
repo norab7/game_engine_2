@@ -45,10 +45,10 @@ float ms_per_frame = (1.0f/60.0f);
 float second_timer = 0.0f;
 
 // Game Objects
-std::vector<GameObject> game_objects;
-GameObject player;
-GameObject lamp;
-GameObject lamp2;
+std::vector<GameObject*> game_objects;
+GameObject* player;
+GameObject* lamp;
+GameObject* lamp2;
 
 /* Stats and Analytics */
 unsigned frames = 0, updates = 0;

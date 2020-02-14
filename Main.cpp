@@ -6,9 +6,9 @@ int main(int argc, char** argv) {
 	setup();
 
 	// TODO: Change to container class for all object types so it can be called as a single line and not be built
-	player = *new GameObject(nullptr, new Player_Inputs(KEY_PRESS, mouse_offset));
-	lamp = *new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
-	lamp2 = *new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+	player = new GameObject(nullptr, new Player_Inputs(KEY_PRESS, mouse_offset));
+	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+	//lamp2 = *new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
 	game_objects.push_back(player);
 	game_objects.push_back(lamp);
 
@@ -22,8 +22,9 @@ int main(int argc, char** argv) {
 		// Process Input
 		process_input();
 
-		game_objects[0].update(GameObject::UPDATE_TYPE::INPUT);
-
+		for(GameObject* g : game_objects) {
+			g->update();
+		}
 
 
 		// Update Things
@@ -98,10 +99,17 @@ void render_scene() {
 
 	projection = glm::perspective(glm::radians(45.0f), (float) (WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 1000.0f);
 	shader->setMat4("projection", projection);
-	shader->setMat4("view", player.transform.get_matrix());
 
-	for(GameObject g : game_objects) {
-		g.update(GameObject::UPDATE_TYPE::GRAPHICS);
+	glm::mat4 view(player->get_matrix());
+
+	static unsigned count = 0;
+	bool show = (count++ % 100 == 0);
+	if(show) { std::cout << "View: (" << view[3][0] << "," << view[3][1] << "," << view[3][2] << ")" << std::endl; }
+
+	shader->setMat4("view", view);
+
+	for(GameObject* g : game_objects) {
+		g->update();
 	}
 
 	// Buffers
