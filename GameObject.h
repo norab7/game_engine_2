@@ -19,12 +19,11 @@ protected:
 	I_Graphics* graphics_ = nullptr;
 	I_Input* input_ = nullptr;
 public:
+	// TODO: make public variables private
 	glm::mat4 matrix {1};
-	glm::vec3 target {0, 0, 0};
-	glm::vec3 direction {0,0,1};
-	glm::vec3 up {0,1,0};
-	glm::vec3 right {1,0,0};
-	glm::vec3 front {0,0,-1};
+	glm::vec3 up {0,-1,0};
+	glm::vec3 right {-1,0,0};
+	glm::vec3 front {0,0,1};
 
 	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT };
 
@@ -35,6 +34,7 @@ public:
 	void update(UPDATE_TYPE type = UPDATE_TYPE::ALL); // Give class everything required for an update
 	void send(int msg);
 
+	// TODO: Move transform code back to seperate object
 	glm::mat4 get_matrix();
 	const glm::vec3 get_position() const;
 	void set_position(glm::vec3 pos);
@@ -43,4 +43,8 @@ public:
 	void rotate(float degrees, glm::vec3 axis, bool radians = false);
 	void scale(float scale);
 	void scale(glm::vec3 scale);
+
+	// Move camera methods to camera component
+	const glm::mat4& get_look_at();
+	void set_target(glm::vec3 target, glm::vec3 world_up);
 };

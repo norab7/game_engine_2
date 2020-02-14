@@ -30,20 +30,9 @@ const glm::vec3 GameObject::get_position() const {
 }
 
 void GameObject::set_position(glm::vec3 pos) {
-	// TODO: Double check this work in all cases
-	static unsigned count = 0;
-	bool show = (count++ % 10 == -1);
-
-	if(show) { std::cout << "set_position_before: (" << get_position().x << "," << get_position().y << "," << get_position().z << ")" << std::endl; }
-	if(show) { std::cout << "matrix_set_position_before: (" << matrix[3][0] << "," << matrix[3][1] << "," << matrix[3][2] << ")" << std::endl; }
-
 	matrix[3][0] = pos.x;
 	matrix[3][1] = pos.y;
 	matrix[3][2] = pos.z;
-
-	if(show) { std::cout << "set_position_after: (" << get_position().x << "," << get_position().y << "," << get_position().z << ")" << std::endl; }
-	if(show) { std::cout << "matrix_set_position_after: (" << matrix[3][0] << "," << matrix[3][1] << "," << matrix[3][2] << ")" << std::endl; }
-
 }
 
 void GameObject::transform(glm::mat4 trans) {

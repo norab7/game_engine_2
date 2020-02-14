@@ -99,14 +99,7 @@ void render_scene() {
 
 	projection = glm::perspective(glm::radians(45.0f), (float) (WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 1000.0f);
 	shader->setMat4("projection", projection);
-
-	glm::mat4 view(player->get_matrix());
-
-	static unsigned count = 0;
-	bool show = (count++ % 100 == 0);
-	if(show) { std::cout << "View: (" << view[3][0] << "," << view[3][1] << "," << view[3][2] << ")" << std::endl; }
-
-	shader->setMat4("view", view);
+	shader->setMat4("view", player->get_matrix());
 
 	for(GameObject* g : game_objects) {
 		g->update();
