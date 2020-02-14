@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
 	// TODO: Change to container class for all object types so it can be called as a single line and not be built
 	player = new GameObject(nullptr, new Player_Keyboard(KEY_PRESS), new Player_Camera(mouse_offset));
 	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
-	//lamp2 = *new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+	// lamp2 = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
 	game_objects.push_back(player);
 	game_objects.push_back(lamp);
 
@@ -22,13 +22,13 @@ int main(int argc, char** argv) {
 		// Process Input
 		process_input();
 
-		for(GameObject* g : game_objects) {
-			g->update();
-		}
 
 
 		// Update Things
 		while(lag >= ms_per_frame) {
+			for(GameObject* g : game_objects) {
+				g->update();
+			}
 			updates++;
 			lag -= ms_per_frame;
 		}
@@ -45,6 +45,9 @@ int main(int argc, char** argv) {
 			updates = 0;
 			frames = 0;
 		}
+		glm::vec3 objpos(game_objects[0]->get_position());
+		std::cout << "after_loop_object_position: " << objpos.x << "," << objpos.y << "," << objpos.z << ")" << std::endl;
+
 	}
 
 
@@ -99,7 +102,7 @@ void render_scene() {
 
 	projection = glm::perspective(glm::radians(45.0f), (float) (WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 1000.0f);
 	shader->setMat4("projection", projection);
-	shader->setMat4("view", player->get_matrix());
+	shader->setMat4("view", player->view);
 
 	for(GameObject* g : game_objects) {
 		g->update();

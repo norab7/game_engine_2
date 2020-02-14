@@ -15,6 +15,8 @@ GameObject::GameObject(I_Graphics* graphics, I_Input* input, I_Camera* camera) :
 }
 
 void GameObject::update(UPDATE_TYPE update) {
+	// TODO: update to switch / nested-ifs for compiler and run-time optimizations
+
 	if(graphics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::GRAPHICS)) { graphics_->update(*this); }
 	if(input_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::INPUT)) { input_->update(*this); }
 	if(camera_ != nullptr && (update == UPDATE_TYPE::CAMERA)) { camera_->update(*this); }

@@ -30,7 +30,7 @@ void Player_Camera::update(GameObject& g) {
 	g.right = glm::normalize(glm::cross(g.world_up, g.front));
 	g.up = glm::normalize(glm::cross(g.right, g.front));
 
-	g.matrix = glm::lookAt(g.get_position(), g.get_position() + g.front, g.up);
+	g.view = glm::lookAt(g.get_position(), g.get_position() + g.front, g.up);
 }
 
 void Player_Camera::receive(int message) {
