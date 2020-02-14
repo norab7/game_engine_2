@@ -22,8 +22,6 @@ int main(int argc, char** argv) {
 		// Process Input
 		process_input();
 
-
-
 		// Update Things
 		while(lag >= ms_per_frame) {
 			for(GameObject* g : game_objects) {
@@ -45,8 +43,6 @@ int main(int argc, char** argv) {
 			updates = 0;
 			frames = 0;
 		}
-		glm::vec3 objpos(game_objects[0]->get_position());
-		std::cout << "after_loop_object_position: " << objpos.x << "," << objpos.y << "," << objpos.z << ")" << std::endl;
 
 	}
 
@@ -118,7 +114,6 @@ void render_scene() {
 }
 
 void process_input() {
-
 	// TODO: Test to see if faster than main loop
 	//for(GameObject& g : game_objects) {
 	//	g.update(GameObject::UPDATE_TYPE::INPUT);

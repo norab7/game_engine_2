@@ -16,19 +16,25 @@ void Player_Camera::update(GameObject& g) {
 		g.front = glm::normalize(-g.front);
 	}
 
-	float sensitivity = 0.025f;
-	yaw += mouse_offset->first * sensitivity;
-	pitch += mouse_offset->second * sensitivity;
-	if(pitch > 89.0f) { pitch = 89.0f; }
-	if(pitch < -89.0f) { pitch = -89.0f; }
+	if(mouse_offset->first != lastX || mouse_offset->second != lastY) {
+		lastX = mouse_offset->first;
+		lastY = mouse_offset->second;
 
-	g.front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	g.front.y = sin(glm::radians(pitch));
-	g.front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	g.front = glm::normalize(g.front);
+		float sensitivity = 0.025f;
+		yaw += mouse_offset->first * sensitivity;
+		pitch += mouse_offset->second * sensitivity;
 
-	g.right = glm::normalize(glm::cross(g.world_up, g.front));
-	g.up = glm::normalize(glm::cross(g.right, g.front));
+		if(pitch > 89.0f) { pitch = 89.0f; }
+		if(pitch < -89.0f) { pitch = -89.0f; }
+
+		g.front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+		g.front.y = sin(glm::radians(pitch));
+		g.front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+		g.front = glm::normalize(g.front);
+
+		g.right = glm::normalize(glm::cross(g.front, g.world_up));
+		g.up = -glm::normalize(glm::cross(g.front, g.right));
+	}
 
 	g.view = glm::lookAt(g.get_position(), g.get_position() + g.front, g.up);
 }

@@ -24,9 +24,9 @@ public:
 	// TODO: make public variables private
 	glm::mat4 matrix {0};
 	glm::mat4 view {0};
-	glm::vec3 up {0,-1,0};
+	glm::vec3 up {0,1,0};
 	glm::vec3 right {-1,0,0};
-	glm::vec3 front {0,0,1};
+	glm::vec3 front {0,0,-1};
 
 	glm::vec3 world_up {0,1,0};
 

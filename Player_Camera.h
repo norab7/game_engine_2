@@ -8,6 +8,9 @@ class Player_Camera : public I_Camera {
 	float yaw = -90.0f;
 	float pitch = 0.0f;
 
+	float lastX = 0.0f;
+	float lastY = 0.0f;
+
 public:
 	Player_Camera(const std::pair<float, float>& offset);
 	~Player_Camera() = default;
