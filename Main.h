@@ -13,7 +13,9 @@
 #include <memory>
 
 #include "GameObject.h"
-#include "Player_Inputs.h"
+#include "Player_Keyboard.h"
+#include "Player_Camera.h"
+
 #include "Model.h"
 #include "Shader.h"
 

@@ -9,6 +9,7 @@
 /* Class forward Declarations - Much like includes */
 class I_Graphics;
 class I_Input;
+class I_Camera;
 class I_Physics;
 class I_Mesh;
 
@@ -18,6 +19,7 @@ class GameObject {
 protected:
 	I_Graphics* graphics_ = nullptr;
 	I_Input* input_ = nullptr;
+	I_Camera* camera_ = nullptr;
 public:
 	// TODO: make public variables private
 	glm::mat4 matrix {1};
@@ -25,10 +27,12 @@ public:
 	glm::vec3 right {-1,0,0};
 	glm::vec3 front {0,0,1};
 
-	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT };
+	glm::vec3 world_up {0,1,0};
+
+	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA };
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects
-	GameObject(I_Graphics* graphics = nullptr, I_Input* input = nullptr);
+	GameObject(I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr);
 	~GameObject() = default;
 
 	void update(UPDATE_TYPE type = UPDATE_TYPE::ALL); // Give class everything required for an update
@@ -43,8 +47,4 @@ public:
 	void rotate(float degrees, glm::vec3 axis, bool radians = false);
 	void scale(float scale);
 	void scale(glm::vec3 scale);
-
-	// Move camera methods to camera component
-	const glm::mat4& get_look_at();
-	void set_target(glm::vec3 target, glm::vec3 world_up);
 };

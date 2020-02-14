@@ -33,4 +33,6 @@ public:
 
 	void update(GameObject& g) override;
 	void receive(int message) override;
+	void activate() override;
+	void deactivate() override;
 };

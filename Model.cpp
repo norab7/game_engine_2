@@ -35,6 +35,13 @@ void Model::receive(int msg) {
 	// std::cout << "Model Msg: " << msg << std::endl;
 }
 
+void Model::activate() {
+
+}
+void Model::deactivate() {
+
+}
+
 void Model::process_node(aiNode* node, const aiScene* scene) {
 	// Parent nodes
 	unsigned int i = 0;

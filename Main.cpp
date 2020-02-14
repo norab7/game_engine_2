@@ -6,7 +6,7 @@ int main(int argc, char** argv) {
 	setup();
 
 	// TODO: Change to container class for all object types so it can be called as a single line and not be built
-	player = new GameObject(nullptr, new Player_Inputs(KEY_PRESS, mouse_offset));
+	player = new GameObject(nullptr, new Player_Keyboard(KEY_PRESS), new Player_Camera(mouse_offset));
 	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
 	//lamp2 = *new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
 	game_objects.push_back(player);
@@ -148,6 +148,8 @@ void callback_mouse_movement(GLFWwindow* window, double xpos, double ypos) {
 	// player->process_mouse_movement(xpos - lastX, lastY - ypos);
 	lastX = xpos;
 	lastY = ypos;
+
+	player->update(GameObject::UPDATE_TYPE::CAMERA);
 }
 
 void callback_mouse_input(GLFWwindow* window, int button, int action, int mods) {

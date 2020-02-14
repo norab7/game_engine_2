@@ -63,14 +63,17 @@
     <ClCompile Include="glad.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player_Inputs.cpp">
-      <Filter>Components\Inputs</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Camera.cpp">
+      <Filter>Components\Inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Keyboard.cpp">
+      <Filter>Components\Inputs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,11 +122,17 @@
     <ClInclude Include="Player_Physics.h">
       <Filter>Components\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Player_Inputs.h">
-      <Filter>Components\Inputs</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="I_Camera.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Camera.h">
+      <Filter>Components\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Keyboard.h">
+      <Filter>Components\Inputs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
