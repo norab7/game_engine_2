@@ -20,6 +20,7 @@ protected:
 	I_Graphics* graphics_ = nullptr;
 	I_Input* input_ = nullptr;
 	I_Camera* camera_ = nullptr;
+	I_Physics* physics_ = nullptr;
 public:
 	// TODO: make public variables private
 	glm::mat4 matrix {0};
@@ -27,13 +28,15 @@ public:
 	glm::vec3 up {0,1,0};
 	glm::vec3 right {-1,0,0};
 	glm::vec3 front {0,0,-1};
-
 	glm::vec3 world_up {0,1,0};
 
-	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA };
+	glm::vec3 centre {0}; // fix for actual centre of mass
+	glm::vec3 velocity {0};
+
+	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS };
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects
-	GameObject(I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr);
+	GameObject(I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr);
 	~GameObject() = default;
 
 	void update(UPDATE_TYPE type = UPDATE_TYPE::ALL); // Give class everything required for an update

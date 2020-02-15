@@ -28,14 +28,14 @@
     <Filter Include="Components">
       <UniqueIdentifier>{b9799b2b-2d51-4a79-bf0d-d93ec040590b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Physics">
-      <UniqueIdentifier>{ce3ca5a9-881a-45b3-bf85-aa285b079f29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\Graphics">
       <UniqueIdentifier>{a3ac26e0-31b0-442b-81ac-617f1490dcd8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Components\Inputs">
       <UniqueIdentifier>{bffd0f9b-9888-490d-8403-a4d2fffedb11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Physics and Colliders">
+      <UniqueIdentifier>{ce3ca5a9-881a-45b3-bf85-aa285b079f29}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="Player_Keyboard.cpp">
       <Filter>Components\Inputs</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigid_Body_Physics.cpp">
+      <Filter>Components\Physics and Colliders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +122,6 @@
     <ClInclude Include="I_Component.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Player_Physics.h">
-      <Filter>Components\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -133,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Player_Keyboard.h">
       <Filter>Components\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Rigid_Body_Physics.h">
+      <Filter>Components\Physics and Colliders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,23 +4,23 @@
 #include "I_Graphics.h"
 #include "I_Input.h"
 #include "I_Camera.h"
+#include "I_Physics.h"
 
 // TODO: Find method of dynamically assigning and replacing components without mentioning via named parent class
-GameObject::GameObject(I_Graphics* graphics, I_Input* input, I_Camera* camera) : graphics_(graphics), input_(input), camera_(camera) {
+GameObject::GameObject(I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics) : graphics_(graphics), input_(input), camera_(camera), physics_(physics) {
 	// Linking Interfaces
 	if(graphics != nullptr) { components.push_back(graphics); }
 	if(input != nullptr) { components.push_back(input); }
 	if(camera != nullptr) { components.push_back(camera); }
-
+	if(physics != nullptr) { components.push_back(physics); }
 }
 
 void GameObject::update(UPDATE_TYPE update) {
 	// TODO: update to switch / nested-ifs for compiler and run-time optimizations
-
 	if(graphics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::GRAPHICS)) { graphics_->update(*this); }
 	if(input_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::INPUT)) { input_->update(*this); }
 	if(camera_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::CAMERA)) { camera_->update(*this); }
-
+	if(physics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::PHYSICS)) { physics_->update(*this, -1); }
 }
 
 void GameObject::send(int msg) {

@@ -19,12 +19,14 @@ void Model::load(const std::string& path) {
 }
 
 void Model::update(GameObject& g) {
-	glm::mat4 base(1);
-	base *= glm::translate(base, glm::vec3(0, -2, -8));
+	static unsigned count = 0;
+	bool show = (count++ % 1000 == 0);
 
+	glm::vec3 pos(g.get_position());
+	if(show) { std::cout << "model_position: (" << pos.x << "," << pos.y << "," << pos.z << ")" << std::endl; }
+	
 	shader_->use();
-
-	shader_->setMat4("model", base);
+	shader_->setMat4("model", g.get_matrix());
 
 	for(unsigned int i = 0; i < meshes.size(); i++) {
 		meshes[i].Draw(*shader_);

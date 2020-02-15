@@ -153,6 +153,7 @@
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="AABB_Tree.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Rigid_Body_Physics.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -178,7 +179,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Player_Camera.h" />
     <ClInclude Include="Player_Keyboard.h" />
-    <ClInclude Include="Player_Physics.h" />
+    <ClInclude Include="Rigid_Body_Physics.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />

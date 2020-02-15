@@ -7,10 +7,13 @@ int main(int argc, char** argv) {
 
 	// TODO: Change to container class for all object types so it can be called as a single line and not be built
 	player = new GameObject(nullptr, new Player_Keyboard(KEY_PRESS), new Player_Camera(mouse_offset));
-	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader), nullptr, nullptr, new Rigid_Body_Physics());
 	// lamp2 = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
 	game_objects.push_back(player);
 	game_objects.push_back(lamp);
+
+	player->set_position(glm::vec3(0, 0, -5));
+	lamp->set_position(glm::vec3(0));
 
 	while(!shut_down) {
 		// Timing
@@ -35,7 +38,6 @@ int main(int argc, char** argv) {
 		render_scene();
 		frames++;
 
-
 		// Analytics and fps
 		if(glfwGetTime() - second_timer > 1) {
 			std::cout << "Frames[" << frames << "] : Updates[" << updates << "]" << std::endl;
@@ -43,9 +45,7 @@ int main(int argc, char** argv) {
 			updates = 0;
 			frames = 0;
 		}
-
 	}
-
 
 	std::cout << "Press return to exit";
 	std::cin.ignore();
