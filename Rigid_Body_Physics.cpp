@@ -6,7 +6,7 @@ Rigid_Body_Physics::Rigid_Body_Physics() {
 
 void Rigid_Body_Physics::update(GameObject& g, int world_placeholder) {
 	static unsigned count = 0;
-	bool show = (count++ % 1000 == 0);
+	bool show = (count++ % 1000 == -1);
 
 	glm::vec3 pos(g.get_position());
 	if(show) { std::cout << "physics_before: (" << pos.x << "," << pos.y << "," << pos.z << ")" << std::endl; }

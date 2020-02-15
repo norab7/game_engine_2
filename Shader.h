@@ -88,6 +88,13 @@ public:
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 	}
 	void setMat4(const std::string& name, const glm::mat4& mat) const {
+		static unsigned count = 0;
+		bool show = (count++ % 1000 == 0);
+
+		if(show) { std::cout << "shader[3][0]: " << mat[3][0] << "," << mat[3][1] << "," << mat[3][2] << ")" << std::endl; }
+		if(show) { std::cout << "shader[0][3]: " << mat[0][3] << "," << mat[1][3] << "," << mat[2][3] << ")" << std::endl; }
+
+
 		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 	}
 

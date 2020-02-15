@@ -23,7 +23,7 @@ protected:
 	I_Physics* physics_ = nullptr;
 public:
 	// TODO: make public variables private
-	glm::mat4 matrix {0};
+	glm::mat4 matrix {1};
 	glm::mat4 view {0};
 	glm::vec3 up {0,1,0};
 	glm::vec3 right {-1,0,0};

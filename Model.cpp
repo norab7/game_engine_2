@@ -20,13 +20,16 @@ void Model::load(const std::string& path) {
 
 void Model::update(GameObject& g) {
 	static unsigned count = 0;
-	bool show = (count++ % 1000 == 0);
+	bool show = (count++ % 1000 == -1);
 
 	glm::vec3 pos(g.get_position());
+	glm::mat4 matrix(g.get_matrix());
 	if(show) { std::cout << "model_position: (" << pos.x << "," << pos.y << "," << pos.z << ")" << std::endl; }
-	
+	if(show) { std::cout << "model_matrix[3][0]: (" << matrix[3][0] << "," << matrix[3][1] << "," << matrix[3][2] << ")" << std::endl; }
+	if(show) { std::cout << "model_matrix[0][3]: (" << matrix[0][3] << "," << matrix[1][3] << "," << matrix[2][3] << ")" << std::endl; }
+
 	shader_->use();
-	shader_->setMat4("model", g.get_matrix());
+	shader_->setMat4("model", matrix);
 
 	for(unsigned int i = 0; i < meshes.size(); i++) {
 		meshes[i].Draw(*shader_);
