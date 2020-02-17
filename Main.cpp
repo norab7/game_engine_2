@@ -6,14 +6,21 @@ int main(int argc, char** argv) {
 	setup();
 
 	// TODO: Change to container class for all object types so it can be called as a single line and not be built
-	player = new GameObject(nullptr, new Player_Keyboard(KEY_PRESS), new Player_Camera(mouse_offset));
-	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader), nullptr, nullptr, new Rigid_Body_Physics());
-	// lamp2 = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader));
+	player = new GameObject(nullptr, 
+		new Player_Keyboard(KEY_PRESS), 
+		new Player_Camera(mouse_offset));
+	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader), nullptr, nullptr, 
+		new Rigid_Body_Physics());
+	emitter = new GameObject(nullptr, nullptr, nullptr, nullptr, 
+		new Particle_Emitter(new Model("resources/graphics_objects/lamp_standing.obj", shader),new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, true, 1, 2));
+
 	game_objects.push_back(player);
 	game_objects.push_back(lamp);
+	game_objects.push_back(emitter);
 
-	player->set_position(glm::vec3(0, 0, -5));
-	lamp->set_position(glm::vec3(0));
+	player->set_position(glm::vec3(0, 0, 0));
+	lamp->set_position(glm::vec3(0, 0, -30));
+	emitter->set_position(glm::vec3(2, 0, -30));
 
 	while(!shut_down) {
 		// Timing

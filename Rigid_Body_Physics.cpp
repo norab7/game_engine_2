@@ -11,7 +11,7 @@ void Rigid_Body_Physics::update(GameObject& g, int world_placeholder) {
 	glm::vec3 pos(g.get_position());
 	if(show) { std::cout << "physics_before: (" << pos.x << "," << pos.y << "," << pos.z << ")" << std::endl; }
 
-	float delta = 0.00001f;
+	float delta = 0.001f;
 	force = glm::vec3(0, mass * gravity, 0);
 
 	if(show) { std::cout << "physics_force: (" << force.x << "," << force.y << "," << force.z << ")" << std::endl; }

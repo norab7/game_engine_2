@@ -153,6 +153,7 @@
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="AABB_Tree.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Particle_Emitter.cpp" />
     <ClCompile Include="Rigid_Body_Physics.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
@@ -171,12 +172,14 @@
     <ClInclude Include="I_AABB.h" />
     <ClInclude Include="I_Camera.h" />
     <ClInclude Include="I_Component.h" />
+    <ClInclude Include="I_Emitter.h" />
     <ClInclude Include="I_Graphics.h" />
     <ClInclude Include="I_Input.h" />
     <ClInclude Include="I_Physics.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Particle_Emitter.h" />
     <ClInclude Include="Player_Camera.h" />
     <ClInclude Include="Player_Keyboard.h" />
     <ClInclude Include="Rigid_Body_Physics.h" />

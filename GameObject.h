@@ -11,7 +11,7 @@ class I_Graphics;
 class I_Input;
 class I_Camera;
 class I_Physics;
-class I_Mesh;
+class I_Emitter;
 
 class GameObject {
 	std::vector<I_Component*> components;
@@ -21,6 +21,7 @@ protected:
 	I_Input* input_ = nullptr;
 	I_Camera* camera_ = nullptr;
 	I_Physics* physics_ = nullptr;
+	I_Emitter* emitter_ = nullptr;
 public:
 	// TODO: make public variables private
 	glm::mat4 matrix {1};
@@ -33,14 +34,18 @@ public:
 	glm::vec3 centre {0}; // fix for actual centre of mass
 	glm::vec3 velocity {0};
 
-	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS };
+	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS, EMITTER };
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects
-	GameObject(I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr);
+	GameObject(I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr, I_Emitter* emitter = nullptr);
 	~GameObject() = default;
 
 	void update(UPDATE_TYPE type = UPDATE_TYPE::ALL); // Give class everything required for an update
 	void send(int msg);
+
+	// Setting Functions
+	void set_velocity(glm::vec3 v);
+	void set_velocity(float x, float y, float z);
 
 	// TODO: Move transform code back to seperate object
 	glm::mat4 get_matrix();

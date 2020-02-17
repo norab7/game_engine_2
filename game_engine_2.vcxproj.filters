@@ -16,9 +16,6 @@
     <Filter Include="AABB">
       <UniqueIdentifier>{0594eef8-51e5-4b70-a928-3def66381f92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Model">
-      <UniqueIdentifier>{d5239718-c3ec-4ee7-bde5-909fa446108c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering">
       <UniqueIdentifier>{c523d038-cd89-498b-8a79-f43c98386b58}</UniqueIdentifier>
     </Filter>
@@ -37,6 +34,12 @@
     <Filter Include="Components\Physics and Colliders">
       <UniqueIdentifier>{ce3ca5a9-881a-45b3-bf85-aa285b079f29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Particle Systems">
+      <UniqueIdentifier>{c9cdd106-13ec-40d5-96c1-bead1eb829a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Graphics\Model">
+      <UniqueIdentifier>{d5239718-c3ec-4ee7-bde5-909fa446108c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -47,12 +50,6 @@
     </ClCompile>
     <ClCompile Include="AABB_Tree.cpp">
       <Filter>AABB</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Rendering</Filter>
@@ -78,6 +75,15 @@
     <ClCompile Include="Rigid_Body_Physics.cpp">
       <Filter>Components\Physics and Colliders</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Components\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Components\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle_Emitter.cpp">
+      <Filter>Components\Particle Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -88,12 +94,6 @@
     </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>AABB</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Rendering</Filter>
@@ -136,6 +136,18 @@
     </ClInclude>
     <ClInclude Include="Rigid_Body_Physics.h">
       <Filter>Components\Physics and Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="I_Emitter.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle_Emitter.h">
+      <Filter>Components\Particle Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Components\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Components\Graphics\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

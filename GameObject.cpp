@@ -5,9 +5,12 @@
 #include "I_Input.h"
 #include "I_Camera.h"
 #include "I_Physics.h"
+#include "I_Emitter.h"
 
 // TODO: Find method of dynamically assigning and replacing components without mentioning via named parent class
-GameObject::GameObject(I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics) : graphics_(graphics), input_(input), camera_(camera), physics_(physics) {
+GameObject::GameObject(I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics, I_Emitter* emitter)
+	: graphics_(graphics), input_(input), camera_(camera), physics_(physics), emitter_(emitter) {
+
 	// Linking Interfaces
 	if(graphics != nullptr) { components.push_back(graphics); }
 	if(input != nullptr) { components.push_back(input); }
@@ -21,6 +24,14 @@ void GameObject::update(UPDATE_TYPE update) {
 	if(input_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::INPUT)) { input_->update(*this); }
 	if(camera_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::CAMERA)) { camera_->update(*this); }
 	if(physics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::PHYSICS)) { physics_->update(*this, -1); }
+	if(emitter_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::EMITTER)) { emitter_->update(*this); }
+}
+
+void GameObject::set_velocity(glm::vec3 v) {
+	this->velocity = v;
+}
+void GameObject::set_velocity(float x, float y, float z) {
+	this->set_velocity(glm::vec3(x, y, z));
 }
 
 void GameObject::send(int msg) {

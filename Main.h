@@ -16,6 +16,7 @@
 #include "Player_Keyboard.h"
 #include "Player_Camera.h"
 #include "Rigid_Body_Physics.h"
+#include "Particle_Emitter.h"
 
 #include "Model.h"
 #include "Shader.h"
@@ -51,7 +52,7 @@ float second_timer = 0.0f;
 std::vector<GameObject*> game_objects;
 GameObject* player;
 GameObject* lamp;
-GameObject* lamp2;
+GameObject* emitter;
 
 /* Stats and Analytics */
 unsigned frames = 0, updates = 0;
