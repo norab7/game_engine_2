@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 		// Update Things
 		while(lag >= ms_per_frame) {
 			for(GameObject* g : game_objects) {
-				g->update();
+				g->update(GameObject::UPDATE_TYPE::PHYSICS);
 			}
 			updates++;
 			lag -= ms_per_frame;

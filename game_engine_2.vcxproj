@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AABB_Tree.h" />
+    <ClInclude Include="I_AI.h" />
     <ClInclude Include="Store.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="I_AABB.h" />
