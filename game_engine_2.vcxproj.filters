@@ -152,6 +152,9 @@
     <ClInclude Include="PE_Explosion.h">
       <Filter>Components\Particle Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Store.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

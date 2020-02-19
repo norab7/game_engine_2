@@ -5,14 +5,10 @@ int main(int argc, char** argv) {
 
 	setup();
 
-	// TODO: Change to container class for all object types so it can be called as a single line and not be built
-	player = new GameObject(nullptr, 
-		new Player_Keyboard(KEY_PRESS), 
-		new Player_Camera(mouse_offset));
-	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader), nullptr, nullptr, 
-		new Rigid_Body_Physics());
-	emitter = new GameObject(nullptr, nullptr, nullptr, nullptr, 
-		new PE_Explosion(new Model("resources/graphics_objects/lamp_standing.obj", shader),new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, true, 1, 2));
+	// TODO: Change to BETTER container class for all object types so it can be called as a single line and not be built
+	player = STORE::OBJECT::PLAYER(KEY_PRESS, mouse_offset);
+	lamp = STORE::OBJECT::LAMP();
+	emitter = STORE::OBJECT::LAMP_EXPLOSION();
 
 	game_objects.push_back(player);
 	game_objects.push_back(lamp);
@@ -94,6 +90,7 @@ void setup() {
 	glfwSwapInterval(0);
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // Uncomment for Wireframe
 	shader = new Shader(vshader, fshader);
+	STORE::shader = shader;
 
 	// Callbacks
 	glfwSetWindowSizeCallback(window, callback_window_resize);

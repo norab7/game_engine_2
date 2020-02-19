@@ -12,14 +12,7 @@
 #include <map>
 #include <memory>
 
-#include "GameObject.h"
-#include "Player_Keyboard.h"
-#include "Player_Camera.h"
-#include "Rigid_Body_Physics.h"
-#include "PE_Explosion.h"
-
-#include "Model.h"
-#include "Shader.h"
+#include "Store.h"
 
 /* Window Settings */
 GLFWwindow* window;
