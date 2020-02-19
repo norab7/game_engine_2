@@ -40,6 +40,9 @@
     <Filter Include="Components\Graphics\Model">
       <UniqueIdentifier>{d5239718-c3ec-4ee7-bde5-909fa446108c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\AI">
+      <UniqueIdentifier>{f08caeb6-0699-4b16-bf14-a26146a4dad1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -81,7 +84,7 @@
     <ClCompile Include="Model.cpp">
       <Filter>Components\Graphics\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Particle_Emitter.cpp">
+    <ClCompile Include="PE_Explosion.cpp">
       <Filter>Components\Particle Systems</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,14 +143,14 @@
     <ClInclude Include="I_Emitter.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Particle_Emitter.h">
-      <Filter>Components\Particle Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Components\Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Components\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PE_Explosion.h">
+      <Filter>Components\Particle Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

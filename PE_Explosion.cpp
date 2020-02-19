@@ -1,7 +1,7 @@
-#include "Particle_Emitter.h"
+#include "PE_Explosion.h"
 #include <glfw3.h>
 
-Particle_Emitter::Particle_Emitter(I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, unsigned life, unsigned count, bool burst, float rate, float v_offset) : life_span(life), active_max(count), explosion(burst), spawn_rate(rate) {
+PE_Explosion::PE_Explosion(I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, unsigned life, unsigned count, bool burst, float rate, float v_offset) : life_span(life), active_max(count), explosion(burst), spawn_rate(rate) {
 	this->graphics_ = graphics;
 	this->physics_ = physics;
 	this->velocity = velocity;
@@ -28,7 +28,7 @@ Particle_Emitter::Particle_Emitter(I_Graphics* graphics, I_Physics* physics, glm
 	}
 }
 
-void Particle_Emitter::update(GameObject& g) {
+void PE_Explosion::update(GameObject& g) {
 	if(explosion && first_run) {
 		first_run = false;
 		for(GameObject* particle : particles) {
@@ -41,12 +41,12 @@ void Particle_Emitter::update(GameObject& g) {
 	}
 }
 
-void Particle_Emitter::receive(int msg) {
+void PE_Explosion::receive(int msg) {
 
 }
-void Particle_Emitter::activate() {
+void PE_Explosion::activate() {
 
 }
-void Particle_Emitter::deactivate() {
+void PE_Explosion::deactivate() {
 
 }

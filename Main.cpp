@@ -12,7 +12,7 @@ int main(int argc, char** argv) {
 	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader), nullptr, nullptr, 
 		new Rigid_Body_Physics());
 	emitter = new GameObject(nullptr, nullptr, nullptr, nullptr, 
-		new Particle_Emitter(new Model("resources/graphics_objects/lamp_standing.obj", shader),new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, true, 1, 2));
+		new PE_Explosion(new Model("resources/graphics_objects/lamp_standing.obj", shader),new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, true, 1, 2));
 
 	game_objects.push_back(player);
 	game_objects.push_back(lamp);
@@ -31,6 +31,13 @@ int main(int argc, char** argv) {
 
 		// Process Input
 		process_input();
+
+		static unsigned count = 0;
+		bool create = (count++ % 1000 == 0);
+		if(create) {
+			game_objects.push_back(new GameObject(nullptr, nullptr, nullptr, nullptr,
+				new PE_Explosion(new Model("resources/graphics_objects/lamp_standing.obj", shader), new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, true, 1, 2)));
+		}
 
 		// Update Things
 		while(lag >= ms_per_frame) {

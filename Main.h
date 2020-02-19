@@ -16,7 +16,7 @@
 #include "Player_Keyboard.h"
 #include "Player_Camera.h"
 #include "Rigid_Body_Physics.h"
-#include "Particle_Emitter.h"
+#include "PE_Explosion.h"
 
 #include "Model.h"
 #include "Shader.h"

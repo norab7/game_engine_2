@@ -1,7 +1,7 @@
 #pragma once
 #include "I_Emitter.h"
 
-class Particle_Emitter : public I_Emitter {
+class PE_Explosion : public I_Emitter {
 	I_Graphics* graphics_ = nullptr;
 	I_Physics* physics_ = nullptr;
 	
@@ -18,8 +18,8 @@ class Particle_Emitter : public I_Emitter {
 	std::vector<GameObject*> particles;
 
 public:
-	Particle_Emitter(I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, unsigned life, unsigned count, bool burst = false, float rate = 1.0f, float v_offset = 2.0f);
-	~Particle_Emitter() = default;
+	PE_Explosion(I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, unsigned life, unsigned count, bool burst = false, float rate = 1.0f, float v_offset = 2.0f);
+	~PE_Explosion() = default;
 
 	void update(GameObject& g) override;
 	void receive(int message) override;
