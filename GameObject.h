@@ -34,6 +34,8 @@ public:
 	glm::vec3 centre {0}; // fix for actual centre of mass
 	glm::vec3 velocity {0};
 
+	bool alive = true;
+
 	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS, EMITTER };
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects

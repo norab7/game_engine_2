@@ -36,7 +36,7 @@ namespace STORE {
 	}
 
 	namespace EMITTER {
-		PE_Explosion* BASIC_LAMP_EXPLOSION() { return new PE_Explosion(GRAPHICS::LAMP(), PHYSICS::RIGID(), glm::vec3(0, 10, 0), 10, 10, true, 1, 2); }
+		PE_Explosion* BASIC_LAMP_EXPLOSION() { return new PE_Explosion(GRAPHICS::LAMP(), PHYSICS::RIGID(), glm::vec3(0, 10, 0), 10, 10, 2); }
 	}
 
 	namespace OBJECT {

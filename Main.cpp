@@ -32,13 +32,17 @@ int main(int argc, char** argv) {
 		bool create = (count++ % 1000 == 0);
 		if(create) {
 			game_objects.push_back(new GameObject(nullptr, nullptr, nullptr, nullptr,
-				new PE_Explosion(new Model("resources/graphics_objects/lamp_standing.obj", shader), new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, true, 1, 2)));
+				new PE_Explosion(new Model("resources/graphics_objects/lamp_standing.obj", shader), new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, 2)));
 		}
 
 		// Update Things
 		while(lag >= ms_per_frame) {
-			for(GameObject* g : game_objects) {
-				g->update(GameObject::UPDATE_TYPE::PHYSICS);
+			for(unsigned i = 0; i < game_objects.size(); i++) {
+				if(!game_objects[i]->alive) {
+					game_objects.erase(game_objects.begin() + i);
+				} else {
+					game_objects[i]->update(GameObject::UPDATE_TYPE::PHYSICS);
+				}
 			}
 			updates++;
 			lag -= ms_per_frame;
