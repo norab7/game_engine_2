@@ -6,10 +6,11 @@
 #include "I_Camera.h"
 #include "I_Physics.h"
 #include "I_Emitter.h"
+#include "I_AI.h"
 
 // TODO: Find method of dynamically assigning and replacing components without mentioning via named parent class
-GameObject::GameObject(glm::vec3 position, I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics, I_Emitter* emitter)
-	: graphics_(graphics), input_(input), camera_(camera), physics_(physics), emitter_(emitter) {
+GameObject::GameObject(glm::vec3 position, I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics, I_Emitter* emitter, I_AI* ai)
+	: graphics_(graphics), input_(input), camera_(camera), physics_(physics), emitter_(emitter), ai_(ai) {
 
 	// Linking Interfaces
 	set_position(position);
@@ -17,6 +18,8 @@ GameObject::GameObject(glm::vec3 position, I_Graphics* graphics, I_Input* input,
 	if(input != nullptr) { components.push_back(input); }
 	if(camera != nullptr) { components.push_back(camera); }
 	if(physics != nullptr) { components.push_back(physics); }
+	if(emitter != nullptr) { components.push_back(emitter); }
+	if(ai != nullptr) { components.push_back(ai); }
 }
 
 void GameObject::update(UPDATE_TYPE update) {
@@ -26,6 +29,38 @@ void GameObject::update(UPDATE_TYPE update) {
 	if(camera_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::CAMERA)) { camera_->update(*this); }
 	if(physics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::PHYSICS)) { physics_->update(*this, -1); }
 	if(emitter_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::EMITTER)) { emitter_->update(*this); }
+	if(ai_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::AI)) { ai_->update(*this); }
+
+	if(glm::length(velocity) > 0) { at_rest = false; }
+
+	if(!at_rest || glm::length(velocity) == 0) {
+		glm::vec3 pos(get_position());
+		float delta = 0.0025f;
+
+		pos.x += velocity.x * delta;
+		pos.y += velocity.y * delta;
+		pos.z += velocity.z * delta;
+
+		float stoppage = 0.0005f;
+		if(!falling) {
+			glm::vec3 diff(std::abs(pos.x - get_position().x), std::abs(pos.y - get_position().y), std::abs(pos.z - get_position().z));
+
+			pos.x = (diff.x <= stoppage) ? get_position().x : pos.x;
+			pos.y = (diff.y <= stoppage) ? get_position().y : pos.y;
+			pos.z = (diff.z <= stoppage) ? get_position().z : pos.z;
+
+			at_rest = (diff.x <= stoppage && diff.y <= stoppage && diff.z <= stoppage);
+		}
+
+		if(pos.y <= 0) {
+			pos.y = 0;
+			falling = false;
+		} else {
+			falling = true;
+		}
+
+		set_position(pos);
+	}
 }
 
 void GameObject::set_velocity(glm::vec3 v) {

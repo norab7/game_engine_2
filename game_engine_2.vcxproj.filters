@@ -87,6 +87,9 @@
     <ClCompile Include="PE_Explosion.cpp">
       <Filter>Components\Particle Systems</Filter>
     </ClCompile>
+    <ClCompile Include="AI_Chase.cpp">
+      <Filter>Components\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="I_AI.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_Chase.h">
+      <Filter>Components\AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

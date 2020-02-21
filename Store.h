@@ -12,6 +12,7 @@
 #include "Player_Camera.h"
 #include "Rigid_Body_Physics.h"
 #include "PE_Explosion.h"
+#include "AI_Chase.h"
 
 namespace STORE {
 	// TODO: Decouple shader from everthing, it's annoying now
@@ -39,10 +40,16 @@ namespace STORE {
 		PE_Explosion* BASIC_LAMP_EXPLOSION(glm::vec3 position) { return new PE_Explosion(position, GRAPHICS::LAMP(), PHYSICS::RIGID(), glm::vec3(0, 10, 0), 10, 10, 2); }
 	}
 
+	namespace AI {
+		AI_Chase* CHASE(glm::vec3 target, float speed) { return new AI_Chase(target, speed); }
+	}
+
 	namespace OBJECT {
+		// Position, Graphics, Input, Camera, Physics, Emitter, AI
 		GameObject* PLAYER(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset)); }
 		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID()); }
 		GameObject* LAMP_EXPLOSION(glm::vec3 position) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position)); }
+		GameObject* LAMP_FOLLOW(glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed)); }
 	}
 }
 

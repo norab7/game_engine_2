@@ -7,12 +7,11 @@ int main(int argc, char** argv) {
 
 	// TODO: Change to BETTER container class for all object types so it can be called as a single line and not be built
 	player = STORE::OBJECT::PLAYER(glm::vec3(0, 4, 15), KEY_PRESS, mouse_offset);
-	lamp = STORE::OBJECT::LAMP(glm::vec3(0, 0, -30));
-	emitter = STORE::OBJECT::LAMP_EXPLOSION(glm::vec3(3, 0, -30));
 
 	game_objects.push_back(player);
-	game_objects.push_back(lamp);
-	game_objects.push_back(emitter);
+	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
+	game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(glm::vec3(3, 0, -30)));
+	game_objects.push_back(STORE::OBJECT::LAMP_FOLLOW(glm::vec3(0, 0, -30), glm::vec3(0, 0, 0), 0.01));
 
 	while(!shut_down) {
 		// Timing
@@ -27,7 +26,7 @@ int main(int argc, char** argv) {
 		static unsigned count = 0;
 		bool create = (count++ % 1000 == 0);
 		if(create) {
-			game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(glm::vec3(-3, 0,-30)));
+			game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(glm::vec3(-3, 0, -30)));
 		}
 
 		// Update Things
@@ -108,12 +107,7 @@ void render_scene() {
 
 	projection = glm::perspective(glm::radians(45.0f), (float) (WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 1000.0f);
 	shader->setMat4("projection", projection);
-
-
-	static unsigned count = 0;
-	bool show = (count++ % 100 == -1);
-	glm::mat4 view(player->view);
-	if(show) { std::cout << "Player->View: " << view[3][0] << "," << view[3][1] << "," << view[3][2] << ")" << std::endl; }
+	//player->update(GameObject::UPDATE_TYPE::CAMERA);
 	shader->setMat4("view", player->view);
 
 	for(GameObject* g : game_objects) {
@@ -130,10 +124,10 @@ void render_scene() {
 }
 
 void process_input() {
-	// TODO: Test to see if faster than main loop
-	//for(GameObject& g : game_objects) {
-	//	g.update(GameObject::UPDATE_TYPE::INPUT);
-	//}
+	//TODO: Test to see if faster than main loop
+	for(GameObject* g : game_objects) {
+		//g->update(GameObject::UPDATE_TYPE::INPUT);
+	}
 }
 
 void callback_window_resize(GLFWwindow* window, int width, int height) {
@@ -163,7 +157,7 @@ void callback_mouse_movement(GLFWwindow* window, double xpos, double ypos) {
 	lastX = xpos;
 	lastY = ypos;
 
-	player->update(GameObject::UPDATE_TYPE::CAMERA);
+	//player->update(GameObject::UPDATE_TYPE::CAMERA);
 }
 
 void callback_mouse_input(GLFWwindow* window, int button, int action, int mods) {

@@ -12,17 +12,20 @@ class I_Input;
 class I_Camera;
 class I_Physics;
 class I_Emitter;
+class I_AI;
 
 class GameObject {
 	std::vector<I_Component*> components;
 
 protected:
 public:
+	// TODO: once everything is settled, change to messaging system instead of public
 	I_Graphics* graphics_ = nullptr;
 	I_Input* input_ = nullptr;
 	I_Camera* camera_ = nullptr;
 	I_Physics* physics_ = nullptr;
 	I_Emitter* emitter_ = nullptr;
+	I_AI* ai_ = nullptr;
 
 	// TODO: make public variables private
 	glm::mat4 matrix {1};
@@ -35,12 +38,14 @@ public:
 	glm::vec3 centre {0}; // fix for actual centre of mass
 	glm::vec3 velocity {0};
 
+	bool at_rest = true;
+	bool falling = false;
 	bool alive = true;
 
-	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS, EMITTER };
+	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS, EMITTER, AI };
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects
-	GameObject(glm::vec3 position, I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr, I_Emitter* emitter = nullptr);
+	GameObject(glm::vec3 position, I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr, I_Emitter* emitter = nullptr, I_AI* ai = nullptr);
 	~GameObject() = default;
 
 	void update(UPDATE_TYPE type = UPDATE_TYPE::ALL); // Give class everything required for an update

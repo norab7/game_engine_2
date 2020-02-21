@@ -9,9 +9,6 @@ class Rigid_Body_Physics : public I_Physics {
 	float gravity = -9.81f;
 	bool use_gravity = true;
 
-	bool at_rest = false;
-	bool falling = false;
-
 public:
 	Rigid_Body_Physics();
 	~Rigid_Body_Physics() = default;
