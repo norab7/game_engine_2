@@ -17,12 +17,13 @@ class GameObject {
 	std::vector<I_Component*> components;
 
 protected:
+public:
 	I_Graphics* graphics_ = nullptr;
 	I_Input* input_ = nullptr;
 	I_Camera* camera_ = nullptr;
 	I_Physics* physics_ = nullptr;
 	I_Emitter* emitter_ = nullptr;
-public:
+
 	// TODO: make public variables private
 	glm::mat4 matrix {1};
 	glm::mat4 view {0};
