@@ -8,10 +8,11 @@
 #include "I_Emitter.h"
 
 // TODO: Find method of dynamically assigning and replacing components without mentioning via named parent class
-GameObject::GameObject(I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics, I_Emitter* emitter)
+GameObject::GameObject(glm::vec3 position, I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics, I_Emitter* emitter)
 	: graphics_(graphics), input_(input), camera_(camera), physics_(physics), emitter_(emitter) {
 
 	// Linking Interfaces
+	set_position(position);
 	if(graphics != nullptr) { components.push_back(graphics); }
 	if(input != nullptr) { components.push_back(input); }
 	if(camera != nullptr) { components.push_back(camera); }
@@ -34,6 +35,7 @@ void GameObject::set_velocity(float x, float y, float z) {
 	this->set_velocity(glm::vec3(x, y, z));
 }
 
+// TODO: update to allow sending messages to game objects, may require giving them an id to distinguish them
 void GameObject::send(int msg) {
 	for(unsigned i = 0; i < components.size(); i++) {
 		components[i]->receive(msg);

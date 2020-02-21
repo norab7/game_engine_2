@@ -6,17 +6,13 @@ int main(int argc, char** argv) {
 	setup();
 
 	// TODO: Change to BETTER container class for all object types so it can be called as a single line and not be built
-	player = STORE::OBJECT::PLAYER(KEY_PRESS, mouse_offset);
-	lamp = STORE::OBJECT::LAMP();
-	emitter = STORE::OBJECT::LAMP_EXPLOSION();
+	player = STORE::OBJECT::PLAYER(glm::vec3(0, 4, 15), KEY_PRESS, mouse_offset);
+	lamp = STORE::OBJECT::LAMP(glm::vec3(0, 0, -30));
+	emitter = STORE::OBJECT::LAMP_EXPLOSION(glm::vec3(3, 0, -30));
 
 	game_objects.push_back(player);
 	game_objects.push_back(lamp);
 	game_objects.push_back(emitter);
-
-	player->set_position(glm::vec3(0, 0, 0));
-	lamp->set_position(glm::vec3(0, 0, -30));
-	emitter->set_position(glm::vec3(2, 0, -30));
 
 	while(!shut_down) {
 		// Timing
@@ -31,8 +27,7 @@ int main(int argc, char** argv) {
 		static unsigned count = 0;
 		bool create = (count++ % 1000 == 0);
 		if(create) {
-			game_objects.push_back(new GameObject(nullptr, nullptr, nullptr, nullptr,
-				new PE_Explosion(new Model("resources/graphics_objects/lamp_standing.obj", shader), new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, 2)));
+			game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(glm::vec3(-3, 0,-30)));
 		}
 
 		// Update Things

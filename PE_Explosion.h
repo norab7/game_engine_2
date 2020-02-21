@@ -7,20 +7,16 @@ class PE_Explosion : public I_Emitter {
 	
 	float created_time;
 
-	float life_span = 10;
-	unsigned active_max = 10;
-	bool explosion = false;
-	float spawn_rate = 1.0f;
+	float life_span;
+	unsigned active_max;
 	float velocity_offset = 1.0f;
-
-	bool first_run = true;
 
 	glm::vec3 velocity {0};
 
 	std::vector<GameObject*> particles;
 
 public:
-	PE_Explosion(I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, float life, unsigned count, float v_offset = 2.0f);
+	PE_Explosion(glm::vec3 position, I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, float life, unsigned count, float v_offset = 2.0f);
 	~PE_Explosion() = default;
 
 	void update(GameObject& g) override;

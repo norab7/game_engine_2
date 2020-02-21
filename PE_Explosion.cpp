@@ -1,17 +1,12 @@
 #include "PE_Explosion.h"
 #include <glfw3.h>
 
-PE_Explosion::PE_Explosion(I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, float life, unsigned count, float v_offset) : life_span(life), active_max(count) {
-	this->created_time = glfwGetTime();
-	this->graphics_ = graphics;
-	this->physics_ = physics;
-	this->velocity = velocity;
-	this->active_max = count;
-	this->velocity_offset = v_offset;
+PE_Explosion::PE_Explosion(glm::vec3 position, I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, float life, unsigned count, float v_offset)
+	: created_time(glfwGetTime()), graphics_(graphics), physics_(physics), velocity(velocity), life_span(life), active_max(count), velocity_offset(v_offset) {
 
 	srand(glfwGetTime());
 	for(unsigned i = 0; i < count; i++) {
-		GameObject* particle = new GameObject(graphics, nullptr, nullptr, physics);
+		GameObject* particle = new GameObject(position, graphics, nullptr, nullptr, physics);
 
 		glm::vec3 temp_velocity {0};
 		temp_velocity.x = velocity.x + (((-v_offset - v_offset) * ((float) rand() / RAND_MAX)) + v_offset);
@@ -24,13 +19,6 @@ PE_Explosion::PE_Explosion(I_Graphics* graphics, I_Physics* physics, glm::vec3 v
 }
 
 void PE_Explosion::update(GameObject& g) {
-	if(explosion && first_run) {
-		first_run = false;
-		for(GameObject* particle : particles) {
-			particle->set_position(g.get_position());
-		}
-	}
-
 	for(GameObject* particle : particles) {
 		particle->update();
 	}

@@ -36,15 +36,13 @@ namespace STORE {
 	}
 
 	namespace EMITTER {
-		PE_Explosion* BASIC_LAMP_EXPLOSION() { return new PE_Explosion(GRAPHICS::LAMP(), PHYSICS::RIGID(), glm::vec3(0, 10, 0), 10, 10, 2); }
+		PE_Explosion* BASIC_LAMP_EXPLOSION(glm::vec3 position) { return new PE_Explosion(position, GRAPHICS::LAMP(), PHYSICS::RIGID(), glm::vec3(0, 10, 0), 10, 10, 2); }
 	}
 
 	namespace OBJECT {
-		GameObject* PLAYER(const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset)); }
-		GameObject* LAMP() { return  new GameObject(GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID()); }
-		GameObject* LAMP_EXPLOSION() {
-			return new GameObject(nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION());
-		}
+		GameObject* PLAYER(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset)); }
+		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID()); }
+		GameObject* LAMP_EXPLOSION(glm::vec3 position) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position)); }
 	}
 }
 

@@ -39,7 +39,7 @@ public:
 	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS, EMITTER };
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects
-	GameObject(I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr, I_Emitter* emitter = nullptr);
+	GameObject(glm::vec3 position, I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr, I_Emitter* emitter = nullptr);
 	~GameObject() = default;
 
 	void update(UPDATE_TYPE type = UPDATE_TYPE::ALL); // Give class everything required for an update
