@@ -36,11 +36,16 @@ public:
 	glm::vec3 world_up {0,1,0};
 
 	glm::vec3 centre {0}; // fix for actual centre of mass
+
+	glm::vec3 pos {0};
+	glm::vec3 dpos {0};
 	glm::vec3 velocity {0};
+	glm::vec3 dvel {0};
 
 	bool at_rest = true;
 	bool falling = false;
 	bool alive = true;
+	bool goal_achieved = false;
 
 	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS, EMITTER, AI };
 

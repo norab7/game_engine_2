@@ -1,18 +1,18 @@
 #define STB_IMAGE_IMPLEMENTATION // Must be done before using stb_image.h
 #include "Main.h"
 
+bool go_now = false;
+
 int main(int argc, char** argv) {
 
 	setup();
-	setup_grid();
+	setup_grid(); // TODO: Change to loading levels maybe ?
 
-	// TODO: Change to BETTER container class for all object types so it can be called as a single line and not be built
+	// TODO: Change to BETTER container class for all object types so it can be called as a single line and not be built : Edit, Improve
 	player = STORE::OBJECT::PLAYER(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset);
 
 	game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
-	game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(glm::vec3(3, 0, -30)));
-	game_objects.push_back(STORE::OBJECT::LAMP_FOLLOW(glm::vec3(0, 0, -30), glm::vec3(0, 0, 0), 0.01));
 
 	while(!shut_down) {
 		// Timing
@@ -33,15 +33,22 @@ int main(int argc, char** argv) {
 		// Update Things
 		while(lag >= ms_per_frame) {
 			for(unsigned i = 0; i < game_objects.size(); i++) {
-				if(!game_objects[i]->alive) {
+				GameObject* g = game_objects[i];
+
+				if(!g->alive) {
+					if(g->goal_achieved) { game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(g->get_position(), g->velocity)); }
 					game_objects.erase(game_objects.begin() + i);
-				} else {
-					game_objects[i]->update(GameObject::UPDATE_TYPE::PHYSICS);
 				}
+
+				g->update(GameObject::UPDATE_TYPE::PHYSICS);
+				count++;
 			}
 			updates++;
 			lag -= ms_per_frame;
 		}
+
+		// Update AI
+		process_AI();
 
 		// Render Scene
 		render_scene();
@@ -49,7 +56,7 @@ int main(int argc, char** argv) {
 
 		// Analytics and fps
 		if(glfwGetTime() - second_timer > 1) {
-			std::cout << "Frames[" << frames << "] : Updates[" << updates << "]" << std::endl;
+			std::cout << "Frames[" << frames << "] : Updates[" << updates << "]" << " GameObjects[" << game_objects.size() << "]" << std::endl;
 			second_timer++;
 			updates = 0;
 			frames = 0;
@@ -118,11 +125,14 @@ void setup_grid() {
 			float z = j - ((LEVEL_DEPTH / 2)) * grid_spacing;
 
 			if((rand() % 100) <= block_percentage) {
-
 				world_grid[i][j][0] = 1;
 			}
 		}
 	}
+
+}
+
+void process_AI() {
 
 }
 
@@ -155,9 +165,13 @@ void render_scene() {
 }
 
 void process_input() {
-	//TODO: Test to see if faster than main loop
-	for(GameObject* g : game_objects) {
-		//g->update(GameObject::UPDATE_TYPE::INPUT);
+
+	if(KEY_PRESS[GLFW_KEY_E] && !go_now) { game_objects.push_back(STORE::OBJECT::LAMP_FOLLOW(glm::vec3(0, 0, -30), glm::vec3(0, 20, 0), 0.01)); go_now = true; }
+	if(!KEY_PRESS[GLFW_KEY_E]) { go_now = false; }
+
+	if(KEY_PRESS[GLFW_KEY_ESCAPE]) {
+		glfwSetWindowShouldClose(window, true);
+		shut_down = true;
 	}
 }
 
@@ -170,11 +184,6 @@ void callback_keyboard_input(GLFWwindow* window, int key, int scancode, int acti
 
 	if(action == GLFW_PRESS) { KEY_PRESS[key] = true; }
 	if(action == GLFW_RELEASE) { KEY_PRESS[key] = false; }
-
-	if(KEY_PRESS[GLFW_KEY_ESCAPE]) {
-		glfwSetWindowShouldClose(window, true);
-		shut_down = true;
-	}
 }
 
 void callback_mouse_movement(GLFWwindow* window, double xpos, double ypos) {

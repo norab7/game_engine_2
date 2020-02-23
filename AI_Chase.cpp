@@ -1,7 +1,7 @@
 #include "AI_Chase.h"
 
 AI_Chase::AI_Chase(glm::vec3 target, float speed) : speed(speed) {
-
+	this->target = target;
 }
 
 void AI_Chase::update(GameObject& g) {
@@ -10,6 +10,12 @@ void AI_Chase::update(GameObject& g) {
 	glm::vec3 direction = glm::normalize(target - g.get_position());
 
 	g.velocity += (direction * speed);
+	if(glm::length(g.get_position() - target) <= 0.1 && g.goal_achieved == false) {
+		glm::vec3 pos(g.get_position());
+
+		g.goal_achieved = true;
+		g.alive = false;
+	}
 
 }
 

@@ -25,7 +25,7 @@ void PE_Explosion::update(GameObject& g) {
 
 	if(glfwGetTime() - created_time >= life_span) {
 		g.alive = false;
-	} 
+	}
 }
 
 void PE_Explosion::receive(int msg) {

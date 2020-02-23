@@ -43,13 +43,9 @@ void GameObject::update(UPDATE_TYPE update) {
 
 		float stoppage = 0.0005f;
 		if(!falling) {
-			glm::vec3 diff(std::abs(pos.x - get_position().x), std::abs(pos.y - get_position().y), std::abs(pos.z - get_position().z));
-
-			pos.x = (diff.x <= stoppage) ? get_position().x : pos.x;
-			pos.y = (diff.y <= stoppage) ? get_position().y : pos.y;
-			pos.z = (diff.z <= stoppage) ? get_position().z : pos.z;
-
-			at_rest = (diff.x <= stoppage && diff.y <= stoppage && diff.z <= stoppage);
+			pos.x = (glm::length(pos.x - get_position().x) <= stoppage) ? get_position().x : pos.x;
+			pos.y = (glm::length(pos.y - get_position().y) <= stoppage) ? get_position().y : pos.y;
+			pos.z = (glm::length(pos.z - get_position().z) <= stoppage) ? get_position().z : pos.z;
 		}
 
 		if(pos.y <= 0) {

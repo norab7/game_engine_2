@@ -3,7 +3,6 @@
 #include "Model.h"
 
 Model::Model(const char* path, Shader* shader) : shader_(shader) {
-	std::cout << "path " << path << std::endl;
 	load(path);
 }
 
