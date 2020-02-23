@@ -33,6 +33,8 @@ void GameObject::update(UPDATE_TYPE update) {
 
 	if(glm::length(velocity) > 0) { at_rest = false; }
 
+	// TODO movement and physics
+
 	if(!at_rest || glm::length(velocity) == 0) {
 		glm::vec3 pos(get_position());
 		float delta = 0.0025f;
