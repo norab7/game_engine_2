@@ -3,6 +3,7 @@
 #include "Model.h"
 
 Model::Model(const char* path, Shader* shader) : shader_(shader) {
+	std::cout << "path " << path << std::endl;
 	load(path);
 }
 
@@ -19,14 +20,8 @@ void Model::load(const std::string& path) {
 }
 
 void Model::update(GameObject& g) {
-	static unsigned count = 0;
-	bool show = (count++ % 1000 == -1);
-
 	glm::vec3 pos(g.get_position());
 	glm::mat4 matrix(g.get_matrix());
-	if(show) { std::cout << "model_position: (" << pos.x << "," << pos.y << "," << pos.z << ")" << std::endl; }
-	if(show) { std::cout << "model_matrix[3][0]: (" << matrix[3][0] << "," << matrix[3][1] << "," << matrix[3][2] << ")" << std::endl; }
-	if(show) { std::cout << "model_matrix[0][3]: (" << matrix[0][3] << "," << matrix[1][3] << "," << matrix[2][3] << ")" << std::endl; }
 
 	shader_->use();
 	shader_->setMat4("model", matrix);
@@ -105,10 +100,19 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene) {
 
 std::vector<Texture> Model::load_material_textures(aiMaterial* mat, aiTextureType type, std::string name) {
 	std::vector<Texture> textures;
-	for(unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
+	
+	unsigned texture_count = mat->GetTextureCount(type);
+	if(texture_count <= 0 && type != aiTextureType_SPECULAR) { 
+		Texture texture;
+		texture.id = texture_from_file("resources/graphics_objects/_blank.jpg", dir);
+		texture.type = type;
+		texture.path = "resources/graphics_objects/_blank.jpg";
+		textures.push_back(texture);
+	}
+
+	for(unsigned int i = 0; i < texture_count; i++) {
 		aiString str;
 		mat->GetTexture(type, i, &str);
-
 		bool skip = false;
 		for(unsigned int j = 0; j < loaded_textures.size(); j++) {
 			if(std::strcmp(loaded_textures[j].path.data(), str.C_Str()) == 0) {
@@ -135,12 +139,12 @@ unsigned int Model::texture_from_file(const char* path, const std::string& dir, 
 
 	// Load and store the texture in a char array
 	int width, height, components;
+
 	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &components, 0);
 	if(!data) {
 		// if loading from obj data does not work, try loading direct from obj location
 		filename = dir + '/' + std::string(path).substr(std::string(path).find_last_of("/\\") + 1);
 		data = stbi_load(filename.c_str(), &width, &height, &components, 0);
-
 		if(!data) {
 			// If there is still no texture file found, just throw an error
 			std::cout << "Model::texture_from_file: Texture failed to load at path: " << path << std::endl;
