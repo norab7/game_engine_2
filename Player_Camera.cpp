@@ -13,7 +13,7 @@ void Player_Camera::update(GameObject& g) {
 		g.front = glm::normalize(g.get_position() - glm::vec3(g.get_position().x, g.get_position().y, g.get_position().z - 1));
 		g.right = glm::normalize(glm::cross(g.world_up, g.front));
 		g.up = glm::normalize(glm::cross(g.front, g.right));
-		g.front = glm::normalize(-g.front);
+		g.front = -glm::normalize(g.front);
 	}
 
 	if(mouse_offset->first != lastX || mouse_offset->second != lastY) {

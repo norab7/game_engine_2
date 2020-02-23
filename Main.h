@@ -18,7 +18,7 @@
 GLFWwindow* window;
 const char* WINDOW_TITLE = "Game Engine";
 const unsigned int WINDOW_WIDTH = 1920;
-const unsigned int WINDOW_HEIGHT = 1080;
+const unsigned int WINDOW_HEIGHT = 1200;
 glm::mat4 model, projection, view;
 
 /* Class Instances */
@@ -38,7 +38,7 @@ float last_time = 0.0f;
 float current_time = 0.0f;
 float delta_time = 0.0f;
 float lag = 0.0f;
-float ms_per_frame = (1.0f/60.0f);
+float ms_per_frame = (1.0f / 60.0f);
 float second_timer = 0.0f;
 
 // Game Objects
@@ -50,8 +50,17 @@ GameObject* emitter;
 /* Stats and Analytics */
 unsigned frames = 0, updates = 0;
 
+/* World Variables */
+std::vector<GameObject*> level_objects;
+const float grid_spacing = 2.0f;
+const int LEVEL_WIDTH = 50;
+const int LEVEL_DEPTH = 50;
+const int LEVEL_HEIGHT = 2;
+int world_grid[LEVEL_WIDTH][LEVEL_DEPTH][LEVEL_HEIGHT] = {0};
+
 /* Functions */
 void setup();
+void setup_grid();
 void render_scene();
 void process_input();
 void callback_window_resize(GLFWwindow* window, int w, int h);

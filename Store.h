@@ -22,6 +22,8 @@ namespace STORE {
 	namespace GRAPHICS {
 		Model* NEW(const char* model) { return new Model(model, shader); }
 		Model* LAMP() { return new Model("resources/graphics_objects/lamp_standing.obj", shader); }
+		Model* HOUSE() { return new Model("resources/graphics_objects/shack.obj", shader); }
+		Model* FLOOR_SQUARE() { return new Model("resources/graphics_objects/floor_square.obj", shader); }
 	}
 
 	namespace INPUT {
@@ -46,10 +48,16 @@ namespace STORE {
 
 	namespace OBJECT {
 		// Position, Graphics, Input, Camera, Physics, Emitter, AI
+
+		// Objects
 		GameObject* PLAYER(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset)); }
 		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID()); }
 		GameObject* LAMP_EXPLOSION(glm::vec3 position) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position)); }
 		GameObject* LAMP_FOLLOW(glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed)); }
+
+		// Level
+		GameObject* HOUSE(glm::vec3 position) { return new GameObject(position, GRAPHICS::HOUSE()); }
+		GameObject* FLOOR(glm::vec3 position) { return new GameObject(position, GRAPHICS::FLOOR_SQUARE()); }
 	}
 }
 

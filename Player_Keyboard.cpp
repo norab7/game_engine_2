@@ -15,6 +15,8 @@ void Player_Keyboard::update(GameObject& g) {
 	if(key_map[GLFW_KEY_D]) { g.set_position(g.get_position() + g.right * deltaSpeed); }
 	if(key_map[GLFW_KEY_SPACE]) { g.set_position(g.get_position() + g.up * deltaSpeed); }
 	if(key_map[GLFW_KEY_LEFT_CONTROL]) { g.set_position(g.get_position() - g.up * deltaSpeed); }
+
+	if(key_map[GLFW_KEY_M]) { std::cout << "Position: (" << g.get_position().x << "," << g.get_position().y << "," << g.get_position().z << ")" << std::endl; }
 }
 
 void Player_Keyboard::receive(int msg) {

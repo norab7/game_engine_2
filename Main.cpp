@@ -4,9 +4,10 @@
 int main(int argc, char** argv) {
 
 	setup();
+	setup_grid();
 
 	// TODO: Change to BETTER container class for all object types so it can be called as a single line and not be built
-	player = STORE::OBJECT::PLAYER(glm::vec3(0, 4, 15), KEY_PRESS, mouse_offset);
+	player = STORE::OBJECT::PLAYER(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset);
 
 	game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
@@ -98,6 +99,33 @@ void setup() {
 	glfwSetScrollCallback(window, callback_mouse_scroll);
 }
 
+void setup_grid() {
+	// 0: open, 1: blocked
+
+	srand(glfwGetTime());
+
+	// TODO: Improve to create better world
+	float block_percentage = 5;
+
+	GameObject* floor = STORE::OBJECT::FLOOR(glm::vec3(0));
+	floor->scale(glm::vec3(LEVEL_WIDTH, 1, LEVEL_DEPTH));
+	level_objects.push_back(floor);
+
+	for(unsigned i = 0; i < LEVEL_WIDTH; i++) {
+		for(unsigned j = 0; j < LEVEL_DEPTH; j++) {
+			float x = (i - (LEVEL_WIDTH / 2)) * grid_spacing;
+			float y = 0;
+			float z = j - ((LEVEL_DEPTH / 2)) * grid_spacing;
+
+			if((rand() % 100) <= block_percentage) {
+
+				world_grid[i][j][0] = 1;
+			}
+		}
+	}
+
+}
+
 void render_scene() {
 	// Render
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -112,6 +140,9 @@ void render_scene() {
 
 	for(GameObject* g : game_objects) {
 		g->update();
+	}
+	for(GameObject* b : level_objects) {
+		b->update();
 	}
 
 	// Buffers
