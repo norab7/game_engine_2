@@ -90,6 +90,9 @@
     <ClCompile Include="AI_Chase.cpp">
       <Filter>Components\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Pathfinding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="AI_Chase.h">
       <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Pathfinding.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
