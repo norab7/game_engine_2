@@ -22,26 +22,35 @@ GameObject::GameObject(glm::vec3 position, I_Graphics* graphics, I_Input* input,
 	if(ai != nullptr) { components.push_back(ai); }
 }
 
-void GameObject::update(UPDATE_TYPE update) {
-	// TODO: update to switch / nested-ifs for compiler and run-time optimizations
-	if(graphics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::GRAPHICS)) { graphics_->update(*this); }
-	if(input_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::INPUT)) { input_->update(*this); }
-	if(camera_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::CAMERA)) { camera_->update(*this); }
-	if(physics_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::PHYSICS)) { physics_->update(*this, -1); }
-	if(emitter_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::EMITTER)) { emitter_->update(*this); }
-	if(ai_ != nullptr && (update == UPDATE_TYPE::ALL || update == UPDATE_TYPE::AI)) { ai_->update(*this); }
+void GameObject::update_graphics(float& delta) {
+	this->delta_time = delta;
+	if(graphics_ != nullptr) { graphics_->update(*this); }
+}
 
+void GameObject::update_input(float& delta) {
+	this->delta_time = delta;
+	if(input_ != nullptr) { input_->update(*this); }
+	if(camera_ != nullptr) { camera_->update(*this); }
+}
+
+void GameObject::update_physics(float& delta) {
+	this->delta_time = delta;
+	if(physics_ != nullptr) { physics_->update(*this, -1); }
+	if(emitter_ != nullptr) { emitter_->update(*this); }
+	if(ai_ != nullptr) { ai_->update(*this); }
+
+}
+
+void GameObject::update_move(float& delta) {
+	this->delta_time = delta;
 	if(glm::length(velocity) > 0) { at_rest = false; }
-
-	// TODO movement and physics
 
 	if(!at_rest || glm::length(velocity) == 0) {
 		glm::vec3 pos(get_position());
-		float delta = 0.0025f;
 
-		pos.x += velocity.x * delta;
-		pos.y += velocity.y * delta;
-		pos.z += velocity.z * delta;
+		pos.x += velocity.x; // *delta_time;
+		pos.y += velocity.y; // *delta_time;
+		pos.z += velocity.z; // *delta_time;
 
 		float stoppage = 0.0005f;
 		if(!falling) {
@@ -52,6 +61,7 @@ void GameObject::update(UPDATE_TYPE update) {
 
 		if(pos.y <= 0) {
 			pos.y = 0;
+			velocity.y = 0;
 			falling = false;
 		} else {
 			falling = true;
@@ -66,6 +76,12 @@ void GameObject::set_velocity(glm::vec3 v) {
 }
 void GameObject::set_velocity(float x, float y, float z) {
 	this->set_velocity(glm::vec3(x, y, z));
+}
+void GameObject::add_velocity(glm::vec3 v) {
+	this->velocity += v;
+}
+void GameObject::add_velocity(float x, float y, float z) {
+	this->add_velocity(glm::vec3(x, y, z));
 }
 
 // TODO: update to allow sending messages to game objects, may require giving them an id to distinguish them

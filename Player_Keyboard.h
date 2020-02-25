@@ -5,7 +5,8 @@
 
 class Player_Keyboard : public I_Input {
 	const bool* key_map;
-	float speed = 0.025f;
+	float speed = 2.5f;
+	float modifier = 5.0f;
 
 protected:
 

@@ -6,9 +6,9 @@ Player_Keyboard::Player_Keyboard(const bool(&KEY_MAP)[1024]) : key_map(KEY_MAP) 
 }
 
 void Player_Keyboard::update(GameObject& g) {
-	float deltaSpeed = speed; //  *delta;
-	if(key_map[GLFW_KEY_LEFT_SHIFT]) { deltaSpeed *= 2; }
-	if(key_map[GLFW_KEY_LEFT_ALT]) { deltaSpeed /= 2; }
+	float deltaSpeed = speed * g.delta_time;
+	if(key_map[GLFW_KEY_LEFT_SHIFT]) { deltaSpeed *= modifier; }
+	if(key_map[GLFW_KEY_LEFT_ALT]) { deltaSpeed /= modifier; }
 	if(key_map[GLFW_KEY_W]) { g.set_position(g.get_position() + g.front * deltaSpeed); }
 	if(key_map[GLFW_KEY_S]) { g.set_position(g.get_position() - g.front * deltaSpeed); }
 	if(key_map[GLFW_KEY_A]) { g.set_position(g.get_position() - g.right * deltaSpeed); }

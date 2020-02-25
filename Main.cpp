@@ -11,8 +11,10 @@ int main(int argc, char** argv) {
 	// TODO: Change to BETTER container class for all object types so it can be called as a single line and not be built : Edit, Improve
 	player = STORE::OBJECT::PLAYER(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset);
 
-	game_objects.push_back(player);
+	// game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
+
+	float acc = 0.0f;
 
 	while(!shut_down) {
 		// Timing
@@ -20,35 +22,28 @@ int main(int argc, char** argv) {
 		delta_time = current_time - last_time;
 		last_time = current_time;
 		lag += delta_time;
+		acc += delta_time;
 
 		// Process Input
 		process_input();
-
-		static unsigned count = 0;
-		bool create = (count++ % 1000 == 0);
-		if(create) {
-			game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(glm::vec3(-3, 0, -30)));
-		}
 
 		// Update Things
 		while(lag >= ms_per_frame) {
 			for(unsigned i = 0; i < game_objects.size(); i++) {
 				GameObject* g = game_objects[i];
 
-				if(!g->alive) {
-					if(g->goal_achieved) { game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(g->get_position(), g->velocity)); }
-					game_objects.erase(game_objects.begin() + i);
-				}
+				g->update_physics(delta_time);
 
-				g->update(GameObject::UPDATE_TYPE::PHYSICS);
-				count++;
+				g->update_move(delta_time);
+
+				if(!g->alive) { game_objects.erase(game_objects.begin() + i); }
+
 			}
 			updates++;
 			lag -= ms_per_frame;
 		}
 
-		// Update AI
-		process_AI();
+		if(acc >= 5) { acc = 0; }
 
 		// Render Scene
 		render_scene();
@@ -61,6 +56,10 @@ int main(int argc, char** argv) {
 			updates = 0;
 			frames = 0;
 		}
+
+		glFlush();
+		glFinish();
+
 	}
 
 	std::cout << "Press return to exit";
@@ -114,25 +113,22 @@ void setup_grid() {
 	// TODO: Improve to create better world
 	float block_percentage = 5;
 
-	GameObject* floor = STORE::OBJECT::FLOOR(glm::vec3(0));
-	floor->scale(glm::vec3(LEVEL_WIDTH, 1, LEVEL_DEPTH));
-	level_objects.push_back(floor);
+	//GameObject* floor = STORE::OBJECT::FLOOR(glm::vec3(0));
+	//floor->scale(glm::vec3(LEVEL_WIDTH, 1, LEVEL_DEPTH));
+	//level_objects.push_back(floor);
 
 	for(unsigned i = 0; i < LEVEL_WIDTH; i++) {
 		for(unsigned j = 0; j < LEVEL_DEPTH; j++) {
-			float x = (i - (LEVEL_WIDTH / 2)) * grid_spacing;
+			float x = (i * grid_spacing);
 			float y = 0;
-			float z = j - ((LEVEL_DEPTH / 2)) * grid_spacing;
+			float z = (j * grid_spacing);
 
-			if((rand() % 100) <= block_percentage) {
-				world_grid[i][j][0] = 1;
+			if(i % 2 != 0 || j % 2 != 0) {
+				level_objects.push_back(STORE::OBJECT::FLOOR(glm::vec3(x, y, z)));
 			}
+
 		}
 	}
-
-}
-
-void process_AI() {
 
 }
 
@@ -149,10 +145,10 @@ void render_scene() {
 	shader->setMat4("view", player->view);
 
 	for(GameObject* g : game_objects) {
-		g->update();
+		g->update_graphics(delta_time);
 	}
 	for(GameObject* b : level_objects) {
-		b->update();
+		b->update_graphics(delta_time);
 	}
 
 	// Buffers
@@ -166,13 +162,16 @@ void render_scene() {
 
 void process_input() {
 
-	if(KEY_PRESS[GLFW_KEY_E] && !go_now) { game_objects.push_back(STORE::OBJECT::LAMP_FOLLOW(glm::vec3(0, 0, -30), glm::vec3(0, 20, 0), 0.01)); go_now = true; }
+	if(KEY_PRESS[GLFW_KEY_E] && !go_now) { game_objects.push_back(STORE::OBJECT::LAMP_FOLLOW(glm::vec3(0, 30, -30), glm::vec3(0, 0, 0), 0.01)); go_now = true; }
 	if(!KEY_PRESS[GLFW_KEY_E]) { go_now = false; }
 
 	if(KEY_PRESS[GLFW_KEY_ESCAPE]) {
 		glfwSetWindowShouldClose(window, true);
 		shut_down = true;
 	}
+
+	player->update_input(delta_time);
+
 }
 
 void callback_window_resize(GLFWwindow* window, int width, int height) {

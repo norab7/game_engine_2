@@ -67,4 +67,5 @@ void Pathfinding::search(glm::vec3 start, glm::vec3 end) {
 
 std::vector<Pathfinding::Node*> Pathfinding::get_neighbours(Node* cur) {
 	// TODO: cycle grid values from given node
+	return std::vector<Pathfinding::Node*>{};
 }

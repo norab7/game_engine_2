@@ -56,8 +56,10 @@ void Render::update(std::vector<GameObject>& game_objects, Shader& shader) {
 	shader.setMat4("projection", projection);
 	shader.setMat4("view", view);
 
+
+	float delta = 0.0f;
 	for(GameObject g : game_objects) {
-		g.update();
+		g.update_graphics(delta);
 	}
 
 	// Buffers

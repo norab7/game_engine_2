@@ -47,18 +47,23 @@ public:
 	bool alive = true;
 	bool goal_achieved = false;
 
-	enum class UPDATE_TYPE { NONE, ALL, GRAPHICS, INPUT, CAMERA, PHYSICS, EMITTER, AI };
+	float delta_time;
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects
 	GameObject(glm::vec3 position, I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr, I_Emitter* emitter = nullptr, I_AI* ai = nullptr);
 	~GameObject() = default;
 
-	void update(UPDATE_TYPE type = UPDATE_TYPE::ALL); // Give class everything required for an update
+	void update_input(float& delta);
+	void update_physics(float& delta);
+	void update_graphics(float& delta);
+	void update_move(float& delta);
 	void send(int msg);
 
 	// Setting Functions
 	void set_velocity(glm::vec3 v);
 	void set_velocity(float x, float y, float z);
+	void add_velocity(glm::vec3 v);
+	void add_velocity(float x, float y, float z);
 
 	// TODO: Move transform code back to seperate object
 	glm::mat4 get_matrix();

@@ -20,7 +20,10 @@ PE_Explosion::PE_Explosion(glm::vec3 position, I_Graphics* graphics, I_Physics* 
 
 void PE_Explosion::update(GameObject& g) {
 	for(GameObject* particle : particles) {
-		particle->update();
+		particle->update_input(g.delta_time);
+		particle->update_physics(g.delta_time);
+		particle->update_move(g.delta_time);
+		particle->update_graphics(g.delta_time);
 	}
 
 	if(glfwGetTime() - created_time >= life_span) {

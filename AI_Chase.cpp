@@ -10,9 +10,8 @@ void AI_Chase::update(GameObject& g) {
 	glm::vec3 direction = glm::normalize(target - g.get_position());
 
 	g.velocity += (direction * speed);
-	if(glm::length(g.get_position() - target) <= 0.1 && g.goal_achieved == false) {
-		glm::vec3 pos(g.get_position());
 
+	if(glm::length(g.get_position() - target) <= 0.1 && g.goal_achieved == false) {
 		g.goal_achieved = true;
 		g.alive = false;
 	}
