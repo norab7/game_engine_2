@@ -3,7 +3,7 @@
 #include <vector>
 #include <list>
 
-class world;
+#include "World.h"
 
 class Pathfinding {
 	class Node {
@@ -24,13 +24,11 @@ class Pathfinding {
 
 	std::vector<Node*> open_nodes;
 	std::vector<Node*> closed_nodes;
-	std::list<Node*> path;
-	const world* grid;
-
+	std::list<glm::vec3> path;
 public:
-	Pathfinding(const world& grid);
+	Pathfinding() = default;
 	~Pathfinding() = default;
 
-	void search(glm::vec3 start, glm::vec3 end);
-	std::vector<Node*> get_neighbours(Node* cur);
+	void search(const World& world, const glm::vec3& start, const glm::vec3& end);
+	std::vector<Node*> get_neighbours(const World& world, const Node* cur);
 };

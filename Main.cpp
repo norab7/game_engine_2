@@ -17,6 +17,7 @@ int main(int argc, char** argv) {
 	float acc = 0.0f;
 
 	while(!shut_down) {
+
 		// Timing
 		current_time = glfwGetTime();
 		delta_time = current_time - last_time;
@@ -51,6 +52,7 @@ int main(int argc, char** argv) {
 
 		// Analytics and fps
 		if(glfwGetTime() - second_timer > 1) {
+			// game_objects.push_back(STORE::OBJECT::LAMP_FOLLOW(glm::vec3(0, 30, -30), glm::vec3(0, 0, 0), 0.01));
 			std::cout << "Frames[" << frames << "] : Updates[" << updates << "]" << " GameObjects[" << game_objects.size() << "]" << std::endl;
 			second_timer++;
 			updates = 0;
@@ -140,9 +142,6 @@ void render_scene() {
 }
 
 void process_input() {
-
-	if(KEY_PRESS[GLFW_KEY_E] && !go_now) { game_objects.push_back(STORE::OBJECT::LAMP_FOLLOW(glm::vec3(0, 30, -30), glm::vec3(0, 0, 0), 0.01)); go_now = true; }
-	if(!KEY_PRESS[GLFW_KEY_E]) { go_now = false; }
 
 	if(KEY_PRESS[GLFW_KEY_ESCAPE]) {
 		glfwSetWindowShouldClose(window, true);

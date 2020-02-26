@@ -5,7 +5,7 @@
 
 
 class World {
-	bool in_range(const unsigned& val, const unsigned& range);
+	const bool in_range(const unsigned& val, const unsigned& range) const;
 public:
 	const unsigned WIDTH_ = 10;
 	const unsigned LENGTH_ = 10;
@@ -14,13 +14,13 @@ public:
 
 	World(const unsigned& width, const unsigned& height, const unsigned& length);
 
-	bool walkable(const glm::vec3& coords);
-	bool walkable(const unsigned& width, const unsigned& height, const unsigned& length);
+	const bool walkable(const glm::vec3& coords) const;
+	const bool walkable(const unsigned& width, const unsigned& height, const unsigned& length) const;
 
-	std::vector<glm::vec3> get_neighbours(const glm::vec3& coords);
-	std::vector<glm::vec3> get_neighbours(const unsigned& width, const unsigned& height, const unsigned& length);
+	const std::vector<glm::vec3> get_neighbours(const glm::vec3& coords) const;
+	const std::vector<glm::vec3> get_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const;
 
-	std::vector<glm::vec3> get_walkable_neighbours(const glm::vec3& coords);
-	std::vector<glm::vec3> get_walkable_neighbours(const unsigned& width, const unsigned& height, const unsigned& length);
+	const std::vector<glm::vec3> get_walkable_neighbours(const glm::vec3& coords) const;
+	const std::vector<glm::vec3> get_walkable_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const;
 
 };

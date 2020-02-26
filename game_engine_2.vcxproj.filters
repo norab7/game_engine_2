@@ -96,6 +96,9 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AI_Pathfinder.cpp">
+      <Filter>Components\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_Pathfinder.h">
+      <Filter>Components\AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

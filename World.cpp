@@ -6,10 +6,8 @@ World::World(const unsigned& width, const unsigned& height, const unsigned& leng
 		GRID_[w] = new bool* [HEIGHT_];
 		for(unsigned h = 0; h < HEIGHT_; h++) {
 			GRID_[w][h] = new bool[LENGTH_] {false};
-
 			for(unsigned l = 0; l < LENGTH_; l++) {
 				if(h > 0) { break; }
-
 				if(w % 2 == 0 || l % 2 == 0) {
 					GRID_[w][h][l] = true;
 				}
@@ -18,11 +16,11 @@ World::World(const unsigned& width, const unsigned& height, const unsigned& leng
 	}
 }
 
-bool World::in_range(const unsigned& val, const unsigned& range) {
+const bool World::in_range(const unsigned& val, const unsigned& range) const {
 	return (val < range && val >= 0);
 }
 
-bool World::walkable(const glm::vec3& coords) {
+const bool World::walkable(const glm::vec3& coords)  const {
 	const unsigned x = coords.x;
 	const unsigned y = coords.y;
 	const unsigned z = coords.z;
@@ -33,11 +31,11 @@ bool World::walkable(const glm::vec3& coords) {
 
 	return (GRID_[x][y][z]);
 }
-bool World::walkable(const unsigned& width, const unsigned& height, const unsigned& length) {
+const bool World::walkable(const unsigned& width, const unsigned& height, const unsigned& length)  const {
 	return walkable(glm::vec3(width, height, length));
 }
 
-std::vector<glm::vec3> World::get_neighbours(const glm::vec3& coords) {
+const std::vector<glm::vec3> World::get_neighbours(const glm::vec3& coords) const {
 	const unsigned x = coords.x;
 	const unsigned y = coords.y;
 	const unsigned z = coords.z;
@@ -53,11 +51,11 @@ std::vector<glm::vec3> World::get_neighbours(const glm::vec3& coords) {
 
 	return res;
 }
-std::vector<glm::vec3> World::get_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) {
+const std::vector<glm::vec3> World::get_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const {
 	return get_neighbours(glm::vec3(width, height, length));
 }
 
-std::vector<glm::vec3> World::get_walkable_neighbours(const glm::vec3& coords) {
+const std::vector<glm::vec3> World::get_walkable_neighbours(const glm::vec3& coords) const {
 	const unsigned x = coords.x;
 	const unsigned y = coords.y;
 	const unsigned z = coords.z;
@@ -79,6 +77,6 @@ std::vector<glm::vec3> World::get_walkable_neighbours(const glm::vec3& coords) {
 
 	return res;
 }
-std::vector<glm::vec3> World::get_walkable_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) {
+const std::vector<glm::vec3> World::get_walkable_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const {
 	return get_walkable_neighbours(glm::vec3(width, height, length));
 }

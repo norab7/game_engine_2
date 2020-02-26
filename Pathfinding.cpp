@@ -16,11 +16,7 @@ float Pathfinding::Node::calculate_f(Node& end) {
 }
 
 /* Pathfinding */
-Pathfinding::Pathfinding(const world& grid) : grid(&grid) {
-
-}
-
-void Pathfinding::search(glm::vec3 start, glm::vec3 end) {
+void Pathfinding::search(const World& world, const glm::vec3& start, const glm::vec3& end) {
 
 	// Initialize start node
 	Node* start_node = new Node(start);
@@ -38,9 +34,9 @@ void Pathfinding::search(glm::vec3 start, glm::vec3 end) {
 		closed_nodes.push_back(cur);
 		open_nodes.erase(open_nodes.begin() + cur_index);
 
-		if(cur->pos == end) { break; }
+		if(cur->pos == end_node->pos) { end_node = cur; break; }
 
-		for(Node* n : get_neighbours(cur)) {
+		for(Node* n : get_neighbours(world, cur)) {
 			bool skip = false;
 			for(Node* m : closed_nodes) {
 				if(n->pos == m->pos) { skip = true; }
@@ -54,18 +50,33 @@ void Pathfinding::search(glm::vec3 start, glm::vec3 end) {
 
 			skip = false;
 			for(Node* l : open_nodes) {
-				if(n->pos == l->pos) { skip = true; }
+				if(l->pos == n->pos && l->g < n->g) { skip = true; }
 			}
 			if(skip) { continue; }
 
 			open_nodes.push_back(n);
 
 		}
-
 	}
+
+	path = *new std::list<glm::vec3> {};
+	Node* cur = end_node;
+	while(cur->parent != nullptr) {
+		path.push_back(cur->pos);
+		cur = cur->parent;
+	}
+	path.push_back(start_node->pos);
+	path.reverse();
+
 }
 
-std::vector<Pathfinding::Node*> Pathfinding::get_neighbours(Node* cur) {
-	// TODO: cycle grid values from given node
-	return std::vector<Pathfinding::Node*>{};
+std::vector<Pathfinding::Node*> Pathfinding::get_neighbours(const World& world, const Node* cur) {
+	std::vector<Pathfinding::Node*> nodes {};
+	std::vector<glm::vec3> neighbours(world.get_walkable_neighbours(cur->pos));
+
+	for(glm::vec3 pos : neighbours) {
+		nodes.push_back(new Node(pos));
+	}
+
+	return nodes;
 }

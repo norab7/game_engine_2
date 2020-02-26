@@ -153,6 +153,7 @@
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="AABB_Tree.cpp" />
     <ClCompile Include="AI_Chase.cpp" />
+    <ClCompile Include="AI_Pathfinder.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="PE_Explosion.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AABB_Tree.h" />
     <ClInclude Include="AI_Chase.h" />
+    <ClInclude Include="AI_Pathfinder.h" />
     <ClInclude Include="I_AI.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="Store.h" />
