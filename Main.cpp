@@ -106,29 +106,8 @@ void setup() {
 }
 
 void setup_grid() {
-	// 0: open, 1: blocked
+	world = new World(10, 3, 10);
 
-	srand(glfwGetTime());
-
-	// TODO: Improve to create better world
-	float block_percentage = 5;
-
-	//GameObject* floor = STORE::OBJECT::FLOOR(glm::vec3(0));
-	//floor->scale(glm::vec3(LEVEL_WIDTH, 1, LEVEL_DEPTH));
-	//level_objects.push_back(floor);
-
-	for(unsigned i = 0; i < LEVEL_WIDTH; i++) {
-		for(unsigned j = 0; j < LEVEL_DEPTH; j++) {
-			float x = (i * grid_spacing);
-			float y = 0;
-			float z = (j * grid_spacing);
-
-			if(i % 2 != 0 || j % 2 != 0) {
-				level_objects.push_back(STORE::OBJECT::FLOOR(glm::vec3(x, y, z)));
-			}
-
-		}
-	}
 
 }
 

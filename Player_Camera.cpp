@@ -8,7 +8,6 @@ void Player_Camera::update(GameObject& g) {
 	// TODO: add in some checking code to only update front, right, up when required
 
 	if(!has_target) {
-		std::cout << "now has a target" << std::endl;
 		has_target = true;
 		g.front = glm::normalize(g.get_position() - glm::vec3(g.get_position().x, g.get_position().y, g.get_position().z - 1));
 		g.right = glm::normalize(glm::cross(g.world_up, g.front));

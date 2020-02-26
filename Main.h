@@ -13,6 +13,7 @@
 #include <memory>
 
 #include "Store.h"
+#include "World.h"
 
 /* Window Settings */
 GLFWwindow* window;
@@ -51,6 +52,7 @@ GameObject* emitter;
 unsigned frames = 0, updates = 0;
 
 /* World Variables */
+World* world;
 std::vector<GameObject*> level_objects;
 const float grid_spacing = 6.0f;
 const int LEVEL_WIDTH = 24;
@@ -61,7 +63,6 @@ int world_grid[LEVEL_WIDTH][LEVEL_DEPTH][LEVEL_HEIGHT] = {0};
 /* Functions */
 void setup();
 void setup_grid();
-void process_AI();
 void render_scene();
 void process_input();
 void callback_window_resize(GLFWwindow* window, int w, int h);
