@@ -37,7 +37,7 @@ public:
 
 	glm::vec3 centre {0}; // fix for actual centre of mass
 
-	glm::vec3 pos {0};
+	// glm::vec3 pos {0};
 	glm::vec3 dpos {0};
 	glm::vec3 velocity {0};
 	glm::vec3 dvel {0};

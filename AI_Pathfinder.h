@@ -9,7 +9,7 @@ class AI_Pathfinder : public I_AI {
 	bool path_complete = false;
 
 	float stoppage = 0.1f;
-	float speed = 1.0f;
+	float speed = 0.01f;
 
 	glm::vec3 cur_goal {};
 

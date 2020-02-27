@@ -7,6 +7,8 @@
 class World {
 	const bool in_range(const unsigned& val, const unsigned& range) const;
 public:
+	std::vector<glm::vec3> edges {};
+
 	const unsigned WIDTH_ = 10;
 	const unsigned LENGTH_ = 10;
 	const unsigned HEIGHT_ = 4;

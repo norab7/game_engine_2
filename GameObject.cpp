@@ -47,6 +47,7 @@ void GameObject::update_move(float& delta) {
 
 	if(!at_rest || glm::length(velocity) == 0) {
 		glm::vec3 pos(get_position());
+		//std::cout << "AI Position: (" << pos.x << "," << pos.y << "," << pos.z << ") " << std::endl;
 
 		pos.x += velocity.x; // *delta_time;
 		pos.y += velocity.y; // *delta_time;

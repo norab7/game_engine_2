@@ -53,7 +53,7 @@ namespace STORE {
 
 		// Objects
 		GameObject* PLAYER(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset)); }
-		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID()); }
+		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr); }
 		GameObject* LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel = glm::vec3(0, 10, 0)) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position, vel)); }
 		GameObject* LAMP_FOLLOW(glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed)); }
 		GameObject* LAMP_SEARCH(World* world, glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, target, speed)); }

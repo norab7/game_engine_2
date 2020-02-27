@@ -1,6 +1,10 @@
 #include "World.h"
+#include <glfw3.h>
 
 World::World(const unsigned& width, const unsigned& height, const unsigned& length) :WIDTH_(width), HEIGHT_(height), LENGTH_(length) {
+	srand(glfwGetTime());
+	unsigned percentage = 0.0f;
+
 	GRID_ = new bool** [WIDTH_];
 	for(unsigned w = 0; w < WIDTH_; w++) {
 		GRID_[w] = new bool* [HEIGHT_];
@@ -8,7 +12,7 @@ World::World(const unsigned& width, const unsigned& height, const unsigned& leng
 			GRID_[w][h] = new bool[LENGTH_] {false};
 			for(unsigned l = 0; l < LENGTH_; l++) {
 				if(h > 0) { break; }
-				if(w % 2 == 0 || l % 2 == 0) {
+				if(rand() % 100 >= percentage) {
 					GRID_[w][h][l] = true;
 				}
 			}

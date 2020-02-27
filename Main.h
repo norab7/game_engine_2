@@ -62,7 +62,7 @@ int world_grid[LEVEL_WIDTH][LEVEL_DEPTH][LEVEL_HEIGHT] = {0};
 
 /* Functions */
 void setup();
-void setup_grid();
+void setup_grid(const unsigned& x, const unsigned& y, const unsigned& z);
 void render_scene();
 void process_input();
 void callback_window_resize(GLFWwindow* window, int w, int h);
