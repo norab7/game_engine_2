@@ -5,10 +5,17 @@
 
 class AI_Pathfinder : public I_AI {
 	bool path_found = false;
+	bool goal_complete = false;
 	bool path_complete = false;
+
+	float stoppage = 0.1f;
+	float speed = 1.0f;
+
+	glm::vec3 cur_goal {};
+
 public:
 	World* world_ = nullptr;
-	Pathfinding* path = nullptr;
+	Pathfinding* path = new Pathfinding();
 	glm::vec3 target_ {0};
 	float speed_ = 0.0f;
 

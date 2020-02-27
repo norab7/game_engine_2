@@ -13,6 +13,7 @@ int main(int argc, char** argv) {
 
 	// game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
+	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(world, glm::vec3(0), glm::vec3(10, 0, 10), 0.01));
 
 	float acc = 0.0f;
 

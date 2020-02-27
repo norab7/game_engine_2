@@ -63,17 +63,11 @@ const std::vector<glm::vec3> World::get_walkable_neighbours(const glm::vec3& coo
 	std::vector<glm::vec3> res;
 
 	if(walkable(x + 1, y, z)) { res.push_back(glm::vec3(x + 1, y, z)); }
-	std::cout << "walkable size: " << res.size() << std::endl;
 	if(walkable(x - 1, y, z)) { res.push_back(glm::vec3(x - 1, y, z)); }
-	std::cout << "walkable size: " << res.size() << std::endl;
 	if(walkable(x, y + 1, z)) { res.push_back(glm::vec3(x, y + 1, z)); }
-	std::cout << "walkable size: " << res.size() << std::endl;
 	if(walkable(x, y - 1, z)) { res.push_back(glm::vec3(x, y - 1, z)); }
-	std::cout << "walkable size: " << res.size() << std::endl;
 	if(walkable(x, y, z + 1)) { res.push_back(glm::vec3(x, y, z + 1)); }
-	std::cout << "walkable size: " << res.size() << std::endl;
 	if(walkable(x, y, z - 1)) { res.push_back(glm::vec3(x, y, z - 1)); }
-	std::cout << "walkable size: " << res.size() << std::endl;
 
 	return res;
 }

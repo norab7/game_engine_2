@@ -5,10 +5,12 @@
 
 #include "World.h"
 
+
 class Pathfinding {
 	class Node {
 	public:
-		Node* parent = nullptr;
+		Node* parent;
+		Node* child;
 
 		glm::vec3 pos {0};
 		float g = 0, h = 0, f = 0;
@@ -22,13 +24,21 @@ class Pathfinding {
 	};
 	// Node End
 
-	std::vector<Node*> open_nodes;
-	std::vector<Node*> closed_nodes;
-	std::list<glm::vec3> path;
+
+	std::list<Node> path {};
+	Node* cur_node;
 public:
+	bool no_path = false;
+
 	Pathfinding() = default;
 	~Pathfinding() = default;
 
 	void search(const World& world, const glm::vec3& start, const glm::vec3& end);
-	std::vector<Node*> get_neighbours(const World& world, const Node* cur);
+
+	glm::vec3& get_current_pos();
+	glm::vec3& get_next_pos();
+	std::vector<Node> get_neighbours(const World& world, const Pathfinding::Node cur);
+
+	bool has_next();
+
 };

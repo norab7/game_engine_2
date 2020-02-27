@@ -13,6 +13,7 @@
 #include "Rigid_Body_Physics.h"
 #include "PE_Explosion.h"
 #include "AI_Chase.h"
+#include "AI_Pathfinder.h"
 
 namespace STORE {
 	// TODO: Decouple shader from everthing, it's annoying now
@@ -44,6 +45,7 @@ namespace STORE {
 
 	namespace AI {
 		AI_Chase* CHASE(glm::vec3 target, float speed) { return new AI_Chase(target, speed); }
+		AI_Pathfinder* PATHFINDER(World* world, glm::vec3 target, float speed) { return new AI_Pathfinder(world, target, speed); }
 	}
 
 	namespace OBJECT {
@@ -52,32 +54,12 @@ namespace STORE {
 		// Objects
 		GameObject* PLAYER(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset)); }
 		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID()); }
-		GameObject* LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel = glm::vec3(0,10,0)) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position, vel)); }
+		GameObject* LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel = glm::vec3(0, 10, 0)) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position, vel)); }
 		GameObject* LAMP_FOLLOW(glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed)); }
+		GameObject* LAMP_SEARCH(World* world, glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, target, speed)); }
 
 		// Level
 		GameObject* HOUSE(glm::vec3 position) { return new GameObject(position, GRAPHICS::HOUSE()); }
 		GameObject* FLOOR(glm::vec3 position) { return new GameObject(position, GRAPHICS::FLOOR_SQUARE()); }
 	}
 }
-
-/*
-
-	I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics, I_Emitter* emitter
-
-	player = new GameObject(nullptr,
-		new Player_Keyboard(KEY_PRESS),
-		new Player_Camera(mouse_offset));
-
-	lamp = new GameObject(new Model("resources/graphics_objects/lamp_standing.obj", shader),
-		nullptr,
-		nullptr,
-		new Rigid_Body_Physics());
-
-	emitter = new GameObject(nullptr,
-		nullptr,
-		nullptr,
-		nullptr,
-		new PE_Explosion(new Model("resources/graphics_objects/lamp_standing.obj", shader),new Rigid_Body_Physics(), glm::vec3(0, 10, 0), 10, 10, true, 1, 2));
-
-*/
