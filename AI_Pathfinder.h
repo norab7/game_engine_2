@@ -19,6 +19,7 @@ public:
 	glm::vec3 START_ {0};
 	glm::vec3 TARGET_ {0};
 
+	bool first_run = true;
 	bool has_path = false;
 	bool forward = false;
 

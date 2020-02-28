@@ -2,20 +2,11 @@
 
 AI_Pathfinder::AI_Pathfinder(World* world, glm::vec3 start, glm::vec3 target) : WORLD_(world), START_(start), TARGET_(target) {
 	PATH_->search(*WORLD_, START_, TARGET_);
-	if(!PATH_->has_path()) {
-		has_path = false;
-	} else {
-		cur_goal = PATH_->get_current_pos();
-	}
+	cur_goal = PATH_->get_current_pos();
 }
 
 void AI_Pathfinder::update(GameObject& g) {
-	static bool first_run = true;
-	if(!has_path && first_run) {
-		std::cout << "No Path Found, not running" << std::endl;
-		first_run = false;
-		return;
-	}
+	if(!PATH_->has_path() || (!PATH_->has_next() && !PATH_->has_prev())) { return; }
 
 	if(glm::length(g.get_position() - cur_goal) <= stoppage) {
 		if(!PATH_->has_next() || !PATH_->has_prev()) {

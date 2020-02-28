@@ -96,12 +96,13 @@ void Pathfinding::search(const World& world, const glm::vec3& start, const glm::
 
 bool Pathfinding::has_path() {
 	if(cur_node == nullptr) { return false; }
-	if(cur_node->child == nullptr) { return false; }
 	return true;
 }
 
 glm::vec3& Pathfinding::get_current_pos() {
-	glm::vec3 res(glm::vec3(cur_node->x * WORLD_->GRIDSPACE_, cur_node->y * WORLD_->GRIDSPACE_, cur_node->z * WORLD_->GRIDSPACE_));
+	glm::vec3 res = glm::vec3(0);
+	if(cur_node == nullptr) { return res; }
+	res = glm::vec3(cur_node->x * WORLD_->GRIDSPACE_, cur_node->y * WORLD_->GRIDSPACE_, cur_node->z * WORLD_->GRIDSPACE_);
 	return res;
 }
 glm::vec3& Pathfinding::get_next_pos() {
