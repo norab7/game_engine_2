@@ -31,14 +31,17 @@ float Pathfinding::Node::calculate_f(Node& end) {
 void Pathfinding::search(const World& world, const glm::vec3& start, const glm::vec3& end) {
 
 	// Initialize start node
-	start_node = new Node(start);
-	end_node = new Node(end);
+	start_node = new Pathfinding::Node(start);
+	end_node = new Pathfinding::Node(end);
 
 	open_nodes.push_back(*start_node);
 
+	unsigned count = 0;
+
+
 	// Start searching
 	while(!open_nodes.empty()) {
-		Node cur = open_nodes[0];
+		Pathfinding::Node cur = open_nodes[0];
 		unsigned cur_index = 0;
 		for(unsigned i = 0; i < open_nodes.size(); i++) {
 			if(open_nodes[i].f < cur.f) { cur = open_nodes[i]; cur_index = i; }
@@ -55,10 +58,13 @@ void Pathfinding::search(const World& world, const glm::vec3& start, const glm::
 
 		for(Pathfinding::Node n : get_neighbours(world, cur)) {
 			bool skip = false;
-			for(Node m : closed_nodes) {
+			for(Pathfinding::Node m : closed_nodes) {
 				if((n.x == m.x) && (n.y == m.y) && (n.z == m.z)) { skip = true; }
 			}
-			if(skip) { continue; }
+			if(skip) {
+				count++;
+				continue;
+			}
 
 			n.parent = new Node(&cur);
 			n.calculate_g(*n.parent);
@@ -66,7 +72,7 @@ void Pathfinding::search(const World& world, const glm::vec3& start, const glm::
 			n.calculate_f(*end_node);
 
 			skip = false;
-			for(Node l : open_nodes) {
+			for(Pathfinding::Node l : open_nodes) {
 				if((l.x == n.x) && (l.y == n.y) && (l.z == n.z) && l.g < n.g) {
 					skip = true;
 				}
@@ -75,8 +81,19 @@ void Pathfinding::search(const World& world, const glm::vec3& start, const glm::
 
 			open_nodes.push_back(n);
 
+			//for(unsigned i = 0; i < open_nodes.size(); i++) {
+			//	if((open_nodes[i].x == n.x) && (open_nodes[i].y == n.y) && (open_nodes[i].z == n.z)) {
+			//		if(open_nodes[i].g > n.g) {
+			//			open_nodes.erase(open_nodes.begin() + i);
+			//			open_nodes.push_back(n);
+			//			break;
+			//		}
+			//	}
+			//}
 		}
 	}
+
+	std::cout << "SKIPPED CLOSED NODES: " << count << std::endl;
 
 	Node cur = *end_node;
 	while(cur.parent != nullptr) {
@@ -84,7 +101,7 @@ void Pathfinding::search(const World& world, const glm::vec3& start, const glm::
 		cur = *cur.parent;
 		cur_node = new Node(&cur);
 	}
-	std::cout << "";
+	std::cout << ""; // Debugging without a set end point
 
 }
 

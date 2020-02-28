@@ -4,20 +4,22 @@
 bool go_now = false;
 
 int main(int argc, char** argv) {
+	std::cout << "Setting up GLFW and GLAD components" << std::endl;
 	setup();
 
+	std::cout << "Setting up world" << std::endl;
 	unsigned x = 10, y = 1, z = 10;
-	setup_grid(x, y, z); // TODO: Change to loading levels maybe ?
+	setup_grid(x, y, z);
 
-	// TODO: Change to BETTER container class for all object types so it can be called as a single line and not be built : Edit, Improve
+	std::cout << "Setting up initial Objects" << std::endl;
 	player = STORE::OBJECT::PLAYER(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset);
+	game_objects.push_back(player);
+	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
+	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(glm::vec3(0), world, glm::vec3(7, 0, 7)));
 
-	// game_objects.push_back(player);
-	//game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
-	srand(glfwGetTime());
-	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(world, glm::vec3(0), glm::vec3(7, 0, 7), 0.01));
-
-	float acc = 0.0f;
+	std::cout << "Setup Complete : Beginning Game Loop" << std::endl;
+	last_time = glfwGetTime();
+	second_timer = last_time;
 
 	while(!shut_down) {
 
@@ -26,7 +28,6 @@ int main(int argc, char** argv) {
 		delta_time = current_time - last_time;
 		last_time = current_time;
 		lag += delta_time;
-		acc += delta_time;
 
 		// Process Input
 		process_input();
@@ -46,8 +47,6 @@ int main(int argc, char** argv) {
 			updates++;
 			lag -= ms_per_frame;
 		}
-
-		if(acc >= 5) { acc = 0; }
 
 		// Render Scene
 		render_scene();
@@ -73,9 +72,6 @@ int main(int argc, char** argv) {
 }
 
 void setup() {
-	// Timing
-	last_time = glfwGetTime();
-	second_timer = last_time;
 
 	// Graphics
 	glfwInit();
