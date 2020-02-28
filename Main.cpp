@@ -1,5 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION // Must be done before using stb_image.h
 #include "Main.h"
+#include <time.h>
 
 bool go_now = false;
 
@@ -8,14 +9,20 @@ int main(int argc, char** argv) {
 	setup();
 
 	std::cout << "Setting up world" << std::endl;
-	unsigned x = 10, y = 1, z = 10;
+	unsigned x = 10, y = 5, z = 10;
 	setup_grid(x, y, z);
 
 	std::cout << "Setting up initial Objects" << std::endl;
 	player = STORE::OBJECT::PLAYER(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset);
 	game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
-	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(glm::vec3(0), world, glm::vec3(7, 0, 7)));
+	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(glm::vec3(0), world, glm::vec3(x, y, z)));
+
+	for(unsigned i = 0; i < 10; i++) {
+		glm::vec3 start(rand() % x, rand() % y, rand() % z);
+		glm::vec3 end(rand() % x, rand() % y, rand() % z);
+		game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(start, world, end));
+	}
 
 	std::cout << "Setup Complete : Beginning Game Loop" << std::endl;
 	last_time = glfwGetTime();
@@ -72,6 +79,7 @@ int main(int argc, char** argv) {
 }
 
 void setup() {
+	srand(time(NULL));
 
 	// Graphics
 	glfwInit();
@@ -109,6 +117,9 @@ void setup() {
 void setup_grid(const unsigned& x, const unsigned& y, const unsigned& z) {
 	world = new World(x + 1, y + 1, z + 1);
 
+	for(glm::vec3 v : world->open) {
+		level_objects.push_back(STORE::OBJECT::FLOOR(glm::vec3(v)));
+	}
 
 }
 

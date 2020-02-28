@@ -8,8 +8,8 @@ class AI_Pathfinder : public I_AI {
 	bool goal_complete = false;
 	bool path_complete = false;
 
-	float stoppage = 0.1f;
-	float speed = 0.01f;
+	float stoppage = 0.5f;
+	float speed = 0.1f;
 
 	glm::vec3 cur_goal {};
 
@@ -18,6 +18,9 @@ public:
 	World* WORLD_ = nullptr;
 	glm::vec3 START_ {0};
 	glm::vec3 TARGET_ {0};
+
+	bool has_path = false;
+	bool forward = false;
 
 	AI_Pathfinder(World* world, glm::vec3 start, glm::vec3 target);
 	~AI_Pathfinder() = default;

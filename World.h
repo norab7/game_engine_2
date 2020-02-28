@@ -7,11 +7,12 @@
 class World {
 	const bool in_range(const unsigned& val, const unsigned& range) const;
 public:
-	std::vector<glm::vec3> edges {};
+	std::vector<glm::vec3> open {};
 
 	const unsigned WIDTH_ = 10;
 	const unsigned LENGTH_ = 10;
 	const unsigned HEIGHT_ = 4;
+	const float GRIDSPACE_ = 6;
 	bool*** GRID_;
 
 	World(const unsigned& width, const unsigned& height, const unsigned& length);

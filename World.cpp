@@ -2,8 +2,7 @@
 #include <glfw3.h>
 
 World::World(const unsigned& width, const unsigned& height, const unsigned& length) :WIDTH_(width), HEIGHT_(height), LENGTH_(length) {
-	srand(glfwGetTime());
-	unsigned percentage = 0.0f;
+	unsigned percentage = 15.0f;
 
 	GRID_ = new bool** [WIDTH_];
 	for(unsigned w = 0; w < WIDTH_; w++) {
@@ -11,9 +10,12 @@ World::World(const unsigned& width, const unsigned& height, const unsigned& leng
 		for(unsigned h = 0; h < HEIGHT_; h++) {
 			GRID_[w][h] = new bool[LENGTH_] {false};
 			for(unsigned l = 0; l < LENGTH_; l++) {
-				if(h > 0) { break; }
-				if(rand() % 100 >= percentage) {
+				if(rand() % 100 >= percentage) {// || (w == 0 || w == WIDTH_ - 1) || (h == 0 || h == HEIGHT_ - 1) || (l == 0 || l == LENGTH_ - 1)) {
 					GRID_[w][h][l] = true;
+				} else {
+					glm::vec3 cell = glm::vec3(w, h, l);
+					cell *= GRIDSPACE_;
+					open.push_back(cell);
 				}
 			}
 		}
