@@ -28,6 +28,11 @@ class Model : public I_Graphics {
 	unsigned int texture_from_file(const char* path, const std::string& dir, bool gamma = false);
 	std::vector<Texture> load_material_textures(aiMaterial* mat, aiTextureType type, std::string name);
 
+	// Bounds
+	glm::vec3 centre {0};
+	glm::vec3 min {0};
+	glm::vec3 max {0};
+
 public:
 	Model(const char* dir, Shader* shader);
 

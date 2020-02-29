@@ -11,6 +11,10 @@ AABB::AABB(float minx, float miny, float minz, float maxx, float maxy, float max
 	//std::cout << "Mins: (" << minx << ", " << miny << ", " << minz << ") " << " Maxs: (" << maxx << ", " << maxy << ", " << maxz << ")" << std::endl;
 }
 
+AABB::AABB(glm::vec3 min, glm::vec3 max, glm::vec3 centre) : minx(min.x), miny(min.y), minz(min.z), maxx(max.x), maxy(max.y), maxz(max.z), centre(centre) {
+	surface_area = get_surface_area();
+}
+
 bool AABB::overlaps(const AABB& obj) const {
 	bool checkx = (maxx > obj.minx) && (minx < obj.maxx);
 	bool checky = (maxy > obj.miny) && (miny < obj.maxy);

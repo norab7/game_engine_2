@@ -19,8 +19,12 @@ void Model::load(const std::string& path) {
 }
 
 void Model::update(GameObject& g) {
-	glm::vec3 pos(g.get_position());
 	glm::mat4 matrix(g.get_matrix());
+
+	if(g.has_collision) {
+		glm::vec3 pos(g.get_position());
+		g.bounds = new AABB(min + pos, max + pos, centre + pos);
+	}
 
 	shader_->use();
 	shader_->setMat4("model", matrix);
@@ -49,10 +53,13 @@ void Model::process_node(aiNode* node, const aiScene* scene) {
 		meshes.push_back(process_mesh(mesh, scene));
 	}
 
+	centre *= (float) (1.0f / (float) i);
+
 	// Child nodes, recursively process all nodes and meshes.
 	for(i = 0; i < node->mNumChildren; i++) {
 		process_node(node->mChildren[i], scene);
 	}
+
 }
 
 Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene) {
@@ -60,7 +67,10 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene) {
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
 
-	for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
+	glm::vec3 temp_avg {0};
+
+	unsigned i = 0;
+	for(i = 0; i < mesh->mNumVertices; i++) {
 		Vertex vertex;
 
 		// Vertex positions, Normals, Textures-coords
@@ -68,12 +78,25 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene) {
 		vertex.Normal = glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
 		vertex.TexCoords = (mesh->mTextureCoords[0]) ? glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y) : glm::vec2(0, 0);
 
+		// Store Bounday information
+		temp_avg += vertex.Position;
+		if(min.x > vertex.Position.x) { min.x = vertex.Position.x; }
+		if(min.y > vertex.Position.y) { min.y = vertex.Position.y; }
+		if(min.z > vertex.Position.z) { min.z = vertex.Position.z; }
+
+		if(max.x < vertex.Position.x) { max.x = vertex.Position.x; }
+		if(max.y < vertex.Position.y) { max.y = vertex.Position.y; }
+		if(max.z < vertex.Position.z) { max.z = vertex.Position.z; }
+
+
 		// Push the vertex to the vector list
 		vertices.push_back(vertex);
 	}
 
+	centre += (temp_avg * ((float) (1.0f / (float) i)));
+
 	// Indices; Each mesh has faces, each face has indices for each vertex
-	for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
+	for(i = 0; i < mesh->mNumFaces; i++) {
 		aiFace face = mesh->mFaces[i];
 		for(unsigned int j = 0; j < face.mNumIndices; j++) {
 			indices.push_back(face.mIndices[j]);
@@ -99,9 +122,9 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene) {
 
 std::vector<Texture> Model::load_material_textures(aiMaterial* mat, aiTextureType type, std::string name) {
 	std::vector<Texture> textures;
-	
+
 	unsigned texture_count = mat->GetTextureCount(type);
-	if(texture_count <= 0 && type != aiTextureType_SPECULAR) { 
+	if(texture_count <= 0 && type != aiTextureType_SPECULAR) {
 		Texture texture;
 		texture.id = texture_from_file("resources/graphics_objects/_blank.jpg", dir);
 		texture.type = type;

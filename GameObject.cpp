@@ -7,10 +7,11 @@
 #include "I_Physics.h"
 #include "I_Emitter.h"
 #include "I_AI.h"
+#include "I_Collider.h"
 
 // TODO: Find method of dynamically assigning and replacing components without mentioning via named parent class
-GameObject::GameObject(glm::vec3 position, I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics, I_Emitter* emitter, I_AI* ai)
-	: graphics_(graphics), input_(input), camera_(camera), physics_(physics), emitter_(emitter), ai_(ai) {
+GameObject::GameObject(glm::vec3 position, I_Graphics* graphics, I_Input* input, I_Camera* camera, I_Physics* physics, I_Emitter* emitter, I_AI* ai, I_Collider* collider)
+	: graphics_(graphics), input_(input), camera_(camera), physics_(physics), emitter_(emitter), ai_(ai), collider_(collider) {
 
 	// Linking Interfaces
 	set_position(position);
@@ -20,6 +21,7 @@ GameObject::GameObject(glm::vec3 position, I_Graphics* graphics, I_Input* input,
 	if(physics != nullptr) { components.push_back(physics); }
 	if(emitter != nullptr) { components.push_back(emitter); }
 	if(ai != nullptr) { components.push_back(ai); }
+	if(collider != nullptr) { components.push_back(collider); has_collision = true; }
 }
 
 void GameObject::update_graphics(float& delta) {
@@ -38,6 +40,7 @@ void GameObject::update_physics(float& delta) {
 	if(physics_ != nullptr) { physics_->update(*this, -1); }
 	if(emitter_ != nullptr) { emitter_->update(*this); }
 	if(ai_ != nullptr) { ai_->update(*this); }
+	if(collider_ != nullptr) { collider_->update(*this); }
 
 }
 
@@ -47,13 +50,12 @@ void GameObject::update_move(float& delta) {
 
 	if(!at_rest || glm::length(velocity) == 0) {
 		glm::vec3 pos(get_position());
-		//std::cout << "AI Position: (" << pos.x << "," << pos.y << "," << pos.z << ") " << std::endl;
 
 		pos.x += velocity.x; // *delta_time;
 		pos.y += velocity.y; // *delta_time;
 		pos.z += velocity.z; // *delta_time;
 
-		float stoppage = 0.0005f;
+		float stoppage = 0.005f;
 		if(!falling) {
 			pos.x = (glm::length(pos.x - get_position().x) <= stoppage) ? get_position().x : pos.x;
 			pos.y = (glm::length(pos.y - get_position().y) <= stoppage) ? get_position().y : pos.y;

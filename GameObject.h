@@ -5,6 +5,7 @@
 
 #include "I_Component.h"
 #include "Transform.h"
+#include "AABB.h"
 
 /* Class forward Declarations - Much like includes */
 class I_Graphics;
@@ -13,6 +14,7 @@ class I_Camera;
 class I_Physics;
 class I_Emitter;
 class I_AI;
+class I_Collider;
 
 class GameObject {
 	std::vector<I_Component*> components;
@@ -26,6 +28,7 @@ public:
 	I_Physics* physics_ = nullptr;
 	I_Emitter* emitter_ = nullptr;
 	I_AI* ai_ = nullptr;
+	I_Collider* collider_ = nullptr;
 
 	// TODO: make public variables private
 	glm::mat4 matrix {1};
@@ -35,7 +38,6 @@ public:
 	glm::vec3 front {0,0,-1};
 	glm::vec3 world_up {0,1,0};
 
-	glm::vec3 centre {0}; // fix for actual centre of mass
 
 	// glm::vec3 pos {0};
 	glm::vec3 dpos {0};
@@ -47,10 +49,20 @@ public:
 	bool alive = true;
 	bool goal_achieved = false;
 
+	// Collisions and Boundaries
+	bool is_static = false;
+	bool has_collision = false;
+	glm::vec3 last_position {0};
+	const AABB* bounds = nullptr;
+	glm::vec3 centre {0}; // fix for actual centre of mass
+
+	// Temporary Child Storage
+	std::vector<GameObject*> children {};
+
 	float delta_time;
 
 	// Set all defaults to nullptr to allow for unused sections of gameobjects
-	GameObject(glm::vec3 position, I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr, I_Emitter* emitter = nullptr, I_AI* ai = nullptr);
+	GameObject(glm::vec3 position, I_Graphics* graphics = nullptr, I_Input* input = nullptr, I_Camera* camera = nullptr, I_Physics* physics = nullptr, I_Emitter* emitter = nullptr, I_AI* ai = nullptr, I_Collider* collider = nullptr);
 	~GameObject() = default;
 
 	void update_input(float& delta);

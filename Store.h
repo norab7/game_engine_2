@@ -14,6 +14,7 @@
 #include "PE_Explosion.h"
 #include "AI_Chase.h"
 #include "AI_Pathfinder.h"
+#include "Collisions.h"
 
 namespace STORE {
 	// TODO: Decouple shader from everthing, it's annoying now
@@ -48,6 +49,10 @@ namespace STORE {
 		AI_Pathfinder* PATHFINDER(World* world, glm::vec3 position, glm::vec3 target) { return new AI_Pathfinder(world, position, target); }
 	}
 
+	namespace COLLIDE {
+		Collisions* BASIC(const std::vector<GameObject*>* objects) { return new Collisions(objects); }
+	}
+
 	namespace OBJECT {
 		// Position, Graphics, Input, Camera, Physics, Emitter, AI
 
@@ -57,6 +62,10 @@ namespace STORE {
 		GameObject* LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel = glm::vec3(0, 10, 0)) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position, vel)); }
 		GameObject* LAMP_FOLLOW(glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed)); }
 		GameObject* LAMP_SEARCH(glm::vec3 position, World* world, glm::vec3 target) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, position, target)); }
+
+		GameObject* LAMP_SEARCH_COLLIDE(glm::vec3 position, World* world, glm::vec3 target, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, position, target), COLLIDE::BASIC(objects)); }
+		GameObject* LAMP_PHX_COLLIDE(glm::vec3 position, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, nullptr, COLLIDE::BASIC(objects)); }
+
 
 		// Level
 		GameObject* HOUSE(glm::vec3 position) { return new GameObject(position, GRAPHICS::HOUSE()); }

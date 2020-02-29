@@ -31,9 +31,6 @@
     <Filter Include="Components\Inputs">
       <UniqueIdentifier>{bffd0f9b-9888-490d-8403-a4d2fffedb11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Physics and Colliders">
-      <UniqueIdentifier>{ce3ca5a9-881a-45b3-bf85-aa285b079f29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components\Particle Systems">
       <UniqueIdentifier>{c9cdd106-13ec-40d5-96c1-bead1eb829a6}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,12 @@
     </Filter>
     <Filter Include="Components\AI">
       <UniqueIdentifier>{f08caeb6-0699-4b16-bf14-a26146a4dad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Physics">
+      <UniqueIdentifier>{ce3ca5a9-881a-45b3-bf85-aa285b079f29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\Colliders">
+      <UniqueIdentifier>{be66eacd-28f7-4d44-b554-e66087fbfecf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,7 +79,7 @@
       <Filter>Components\Inputs</Filter>
     </ClCompile>
     <ClCompile Include="Rigid_Body_Physics.cpp">
-      <Filter>Components\Physics and Colliders</Filter>
+      <Filter>Components\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Components\Graphics\Model</Filter>
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="AI_Pathfinder.cpp">
       <Filter>Components\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions.cpp">
+      <Filter>Components\Colliders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +156,7 @@
       <Filter>Components\Inputs</Filter>
     </ClInclude>
     <ClInclude Include="Rigid_Body_Physics.h">
-      <Filter>Components\Physics and Colliders</Filter>
+      <Filter>Components\Physics</Filter>
     </ClInclude>
     <ClInclude Include="I_Emitter.h">
       <Filter>Interfaces</Filter>
@@ -181,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="AI_Pathfinder.h">
       <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="I_Collider.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions.h">
+      <Filter>Components\Colliders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,13 +16,21 @@ int main(int argc, char** argv) {
 	player = STORE::OBJECT::PLAYER(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset);
 	game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
-	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(glm::vec3(0), world, glm::vec3(x, y, z)));
+	//game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(glm::vec3(0), world, glm::vec3(x, y, z)));
+	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(0), world, glm::vec3(x, y, z), &game_objects));
+	//game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(x, 0, 0), world, glm::vec3(0), &game_objects));
 
-	for(unsigned i = 0; i < 10; i++) {
-		glm::vec3 start(rand() % x, rand() % y, rand() % z);
-		glm::vec3 end(rand() % x, rand() % y, rand() % z);
-		game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(start, world, end));
-	}
+	GameObject* static_lamp = STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 0, -20), &game_objects);
+	static_lamp->is_static = true;
+	game_objects.push_back(static_lamp);
+	game_objects.push_back(STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 10, -20), &game_objects));
+
+	//for(unsigned i = 0; i < 10; i++) {
+	//	glm::vec3 start(rand() % x, rand() % y, rand() % z);
+	//	glm::vec3 end(rand() % x, rand() % y, rand() % z);
+	//	//game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(start, world, end));
+	//	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(start, world, end, &game_objects));
+	//}
 
 	std::cout << "Setup Complete : Beginning Game Loop" << std::endl;
 	last_time = glfwGetTime();
