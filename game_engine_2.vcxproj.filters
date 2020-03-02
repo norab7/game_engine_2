@@ -105,6 +105,9 @@
     <ClCompile Include="Collisions.cpp">
       <Filter>Components\Colliders</Filter>
     </ClCompile>
+    <ClCompile Include="AI_Waypoint.cpp">
+      <Filter>Components\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="Collisions.h">
       <Filter>Components\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_Waypoint.h">
+      <Filter>Components\AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

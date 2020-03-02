@@ -32,7 +32,7 @@ class Pathfinding {
 
 
 	//std::list<Node> path {};
-	const World* WORLD_;
+	World* WORLD_;
 	Node* cur_node;
 
 	Node* start_node;
@@ -47,13 +47,13 @@ public:
 	Pathfinding() = default;
 	~Pathfinding() = default;
 
-	void search(const World& world, const glm::vec3& start, const glm::vec3& end);
+	void search(World* world, const glm::vec3& start, const glm::vec3& end);
 
 	bool has_path();
 	glm::vec3& get_current_pos();
 	glm::vec3& get_next_pos();
 	glm::vec3& get_prev_pos();
-	std::vector<Node> get_neighbours(const World& world, const Node& cur);
+	std::vector<Node> get_neighbours(const Node& cur);
 
 	bool has_next();
 	bool has_prev();

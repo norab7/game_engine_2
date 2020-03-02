@@ -13,28 +13,27 @@ int main(int argc, char** argv) {
 	setup_grid(x, y, z);
 
 	std::cout << "Setting up initial Objects" << std::endl;
-	player = STORE::OBJECT::PLAYER(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset);
+	player = STORE::OBJECT::PLAYER_PHX(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset, &game_objects);
 	game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
 	//game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(glm::vec3(0), world, glm::vec3(x, y, z)));
 	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(0), world, glm::vec3(x, y, z), &game_objects));
-	//game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(x, 0, 0), world, glm::vec3(0), &game_objects));
+	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(x, 0, 0), world, glm::vec3(0), &game_objects));
+	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(2, 0, 0), world, glm::vec3(x, 0, 0), &game_objects));
+
 
 	GameObject* static_lamp = STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 0, -20), &game_objects);
 	static_lamp->is_static = true;
 	game_objects.push_back(static_lamp);
-	game_objects.push_back(STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 10, -20), &game_objects));
+	game_objects.push_back(STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 100, -20), &game_objects));
 
-	//for(unsigned i = 0; i < 10; i++) {
-	//	glm::vec3 start(rand() % x, rand() % y, rand() % z);
-	//	glm::vec3 end(rand() % x, rand() % y, rand() % z);
-	//	//game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(start, world, end));
-	//	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(start, world, end, &game_objects));
-	//}
 
 	std::cout << "Setup Complete : Beginning Game Loop" << std::endl;
 	last_time = glfwGetTime();
 	second_timer = last_time;
+
+	/* Temp things */
+	glm::vec3 TEMP_TARGET = glm::vec3(0, 10, 0);
 
 	while(!shut_down) {
 
@@ -52,9 +51,10 @@ int main(int argc, char** argv) {
 			for(unsigned i = 0; i < game_objects.size(); i++) {
 				GameObject* g = game_objects[i];
 
-				g->update_physics(delta_time);
+				float physics_time = delta_time * ms_per_frame;
+				g->update_physics(physics_time);
 
-				g->update_move(delta_time);
+				g->update_move(physics_time);
 
 				if(!g->alive) { game_objects.erase(game_objects.begin() + i); }
 
@@ -68,8 +68,12 @@ int main(int argc, char** argv) {
 		frames++;
 
 		// Analytics and fps
+		glm::vec3 temp = glm::vec3(player->get_position());
 		if(glfwGetTime() - second_timer > 1) {
-			// game_objects.push_back(STORE::OBJECT::LAMP_FOLLOW(glm::vec3(0, 30, -30), glm::vec3(0, 0, 0), 0.01));
+
+			if(game_objects.size() < 150) {
+				game_objects.push_back(STORE::OBJECT::LAMP_PHX_FOLLOW(glm::vec3(0, 30, -30), temp, 0.01, &game_objects));
+			}
 			std::cout << "Frames[" << frames << "] : Updates[" << updates << "]" << " GameObjects[" << game_objects.size() << "]" << std::endl;
 			second_timer++;
 			updates = 0;
@@ -125,8 +129,13 @@ void setup() {
 void setup_grid(const unsigned& x, const unsigned& y, const unsigned& z) {
 	world = new World(x + 1, y + 1, z + 1);
 
+
+
 	for(glm::vec3 v : world->open) {
-		level_objects.push_back(STORE::OBJECT::FLOOR(glm::vec3(v)));
+		GameObject* g = STORE::OBJECT::FLOOR(glm::vec3(v), &game_objects);
+		g->wire = true;
+		game_objects.push_back(g);
+		// level_objects.push_back(STORE::OBJECT::FLOOR(glm::vec3(v)));
 	}
 
 }
@@ -141,7 +150,7 @@ void render_scene() {
 	projection = glm::perspective(glm::radians(45.0f), (float) (WINDOW_WIDTH / WINDOW_HEIGHT), 0.1f, 1000.0f);
 	shader->setMat4("projection", projection);
 	//player->update(GameObject::UPDATE_TYPE::CAMERA);
-	shader->setMat4("view", player->view);
+	shader->setMat4("view", glm::translate(player->view, glm::vec3(0, -3, 0)));
 
 	for(GameObject* g : game_objects) {
 		g->update_graphics(delta_time);

@@ -30,6 +30,7 @@ void Player_Camera::update(GameObject& g) {
 		g.front.y = sin(glm::radians(pitch));
 		g.front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 		g.front = glm::normalize(g.front);
+		g.flat_front = glm::normalize(glm::vec3(g.front.x, 0, g.front.z));
 
 		g.right = glm::normalize(glm::cross(g.front, g.world_up));
 		g.up = -glm::normalize(glm::cross(g.front, g.right));

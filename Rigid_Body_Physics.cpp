@@ -5,19 +5,10 @@ Rigid_Body_Physics::Rigid_Body_Physics() {
 }
 
 void Rigid_Body_Physics::update(GameObject& g, int world_placeholder) {
-	//if(g.at_rest) { return; }
-	//float drag = 0.8f;
-
-	//force = glm::vec3(0, mass * gravity, 0);
-	//glm::vec3 acceleration = glm::vec3(force.x / mass, force.y / mass, force.z / mass);
-	//g.velocity.x += (acceleration.x * g.delta_time) * drag;
-	//g.velocity.y += (acceleration.y * g.delta_time) * drag;
-	//g.velocity.z += (acceleration.z * g.delta_time) * drag;
-
-	g.velocity.x += gravity.x * g.delta_time;
-	g.velocity.y += (gravity.y * g.delta_time) * 0.2f;
-	g.velocity.z += gravity.z * g.delta_time;
-	g.velocity *= 0.9f;
+	time += g.delta_time;
+	glm::vec3 acc(glm::vec3(gravity.x / g.mass, gravity.y / g.mass, gravity.z / g.mass));
+	g.set_position(g.get_position() + g.delta_time * (g.velocity + g.delta_time * (acc * 0.5f)));
+	g.velocity += g.delta_time * acc; 
 }
 
 void Rigid_Body_Physics::receive(int msg) {

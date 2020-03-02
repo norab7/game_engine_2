@@ -8,12 +8,18 @@
 #include "Model.h"
 
 #include "GameObject.h"
+
 #include "Player_Keyboard.h"
 #include "Player_Camera.h"
+
 #include "Rigid_Body_Physics.h"
+
 #include "PE_Explosion.h"
+
 #include "AI_Chase.h"
 #include "AI_Pathfinder.h"
+#include "AI_Waypoint.h"
+
 #include "Collisions.h"
 
 namespace STORE {
@@ -25,7 +31,8 @@ namespace STORE {
 		Model* NEW(const char* model) { return new Model(model, shader); }
 		Model* LAMP() { return new Model("resources/graphics_objects/lamp_standing.obj", shader); }
 		Model* HOUSE() { return new Model("resources/graphics_objects/shack.obj", shader); }
-		Model* FLOOR_SQUARE() { return new Model("resources/graphics_objects/floor_square.obj", shader); }
+		Model* FLOOR_SQUARE() { return new Model("resources/graphics_objects/floor_cube.obj", shader); }
+		Model* TV() { return new Model("resources/graphics_objects/tv.obj", shader); }
 	}
 
 	namespace INPUT {
@@ -45,8 +52,9 @@ namespace STORE {
 	}
 
 	namespace AI {
-		AI_Chase* CHASE(glm::vec3 target, float speed) { return new AI_Chase(target, speed); }
+		AI_Chase* CHASE(glm::vec3& target, float speed) { return new AI_Chase(target, speed); }
 		AI_Pathfinder* PATHFINDER(World* world, glm::vec3 position, glm::vec3 target) { return new AI_Pathfinder(world, position, target); }
+		AI_Waypoint* WAYPOINT(std::vector<glm::vec3> waypoints) { return new AI_Waypoint(waypoints); }
 	}
 
 	namespace COLLIDE {
@@ -54,21 +62,25 @@ namespace STORE {
 	}
 
 	namespace OBJECT {
-		// Position, Graphics, Input, Camera, Physics, Emitter, AI
+		// Position, Graphics, Input, Camera, Physics, Emitter, AI, Collider
 
 		// Objects
-		GameObject* PLAYER(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset)); }
-		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr); }
+		GameObject* PLAYER(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset), PHYSICS::RIGID()); }
+		GameObject* PLAYER_PHX(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset, const std::vector<GameObject*>* objects) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset), PHYSICS::RIGID(), nullptr, nullptr); }// , COLLIDE::BASIC(objects)); }
+
+
+		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::TV(), nullptr, nullptr, nullptr); }
 		GameObject* LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel = glm::vec3(0, 10, 0)) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position, vel)); }
-		GameObject* LAMP_FOLLOW(glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed)); }
-		GameObject* LAMP_SEARCH(glm::vec3 position, World* world, glm::vec3 target) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, position, target)); }
+		GameObject* LAMP_FOLLOW(glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::TV(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed)); }
+		GameObject* LAMP_SEARCH(glm::vec3 position, World* world, glm::vec3 target) { return new GameObject(position, GRAPHICS::TV(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, position, target)); }
 
-		GameObject* LAMP_SEARCH_COLLIDE(glm::vec3 position, World* world, glm::vec3 target, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, position, target), COLLIDE::BASIC(objects)); }
-		GameObject* LAMP_PHX_COLLIDE(glm::vec3 position, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, nullptr, COLLIDE::BASIC(objects)); }
+		GameObject* LAMP_SEARCH_COLLIDE(glm::vec3 position, World* world, glm::vec3 target, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::TV(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, position, target), COLLIDE::BASIC(objects)); }
 
-
+		GameObject* LAMP_PHX_COLLIDE(glm::vec3 position, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::TV(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, nullptr, COLLIDE::BASIC(objects)); }
+		GameObject* LAMP_PHX_FOLLOW(glm::vec3 position, glm::vec3& target, float speed, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::TV(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed), COLLIDE::BASIC(objects)); }
+		GameObject* LAMP_PHX_WAYPOINT(std::vector<glm::vec3> waypoints, const std::vector<GameObject*>* objects, unsigned index = 0) { return new GameObject(waypoints[index], GRAPHICS::TV(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::WAYPOINT(waypoints), COLLIDE::BASIC(objects)); }
 		// Level
 		GameObject* HOUSE(glm::vec3 position) { return new GameObject(position, GRAPHICS::HOUSE()); }
-		GameObject* FLOOR(glm::vec3 position) { return new GameObject(position, GRAPHICS::FLOOR_SQUARE()); }
+		GameObject* FLOOR(glm::vec3 position, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::FLOOR_SQUARE(), nullptr, nullptr, nullptr, nullptr, nullptr, COLLIDE::BASIC(objects)); }
 	}
 }

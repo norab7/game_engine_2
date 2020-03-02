@@ -1,7 +1,7 @@
 #include "AI_Pathfinder.h"
 
 AI_Pathfinder::AI_Pathfinder(World* world, glm::vec3 start, glm::vec3 target) : WORLD_(world), START_(start), TARGET_(target) {
-	PATH_->search(*WORLD_, START_, TARGET_);
+	PATH_->search(WORLD_, START_, TARGET_);
 	cur_goal = PATH_->get_current_pos();
 }
 

@@ -154,6 +154,7 @@
     <ClCompile Include="AABB_Tree.cpp" />
     <ClCompile Include="AI_Chase.cpp" />
     <ClCompile Include="AI_Pathfinder.cpp" />
+    <ClCompile Include="AI_Waypoint.cpp" />
     <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="AABB_Tree.h" />
     <ClInclude Include="AI_Chase.h" />
     <ClInclude Include="AI_Pathfinder.h" />
+    <ClInclude Include="AI_Waypoint.h" />
     <ClInclude Include="Collisions.h" />
     <ClInclude Include="I_AI.h" />
     <ClInclude Include="I_Collider.h" />

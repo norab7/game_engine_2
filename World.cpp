@@ -1,7 +1,7 @@
 #include "World.h"
 #include <glfw3.h>
 
-World::World(const unsigned& width, const unsigned& height, const unsigned& length) :WIDTH_(width), HEIGHT_(height), LENGTH_(length) {
+World::World(const unsigned& width, const unsigned& height, const unsigned& length, const glm::vec3& origin) :WIDTH_(width), HEIGHT_(height), LENGTH_(length), ORIGIN_(origin) {
 	unsigned percentage = 15.0f;
 
 	GRID_ = new bool** [WIDTH_];
@@ -13,17 +13,31 @@ World::World(const unsigned& width, const unsigned& height, const unsigned& leng
 				if(rand() % 100 >= percentage) {// || (w == 0 || w == WIDTH_ - 1) || (h == 0 || h == HEIGHT_ - 1) || (l == 0 || l == LENGTH_ - 1)) {
 					GRID_[w][h][l] = true;
 				} else {
-					glm::vec3 cell = glm::vec3(w, h, l);
-					cell *= GRIDSPACE_;
-					open.push_back(cell);
+					open.push_back(translate(glm::vec3(w, h, l)));
 				}
 			}
 		}
 	}
 }
 
+World::World(const glm::vec3& grid, const glm::vec3& origin) : World::World(grid.x, grid.y, grid.z, origin) {
+
+}
+
+const glm::vec3 World::translate(const glm::vec3& coords) const {
+	return (coords * GRIDSPACE_) + ORIGIN_;
+}
+
 const bool World::in_range(const unsigned& val, const unsigned& range) const {
 	return (val < range && val >= 0);
+}
+
+
+const glm::vec3 World::get_min_limits() const {
+	return ORIGIN_;
+}
+const glm::vec3 World::get_max_limits() const {
+	return ORIGIN_ + glm::vec3(WIDTH_, HEIGHT_, LENGTH_);
 }
 
 const bool World::walkable(const glm::vec3& coords)  const {

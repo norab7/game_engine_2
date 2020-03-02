@@ -36,10 +36,10 @@ public:
 	glm::vec3 up {0,1,0};
 	glm::vec3 right {-1,0,0};
 	glm::vec3 front {0,0,-1};
+	glm::vec3 flat_front {0,0,-1};
 	glm::vec3 world_up {0,1,0};
 
-
-	// glm::vec3 pos {0};
+	// glm::vec3 POSITION_; // only to be used externally as reference/pointer not setable
 	glm::vec3 dpos {0};
 	glm::vec3 velocity {0};
 	glm::vec3 dvel {0};
@@ -49,7 +49,8 @@ public:
 	bool alive = true;
 	bool goal_achieved = false;
 
-	// Collisions and Boundaries
+	// Collisions and Boundaries and now physics
+	float mass = 1.0f;
 	bool is_static = false;
 	bool has_collision = false;
 	glm::vec3 last_position {0};
@@ -58,6 +59,7 @@ public:
 
 	// Temporary Child Storage
 	std::vector<GameObject*> children {};
+	bool wire = false;
 
 	float delta_time;
 

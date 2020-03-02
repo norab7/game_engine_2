@@ -30,7 +30,7 @@ void Model::update(GameObject& g) {
 	shader_->setMat4("model", matrix);
 
 	for(unsigned int i = 0; i < meshes.size(); i++) {
-		meshes[i].Draw(*shader_);
+		meshes[i].Draw(*shader_, g.wire);
 	}
 }
 

@@ -71,6 +71,11 @@ void GameObject::update_move(float& delta) {
 		}
 
 		set_position(pos);
+		float air_drag = 0.99f;
+		velocity = glm::vec3(velocity.x * air_drag, velocity.y, velocity.z * air_drag);
+
+		//glm::vec3 temp(get_position());
+		//POSITION_ = &temp;
 	}
 }
 

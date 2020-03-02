@@ -3,10 +3,9 @@
 #include "I_Physics.h"
 
 class Rigid_Body_Physics : public I_Physics {
-	glm::vec3 force {0.0f};
-	float mass = 0.50f;
 	glm::vec3 gravity {0, -9.81f, 0};
 	bool use_gravity = true;
+	float time = 0.0f;
 
 public:
 	Rigid_Body_Physics();
