@@ -9,11 +9,11 @@ int main(int argc, char** argv) {
 	setup();
 
 	std::cout << "Setting up world" << std::endl;
-	unsigned x = 10, y = 5, z = 10;
+	unsigned x = 8, y = 2, z = 8;
 	setup_grid(x, y, z);
 
 	std::cout << "Setting up initial Objects" << std::endl;
-	player = STORE::OBJECT::PLAYER_PHX(glm::vec3(0, 20, 15), KEY_PRESS, mouse_offset, &game_objects);
+	player = STORE::OBJECT::PLAYER_PHX(glm::vec3(-10, 20, 15), KEY_PRESS, mouse_offset, &game_objects);
 	game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
 	//game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(glm::vec3(0), world, glm::vec3(x, y, z)));
@@ -21,12 +21,20 @@ int main(int argc, char** argv) {
 	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(x, 0, 0), world, glm::vec3(0), &game_objects));
 	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(2, 0, 0), world, glm::vec3(x, 0, 0), &game_objects));
 
-
 	GameObject* static_lamp = STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 0, -20), &game_objects);
 	static_lamp->is_static = true;
 	game_objects.push_back(static_lamp);
 	game_objects.push_back(STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 100, -20), &game_objects));
 
+	for(unsigned i = 0; i < 5; i++) {
+		unsigned top = 50.0f;
+		float bot = 10.0f;
+		glm::vec3 boid_pos(((float) (rand() % top)) / bot, ((float) (rand() % top)) / bot, ((float) (rand() % top)) / bot);
+		//GameObject* boid = new GameObject(boid_pos, STORE::GRAPHICS::TV(), nullptr, nullptr, nullptr, nullptr, new AI_Boid(&flock_objects));
+		GameObject* boid = STORE::OBJECT::LAMP_BOID(boid_pos, &flock_objects);
+		// boid->velocity += boid_pos * 0.0001f;
+		flock_objects.push_back(boid);
+	}
 
 	std::cout << "Setup Complete : Beginning Game Loop" << std::endl;
 	last_time = glfwGetTime();
@@ -48,16 +56,25 @@ int main(int argc, char** argv) {
 
 		// Update Things
 		while(lag >= ms_per_frame) {
+			float physics_time = delta_time * ms_per_frame;
 			for(unsigned i = 0; i < game_objects.size(); i++) {
 				GameObject* g = game_objects[i];
 
-				float physics_time = delta_time * ms_per_frame;
 				g->update_physics(physics_time);
 
 				g->update_move(physics_time);
 
 				if(!g->alive) { game_objects.erase(game_objects.begin() + i); }
 
+			}
+			for(unsigned i = 0; i < flock_objects.size(); i++) {
+				GameObject* f = flock_objects[i];
+
+				f->update_physics(physics_time);
+
+				f->update_move(physics_time);
+
+				if(!f->alive) { flock_objects.erase(flock_objects.begin() + i); }
 			}
 			updates++;
 			lag -= ms_per_frame;
@@ -68,7 +85,8 @@ int main(int argc, char** argv) {
 		frames++;
 
 		// Analytics and fps
-		glm::vec3 temp = glm::vec3(player->get_position());
+		//glm::vec3 temp = glm::vec3(player->get_position());
+		glm::vec3 temp = glm::vec3(-10, 20, -10);
 		if(glfwGetTime() - second_timer > 1) {
 
 			if(game_objects.size() < 150) {
@@ -158,6 +176,10 @@ void render_scene() {
 	for(GameObject* b : level_objects) {
 		b->update_graphics(delta_time);
 	}
+	for(GameObject* f : flock_objects) {
+		f->update_graphics(delta_time);
+	}
+
 
 	// Buffers
 	glfwSwapBuffers(window);

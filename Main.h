@@ -12,8 +12,12 @@
 #include <map>
 #include <memory>
 
+#ifndef __store__
+#define __store__
 #include "Store.h"
+#endif // !__store__
 #include "World.h"
+#include "Flock.h"
 
 /* Window Settings */
 GLFWwindow* window;
@@ -43,6 +47,7 @@ float ms_per_frame = (1.0f / 60.0f);
 float second_timer = 0.0f;
 
 // Game Objects
+std::vector<GameObject*> flock_objects;
 std::vector<GameObject*> game_objects;
 GameObject* player;
 GameObject* lamp;

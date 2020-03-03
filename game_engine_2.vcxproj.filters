@@ -108,6 +108,12 @@
     <ClCompile Include="AI_Waypoint.cpp">
       <Filter>Components\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Flock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AI_Boid.cpp">
+      <Filter>Components\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -198,6 +204,12 @@
       <Filter>Components\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="AI_Waypoint.h">
+      <Filter>Components\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Flock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_Boid.h">
       <Filter>Components\AI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -62,7 +62,7 @@ void GameObject::update_move(float& delta) {
 			pos.z = (glm::length(pos.z - get_position().z) <= stoppage) ? get_position().z : pos.z;
 		}
 
-		if(pos.y <= 0) {
+		if(pos.y <= 0.0f) {
 			pos.y = 0;
 			velocity.y = 0;
 			falling = false;
@@ -71,7 +71,7 @@ void GameObject::update_move(float& delta) {
 		}
 
 		set_position(pos);
-		float air_drag = 0.99f;
+		float air_drag = 0.9f;
 		velocity = glm::vec3(velocity.x * air_drag, velocity.y, velocity.z * air_drag);
 
 		//glm::vec3 temp(get_position());
