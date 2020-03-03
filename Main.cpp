@@ -26,10 +26,11 @@ int main(int argc, char** argv) {
 	game_objects.push_back(static_lamp);
 	game_objects.push_back(STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 100, -20), &game_objects));
 
-	for(unsigned i = 0; i < 5; i++) {
+	std::cout << "Setting up flock of boids" << std::endl;
+	for(unsigned i = 0; i < 30; i++) {
 		unsigned top = 50.0f;
 		float bot = 10.0f;
-		glm::vec3 boid_pos(((float) (rand() % top)) / bot, ((float) (rand() % top)) / bot, ((float) (rand() % top)) / bot);
+		glm::vec3 boid_pos(((float) (rand() % top)) / bot, (((float) (rand() % top)) / bot), ((float) (rand() % top)) / bot);
 		//GameObject* boid = new GameObject(boid_pos, STORE::GRAPHICS::TV(), nullptr, nullptr, nullptr, nullptr, new AI_Boid(&flock_objects));
 		GameObject* boid = STORE::OBJECT::LAMP_BOID(boid_pos, &flock_objects);
 		// boid->velocity += boid_pos * 0.0001f;
@@ -72,7 +73,7 @@ int main(int argc, char** argv) {
 
 				f->update_physics(physics_time);
 
-				f->update_move(physics_time);
+				// f->update_move(physics_time);
 
 				if(!f->alive) { flock_objects.erase(flock_objects.begin() + i); }
 			}
@@ -89,9 +90,17 @@ int main(int argc, char** argv) {
 		glm::vec3 temp = glm::vec3(-10, 20, -10);
 		if(glfwGetTime() - second_timer > 1) {
 
-			if(game_objects.size() < 150) {
+			static unsigned spawned = 11;
+			if(spawned < 10) {
+				spawned++;
 				game_objects.push_back(STORE::OBJECT::LAMP_PHX_FOLLOW(glm::vec3(0, 30, -30), temp, 0.01, &game_objects));
 			}
+			static unsigned flock_spawn = 11;
+			if(flock_spawn < 5) {
+				flock_spawn++;
+				flock_objects.push_back(STORE::OBJECT::LAMP_BOID(glm::vec3(0), &flock_objects));
+			}
+
 			std::cout << "Frames[" << frames << "] : Updates[" << updates << "]" << " GameObjects[" << game_objects.size() << "]" << std::endl;
 			second_timer++;
 			updates = 0;
