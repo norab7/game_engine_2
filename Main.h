@@ -76,4 +76,6 @@ void callback_mouse_input(GLFWwindow* window, int button, int action, int mods);
 void callback_mouse_movement(GLFWwindow* window, double x, double y);
 void callback_mouse_scroll(GLFWwindow* window, double xoffset, double yoffset);
 
+void print_vector(const char* name, glm::vec3 v, bool line = true);
+
 int main(int argc, char** argv);

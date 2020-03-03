@@ -7,6 +7,7 @@
 class World {
 	const bool in_range(const unsigned& val, const unsigned& range) const;
 public:
+	std::vector<glm::vec3> closed {};
 	std::vector<glm::vec3> open {};
 	glm::vec3 ORIGIN_ {0};
 
@@ -21,6 +22,7 @@ public:
 
 	const glm::vec3 get_min_limits() const;
 	const glm::vec3 get_max_limits() const;
+
 	const glm::vec3 translate(const glm::vec3& coords) const;
 
 	const bool walkable(const glm::vec3& coords) const;

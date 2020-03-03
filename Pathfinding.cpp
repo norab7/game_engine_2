@@ -133,3 +133,20 @@ std::vector<Node> Pathfinding::get_neighbours(const Node& cur) {
 
 	return nodes;
 }
+
+std::vector<glm::vec3> Pathfinding::get_path(World* world, const glm::vec3& start, const glm::vec3& end) {
+	search(world, start, end);
+	std::vector<glm::vec3> res {};
+
+	if(cur_node != nullptr) {
+		Node cur = *cur_node;
+		while(cur.child != nullptr) {
+			cur = *cur.child;
+			res.push_back(world->translate(glm::vec3(cur.x, cur.y, cur.z)));
+		}
+	} else {
+		return get_path(world, start, world->open.at(rand() % world->open.size()));
+	}
+
+	return res;
+}

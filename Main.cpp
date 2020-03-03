@@ -9,33 +9,40 @@ int main(int argc, char** argv) {
 	setup();
 
 	std::cout << "Setting up world" << std::endl;
-	unsigned x = 8, y = 2, z = 8;
+	unsigned x = 20, y = 0, z = 20;
 	setup_grid(x, y, z);
 
 	std::cout << "Setting up initial Objects" << std::endl;
 	player = STORE::OBJECT::PLAYER_PHX(glm::vec3(-10, 20, 15), KEY_PRESS, mouse_offset, &game_objects);
 	game_objects.push_back(player);
 	game_objects.push_back(STORE::OBJECT::LAMP(glm::vec3(0, 0, -30)));
-	//game_objects.push_back(STORE::OBJECT::LAMP_SEARCH(glm::vec3(0), world, glm::vec3(x, y, z)));
-	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(0), world, glm::vec3(x, y, z), &game_objects));
-	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(x, 0, 0), world, glm::vec3(0), &game_objects));
-	game_objects.push_back(STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(2, 0, 0), world, glm::vec3(x, 0, 0), &game_objects));
 
-	GameObject* static_lamp = STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 0, -20), &game_objects);
-	static_lamp->is_static = true;
-	game_objects.push_back(static_lamp);
-	game_objects.push_back(STORE::OBJECT::LAMP_PHX_COLLIDE(glm::vec3(0, 100, -20), &game_objects));
+	std::cout << "Setting up Generic A* search" << std::endl;
+	for(unsigned i = 0; i < 4; i++) {
+		GameObject* g = STORE::OBJECT::LAMP_SEARCH_COLLIDE(glm::vec3(i, 0, i), world, glm::vec3(x - i, y, z - i), &game_objects);
+		game_objects.push_back(g);
+	}
 
-	std::cout << "Setting up flock of boids" << std::endl;
+	std::cout << "Setting up flock of boids : also using A* star for paths" << std::endl;
+	Pathfinding boid_search = Pathfinding();
+	std::vector<glm::vec3> boid_path = boid_search.get_path(world, glm::vec3(0, 0, 0), glm::vec3(x, y, z));
+
 	for(unsigned i = 0; i < 30; i++) {
 		unsigned top = 50.0f;
 		float bot = 10.0f;
 		glm::vec3 boid_pos(((float) (rand() % top)) / bot, (((float) (rand() % top)) / bot), ((float) (rand() % top)) / bot);
-		//GameObject* boid = new GameObject(boid_pos, STORE::GRAPHICS::TV(), nullptr, nullptr, nullptr, nullptr, new AI_Boid(&flock_objects));
-		GameObject* boid = STORE::OBJECT::LAMP_BOID(boid_pos, &flock_objects);
-		// boid->velocity += boid_pos * 0.0001f;
+		GameObject* boid = STORE::OBJECT::LAMP_BOID_CUST(boid_pos, &flock_objects, boid_path);
 		flock_objects.push_back(boid);
 	}
+
+	std::cout << "Setting up random placed emitters" << std::endl;
+	std::vector<glm::vec3> emitter_closed = world->closed;
+	for(unsigned i = 0; i < 10; i++) {
+		//glm::vec3 emitter_pos(emitter_closed.at(rand() % emitter_closed.size()) + glm::vec3(0, 20, 0));
+		glm::vec3 emitter_pos(0, 10, -10);
+		game_objects.push_back(STORE::OBJECT::LAMP_EXPLOSION(emitter_pos));
+	}
+
 
 	std::cout << "Setup Complete : Beginning Game Loop" << std::endl;
 	last_time = glfwGetTime();
@@ -73,7 +80,7 @@ int main(int argc, char** argv) {
 
 				f->update_physics(physics_time);
 
-				// f->update_move(physics_time);
+				// f->update_move(physics_time); // TODO: merge with normal movement
 
 				if(!f->alive) { flock_objects.erase(flock_objects.begin() + i); }
 			}
@@ -117,6 +124,11 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
+void print_vector(const char* name, glm::vec3 v, bool line) {
+	std::cout << name << ": (" << v.x << "," << v.y << "," << v.z << ")";
+	if(line) { std::cout << std::endl; }
+}
+
 void setup() {
 	srand(time(NULL));
 
@@ -156,13 +168,10 @@ void setup() {
 void setup_grid(const unsigned& x, const unsigned& y, const unsigned& z) {
 	world = new World(x + 1, y + 1, z + 1);
 
-
-
-	for(glm::vec3 v : world->open) {
+	for(glm::vec3 v : world->closed) {
 		GameObject* g = STORE::OBJECT::FLOOR(glm::vec3(v), &game_objects);
 		g->wire = true;
 		game_objects.push_back(g);
-		// level_objects.push_back(STORE::OBJECT::FLOOR(glm::vec3(v)));
 	}
 
 }

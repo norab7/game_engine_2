@@ -33,7 +33,7 @@ void Collisions::update(GameObject& g) {
 
 			glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0, 1, 0), new_vel));
 			new_vel += (right * variance);
-			g.velocity = new_vel * 0.8f;
+			g.velocity = new_vel * 1.0f;
 
 			// g.velocity = (g.velocity * (g.mass / (g.mass + o->mass)));
 

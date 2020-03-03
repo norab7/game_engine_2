@@ -44,6 +44,7 @@ public:
 	glm::vec3 velocity {0};
 	glm::vec3 dvel {0};
 
+
 	bool at_rest = true;
 	bool falling = false;
 	bool alive = true;

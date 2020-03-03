@@ -57,4 +57,6 @@ public:
 
 	bool has_next();
 	bool has_prev();
+
+	std::vector<glm::vec3> get_path(World* world, const glm::vec3& start, const glm::vec3& end);
 };

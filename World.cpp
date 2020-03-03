@@ -10,10 +10,11 @@ World::World(const unsigned& width, const unsigned& height, const unsigned& leng
 		for(unsigned h = 0; h < HEIGHT_; h++) {
 			GRID_[w][h] = new bool[LENGTH_] {false};
 			for(unsigned l = 0; l < LENGTH_; l++) {
-				if(rand() % 100 >= percentage) {// || (w == 0 || w == WIDTH_ - 1) || (h == 0 || h == HEIGHT_ - 1) || (l == 0 || l == LENGTH_ - 1)) {
+				if(rand() % 100 >= percentage || ((w == 0 || w == WIDTH_ - 1) && (h == 0 || h == HEIGHT_ - 1) && (l == 0 || l == LENGTH_ - 1))) {
 					GRID_[w][h][l] = true;
-				} else {
 					open.push_back(translate(glm::vec3(w, h, l)));
+				} else {
+					closed.push_back(translate(glm::vec3(w, h, l)));
 				}
 			}
 		}
