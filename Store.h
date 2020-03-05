@@ -15,6 +15,7 @@
 #include "Rigid_Body_Physics.h"
 
 #include "PE_Explosion.h"
+#include "PE_Emitter.h"
 
 #include "AI_Chase.h"
 #include "AI_Pathfinder.h"
@@ -33,6 +34,9 @@ namespace STORE {
 		Model* LAMP() { return new Model("resources/graphics_objects/lamp_standing.obj", shader); }
 		Model* HOUSE() { return new Model("resources/graphics_objects/shack.obj", shader); }
 		Model* FLOOR_SQUARE() { return new Model("resources/graphics_objects/floor_cube.obj", shader); }
+		Model* FLOOR_LARGE() { return new Model("resources/graphics_objects/floor_large.obj", shader); }
+
+
 		Model* TV() { return new Model("resources/graphics_objects/tv.obj", shader); }
 		Model* BEE() { return new Model("resources/graphics_objects/bee.obj", shader); }
 		Model* SPARK() { return new Model("resources/graphics_objects/spark.obj", shader); }
@@ -51,7 +55,7 @@ namespace STORE {
 	}
 
 	namespace EMITTER {
-		PE_Explosion* BASIC_LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel) { return new PE_Explosion(position, GRAPHICS::LAMP(), PHYSICS::RIGID(), vel, 4, 4, 2); }
+		// PE_Explosion* BASIC_LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel) { return new PE_Explosion(position, GRAPHICS::LAMP(), PHYSICS::RIGID(), vel, 4, 4, 2); }
 	}
 
 	namespace AI {
@@ -73,8 +77,10 @@ namespace STORE {
 		GameObject* PLAYER(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset) { return new GameObject(position, nullptr, new Player_Keyboard(KEY_MAP), new Player_Camera(offset), PHYSICS::RIGID()); }
 		GameObject* PLAYER_PHX(glm::vec3 position, const bool(&KEY_MAP)[1024], const std::pair<float, float>& offset, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::TV(), new Player_Keyboard(KEY_MAP), new Player_Camera(offset), PHYSICS::RIGID(), nullptr, nullptr, COLLIDE::BASIC(objects)); }
 
-		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr); }
-		GameObject* LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel = glm::vec3(0, 10, 0)) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position, vel)); }
+		GameObject* LAMP(glm::vec3 position) { return  new GameObject(position, GRAPHICS::LAMP()); }
+		GameObject* LAMP_PHX(glm::vec3 position, const std::vector<GameObject*>* objects) { return  new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, nullptr, COLLIDE::BASIC(objects)); }
+
+		//GameObject* LAMP_EXPLOSION(glm::vec3 position, glm::vec3 vel = glm::vec3(0, 10, 0)) { return new GameObject(position, nullptr, nullptr, nullptr, nullptr, EMITTER::BASIC_LAMP_EXPLOSION(position, vel)); }
 		GameObject* LAMP_FOLLOW(glm::vec3 position, glm::vec3 target, float speed) { return new GameObject(position, GRAPHICS::TV(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, AI::CHASE(target, speed)); }
 		GameObject* LAMP_SEARCH(glm::vec3 position, World* world, glm::vec3 target) { return new GameObject(position, GRAPHICS::TV(), nullptr, nullptr, nullptr, nullptr, AI::PATHFINDER(world, position, target)); }
 
@@ -87,11 +93,34 @@ namespace STORE {
 
 		GameObject* LAMP_BOID(glm::vec3 position, std::vector<GameObject*>* flock) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr, nullptr, AI::BOID(flock)); }
 		GameObject* LAMP_BOID_CUST(glm::vec3 position, std::vector<GameObject*>* flock, std::vector<glm::vec3> ways) { return new GameObject(position, GRAPHICS::LAMP(), nullptr, nullptr, nullptr, nullptr, AI::BOID_CUST(flock, ways)); }
+
 		GameObject* BEE_BOID(glm::vec3 position, std::vector<GameObject*>* flock) { return new GameObject(position, GRAPHICS::BEE(), nullptr, nullptr, nullptr, nullptr, AI::BOID(flock)); }
 		GameObject* BEE_BOID_CUST(glm::vec3 position, std::vector<GameObject*>* flock, std::vector<glm::vec3> ways) { return new GameObject(position, GRAPHICS::BEE(), nullptr, nullptr, nullptr, nullptr, AI::BOID_CUST(flock, ways)); }
+
+
+		/* EMITTER OBJECTS */
+		PE_Emitter* BASIC_LAMP_EMITTER(glm::vec3 vel, float mass, std::vector<GameObject*>* objects) { return new PE_Emitter(vel, mass, GRAPHICS::LAMP(), PHYSICS::RIGID(), COLLIDE::BASIC(objects), objects); }
+		GameObject* LAMP_EMITTER_PHX(glm::vec3 position, glm::vec3 velocity, float mass, std::vector<GameObject*>* objects) { return  new GameObject(position, nullptr, nullptr, nullptr, nullptr, BASIC_LAMP_EMITTER(velocity, mass, objects)); }
+
+		PE_Emitter* BASIC_SPARK_EMITTER(glm::vec3 vel, float mass, std::vector<GameObject*>* objects) { return new PE_Emitter(vel, mass, GRAPHICS::SPARK(), PHYSICS::RIGID(), COLLIDE::BASIC(objects), objects); }
+		GameObject* SPARK_EMITTER_PHX(glm::vec3 position, glm::vec3 velocity, float mass, std::vector<GameObject*>* objects) { return  new GameObject(position, nullptr, nullptr, nullptr, nullptr, BASIC_SPARK_EMITTER(velocity, mass, objects)); }
+
+		PE_Emitter* BASIC_TV_EMITTER(glm::vec3 vel, float mass, std::vector<GameObject*>* objects) { return new PE_Emitter(vel, mass, GRAPHICS::TV(), PHYSICS::RIGID(), COLLIDE::BASIC(objects), objects); }
+		GameObject* TV_EMITTER_PHX(glm::vec3 position, glm::vec3 velocity, float mass, std::vector<GameObject*>* objects) { return  new GameObject(position, nullptr, nullptr, nullptr, nullptr, BASIC_TV_EMITTER(velocity, mass, objects)); }
+
+		PE_Explosion* EXPLOSION_SPARK_EMITTER(glm::vec3 vel, unsigned size, std::vector<GameObject*>* self, std::vector<GameObject*>* objects) { return new PE_Explosion(vel, size, GRAPHICS::SPARK(), PHYSICS::RIGID(), COLLIDE::BASIC(objects), self, objects); }
+		GameObject* SPARK_EXPLOSION_PHX(glm::vec3 position, glm::vec3 velocity, unsigned size, std::vector<GameObject*>* self, std::vector<GameObject*>* objects) { return  new GameObject(position, nullptr, nullptr, nullptr, nullptr, EXPLOSION_SPARK_EMITTER(velocity, size, self, objects)); }
+
+
+
+		GameObject* SPARK_PHX(glm::vec3 position, const std::vector<GameObject*>* objects) { return  new GameObject(position, GRAPHICS::SPARK(), nullptr, nullptr, PHYSICS::RIGID(), nullptr, nullptr, COLLIDE::BASIC(objects)); }
+		GameObject* SPARK_BOID_STATIC_PHX(glm::vec3 position, std::vector<GameObject*>* flock, std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::SPARK(), nullptr, nullptr, nullptr, nullptr, AI::BOID(flock), COLLIDE::BASIC(objects)); }
+		GameObject* SPARK_BOID_CUST(glm::vec3 position, std::vector<GameObject*>* flock, std::vector<glm::vec3> ways) { return new GameObject(position, GRAPHICS::SPARK(), nullptr, nullptr, nullptr, nullptr, AI::BOID_CUST(flock, ways)); }
+		GameObject* SPARK_BOID_PHX(glm::vec3 position, std::vector<GameObject*>* flock, std::vector<glm::vec3> ways, std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::SPARK(), nullptr, nullptr, nullptr, nullptr, AI::BOID_CUST(flock, ways), COLLIDE::BASIC(objects)); }
 
 		// Level
 		GameObject* HOUSE(glm::vec3 position) { return new GameObject(position, GRAPHICS::HOUSE()); }
 		GameObject* FLOOR(glm::vec3 position, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::FLOOR_SQUARE(), nullptr, nullptr, nullptr, nullptr, nullptr, COLLIDE::BASIC(objects)); }
+		GameObject* FLOOR_LARGE(glm::vec3 position, const std::vector<GameObject*>* objects) { return new GameObject(position, GRAPHICS::FLOOR_LARGE(), nullptr, nullptr, nullptr, nullptr, nullptr, COLLIDE::BASIC(objects)); }
 	}
 }

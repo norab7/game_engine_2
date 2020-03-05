@@ -37,7 +37,28 @@ AABB AABB::intersection(const AABB& obj) const {
 	return AABB(std::max(minx, obj.minx), std::max(miny, obj.miny), std::max(minz, obj.minz), std::min(maxx, obj.maxx), std::min(maxy, obj.maxy), std::min(maxz, obj.maxx));
 }
 
+void AABB::scale(const float& val) {
+	scale(glm::vec3(val, val, val));
+}
+void AABB::scale(const glm::vec3& val) {
+	std::cout << "before_scale_bounds min/max: (" << minx << "/" << maxx << "," << miny << "/" << maxy << "," << minz << "/" << maxz << ")" << std::endl;
+	glm::vec3 centre((glm::vec3(minx, miny, minz) + glm::vec3(maxx, maxy, maxz)) / 2.0f);
+
+	minx = (centre.x - minx) * val.x;
+	miny = (centre.y - miny) * val.y;
+	minz = (centre.z - minz) * val.z;
+
+	maxx = (centre.x - maxx) * val.x;
+	maxy = (centre.y - maxy) * val.y;
+	maxz = (centre.z - maxz) * val.z;
+
+	std::cout << "after_scale_bounds min/max: (" << minx << "/" << maxx << "," << miny << "/" << maxy << "," << minz << "/" << maxz << ")" << std::endl;
+
+}
+
 float AABB::get_surface_area() { return 2 * (get_width() * get_height() + get_width() * get_depth() + get_height() * get_depth()); }
 float AABB::get_width() { return maxx - minx; }
 float AABB::get_height() { return maxy - miny; }
 float AABB::get_depth() { return maxz - minz; }
+
+void AABB::print() { std::cout << "bounds min/max: (" << minx << "/" << maxx << "," << miny << "/" << maxy << "," << minz << "/" << maxz << ")" << std::endl; }

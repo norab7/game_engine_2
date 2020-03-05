@@ -47,8 +47,10 @@ void AI_Boid::update(GameObject& g) {
 		//std::cout << "New Target: (" << POINT_.x << "," << POINT_.y << "," << POINT_.z << ")" << std::endl;
 	}
 
-	glm::vec3 t_dir = glm::normalize(POINT_ - g.get_position());
-	t_vel = t_dir * g.delta_time * 2.0f;
+	/* Target */
+	glm::vec3 y_offset(0, 5, 0);
+	glm::vec3 t_dir = glm::normalize((POINT_ + y_offset) - g.get_position());
+	t_vel = t_dir * g.delta_time * 3.0f;
 
 
 	/* Centre */
@@ -61,12 +63,20 @@ void AI_Boid::update(GameObject& g) {
 
 
 	/* Position and Velocity Change */
-	g.velocity += s_vel + c_vel + a_vel + t_vel;
+	float mod = 2.0f;
+	g.velocity += s_vel + (c_vel * mod) + a_vel + (t_vel * mod);
 	g.velocity *= 0.999f;
-	g.set_position(g.get_position() + g.velocity);
+
+	glm::vec3 new_pos(g.get_position() + g.velocity);
+
+	if(new_pos.y < 0) {
+		new_pos = glm::vec3(new_pos.x, 0, new_pos.z);
+	}
+
+	g.set_position(new_pos);
 }
 
-void AI_Boid::receive(int msg) {
+void AI_Boid::receive(std::string component, std::string action) {
 
 }
 void AI_Boid::activate() {

@@ -10,7 +10,11 @@ World::World(const unsigned& width, const unsigned& height, const unsigned& leng
 		for(unsigned h = 0; h < HEIGHT_; h++) {
 			GRID_[w][h] = new bool[LENGTH_] {false};
 			for(unsigned l = 0; l < LENGTH_; l++) {
-				if(rand() % 100 >= percentage || ((w == 0 || w == WIDTH_ - 1) && (h == 0 || h == HEIGHT_ - 1) && (l == 0 || l == LENGTH_ - 1))) {
+				bool active_start_corners = (glm::length(glm::vec3(0) - glm::vec3(w, h, l)) < 3.0f);
+				bool active_end_corners = (glm::length(glm::vec3(WIDTH_, HEIGHT_, LENGTH_) - glm::vec3(w, h, l)) < 3.0f);
+				bool active_percentage = (rand() % 100 >= percentage);
+
+				if(active_start_corners || active_end_corners || active_percentage) {
 					GRID_[w][h][l] = true;
 					open.push_back(translate(glm::vec3(w, h, l)));
 				} else {
@@ -81,7 +85,7 @@ const std::vector<glm::vec3> World::get_walkable_neighbours(const glm::vec3& coo
 	const unsigned y = coords.y;
 	const unsigned z = coords.z;
 
-	std::vector<glm::vec3> res;
+	std::vector<glm::vec3> res {}; // BUG: overflow error for some reason on this line generating a new object
 
 	if(walkable(x + 1, y, z)) { res.push_back(glm::vec3(x + 1, y, z)); }
 	if(walkable(x - 1, y, z)) { res.push_back(glm::vec3(x - 1, y, z)); }

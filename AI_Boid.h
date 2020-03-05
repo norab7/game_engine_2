@@ -11,9 +11,9 @@ class AI_Boid : public I_AI {
 	glm::vec3 POINT_ {};
 	std::vector<glm::vec3> WAYPOINTS_ {
 		glm::vec3(0,10,0),
-		glm::vec3(0,10,-30),
-		glm::vec3(-30,10,-30),
-		glm::vec3(-30, 10, 0)
+		glm::vec3(0,10,20),
+		glm::vec3(20,10,20),
+		glm::vec3(20, 10, 0)
 	};
 
 	float SEPERATION_ = 1.0f;
@@ -25,7 +25,7 @@ public:
 	~AI_Boid() = default;
 
 	void update(GameObject& g) override;
-	void receive(int message) override;
+	void receive(std::string component, std::string action) override;
 	void activate() override;
 	void deactivate() override;
 };

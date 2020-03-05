@@ -35,7 +35,7 @@ void Flock::update_move(float& delta) {
 	//std::cout << "Movement Updated" << std::endl;
 }
 
-void Flock::receive(int msg) {
+void Flock::receive(std::string component, std::string action) {
 
 }
 void Flock::activate() {

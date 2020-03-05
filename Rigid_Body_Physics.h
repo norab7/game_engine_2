@@ -14,7 +14,7 @@ public:
 	// will take a world object eventually to update based on the current world environment
 	void update(GameObject& g, int world_placeholder) override;
 
-	void receive(int message) override;
+	void receive(std::string component, std::string action) override;
 	void activate() override;
 	void deactivate() override;
 };

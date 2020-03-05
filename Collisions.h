@@ -19,7 +19,7 @@ public:
 	Collisions(const std::vector<GameObject*>* objects);
 
 	void update(GameObject& g) override;
-	void receive(int message) override; // TODO: Need to advance this to accept specific messages etc
+	void receive(std::string component, std::string action) override; // TODO: Need to advance this to accept specific messages etc
 	void activate() override;
 	void deactivate() override;
 };

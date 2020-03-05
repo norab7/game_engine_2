@@ -22,7 +22,12 @@ public:
 	AABB merge(const AABB& obj) const;
 	AABB intersection(const AABB& obj) const;
 
+	void scale(const float& val);
+	void scale(const glm::vec3& val);
+
 	float get_width();
 	float get_height();
 	float get_depth();
+
+	void print();
 };

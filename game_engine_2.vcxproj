@@ -160,6 +160,7 @@
     <ClCompile Include="Flock.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
+    <ClCompile Include="PE_Emitter.cpp" />
     <ClCompile Include="PE_Explosion.cpp" />
     <ClCompile Include="Rigid_Body_Physics.cpp" />
     <ClCompile Include="glad.c" />
@@ -185,6 +186,7 @@
     <ClInclude Include="I_AI.h" />
     <ClInclude Include="I_Collider.h" />
     <ClInclude Include="Pathfinding.h" />
+    <ClInclude Include="PE_Emitter.h" />
     <ClInclude Include="Store.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="I_AABB.h" />

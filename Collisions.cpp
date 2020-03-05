@@ -12,36 +12,50 @@ void Collisions::update(GameObject& g) {
 	if(abs(pos.x - tpos.x) == 0 && abs(pos.y - tpos.y) == 0 && abs(pos.z - tpos.z) == 0) { return; }
 
 	for(GameObject* o : *OBJECTS_) {
-		if(g.bounds == nullptr || o->bounds == nullptr) { continue; } // Means that it hasn't updated enough to collide yet
+		if(g.bounds == nullptr || o->bounds == nullptr || g.is_static) { continue; } // Means that it hasn't updated enough to collide yet
 		if(!o->has_collision || g.get_position() == o->get_position()) { continue; }
-
-		//glm::vec3 dir(glm::normalize(g.get_position() - o->get_position()));
 		if(g.bounds->overlaps(*o->bounds)) {
-			//if(o->is_static) { g.velocity = (-g.velocity); continue; }
-
 			// add all velocities, together through the loop
 			// use the masses of the objects if they are not static to calcualte force return
 			// if it's static just have it bounce at the invert of the velocity
 			// should not update the position untill all objects are accounted for
 
-			glm::vec3 relative(o->velocity - g.velocity);
-			glm::vec3 force = relative * o->mass;
-			glm::vec3 acc = force / g.mass;
-			glm::vec3 new_vel = (-g.velocity) + (acc * g.delta_time);
+			glm::vec3 v_dir(glm::normalize(o->get_position() - g.get_position()));
 
-			float variance = ((float) (rand() % 100)) / 1000.0f;
+			if(o->is_static) {
+				g.velocity = -v_dir * (glm::length(g.velocity) * 0.8f);
+			} else {
 
-			glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0, 1, 0), new_vel));
-			new_vel += (right * variance);
-			g.velocity = new_vel * 1.0f;
 
-			// g.velocity = (g.velocity * (g.mass / (g.mass + o->mass)));
+
+				float g_mom = glm::length(g.velocity) * g.mass;
+				float o_mom = glm::length(o->velocity) * o->mass;
+				float t_mom = g_mom + o_mom;
+				float t_mass = g.mass + o->mass;
+
+				float d_vel = t_mom / t_mass;
+				glm::vec3 d_dir = (g_mom > o_mom) ? v_dir : -v_dir;
+				g.velocity += (d_dir * (d_vel / g.mass));
+				if(g.get_position().y <= 0) { g.velocity.y = 0; }
+
+				//if(!o->is_static) { o->velocity += d_dir * (d_vel / o->mass); }
+			}
+
+			float variance = ((float) (rand() % 10)) / 100000.0f;
+			if(g.velocity.x > g.velocity.z) {
+				g.velocity.z += variance;
+			} else {
+				g.velocity.x += variance;
+			}
+
+
+			g.wire = !g.wire;
 
 		}
 	}
 }
 
-void Collisions::receive(int msg) {
+void Collisions::receive(std::string component, std::string action) {
 	// TODO: incorporate some form of message system
 }
 

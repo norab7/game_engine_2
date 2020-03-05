@@ -1,4 +1,4 @@
-# Blender MTL File: 'floor_cube.blend'
+# Blender MTL File: 'floor_large.blend'
 # Material Count: 1
 
 newmtl Material
@@ -10,4 +10,4 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd D:\\University\\Year4\\ObjectFiles\\textures\\floor_cube.jpg
+map_Kd D:\\University\\Year4\\ObjectFiles\\textures\\floor_large.jpg

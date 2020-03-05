@@ -37,7 +37,7 @@ public:
 	Model(const char* dir, Shader* shader);
 
 	void update(GameObject& g) override;
-	void receive(int message) override;
+	void receive(std::string component, std::string action) override;
 	void activate() override;
 	void deactivate() override;
 };

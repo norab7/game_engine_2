@@ -21,6 +21,9 @@ class GameObject {
 
 protected:
 public:
+	std::string name = "";
+
+
 	// TODO: once everything is settled, change to messaging system instead of public
 	I_Graphics* graphics_ = nullptr;
 	I_Input* input_ = nullptr;
@@ -39,23 +42,20 @@ public:
 	glm::vec3 flat_front {0,0,-1};
 	glm::vec3 world_up {0,1,0};
 
-	// glm::vec3 POSITION_; // only to be used externally as reference/pointer not setable
-	glm::vec3 dpos {0};
 	glm::vec3 velocity {0};
-	glm::vec3 dvel {0};
-
 
 	bool at_rest = true;
-	bool falling = false;
+	bool falling = true;
 	bool alive = true;
 	bool goal_achieved = false;
 
 	// Collisions and Boundaries and now physics
+	float life = -1.0f;
 	float mass = 1.0f;
 	bool is_static = false;
 	bool has_collision = false;
 	glm::vec3 last_position {0};
-	const AABB* bounds = nullptr;
+	AABB* bounds = nullptr;
 	glm::vec3 centre {0}; // fix for actual centre of mass
 
 	// Temporary Child Storage
@@ -72,7 +72,7 @@ public:
 	void update_physics(float& delta);
 	void update_graphics(float& delta);
 	void update_move(float& delta);
-	void send(int msg);
+	void send(std::string component, std::string action);
 
 	// Setting Functions
 	void set_velocity(glm::vec3 v);

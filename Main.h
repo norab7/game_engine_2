@@ -48,7 +48,9 @@ float second_timer = 0.0f;
 
 // Game Objects
 std::vector<GameObject*> flock_objects;
+std::vector<GameObject*> flock_objects2;
 std::vector<GameObject*> game_objects;
+std::vector<GameObject*> non_self_colide {};
 GameObject* player;
 GameObject* lamp;
 GameObject* emitter;
@@ -67,7 +69,16 @@ int world_grid[LEVEL_WIDTH][LEVEL_DEPTH][LEVEL_HEIGHT] = {0};
 
 /* Functions */
 void setup();
-void setup_grid(const unsigned& x, const unsigned& y, const unsigned& z);
+void setup_world(const unsigned& x, const unsigned& y, const unsigned& z);
+void setup_maze();
+void setup_initial_objects();
+void setup_floor();
+void setup_a_star(const unsigned& x, const unsigned& y, const unsigned& z);
+void setup_boids(const unsigned& x, const unsigned& y, const unsigned& z);
+void setup_emitters();
+void setup_bouncers(unsigned max);
+
+
 void render_scene();
 void process_input();
 void callback_window_resize(GLFWwindow* window, int w, int h);
@@ -76,6 +87,8 @@ void callback_mouse_input(GLFWwindow* window, int button, int action, int mods);
 void callback_mouse_movement(GLFWwindow* window, double x, double y);
 void callback_mouse_scroll(GLFWwindow* window, double xoffset, double yoffset);
 
+/* Test Variables */
 void print_vector(const char* name, glm::vec3 v, bool line = true);
 
 int main(int argc, char** argv);
+

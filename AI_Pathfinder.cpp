@@ -6,7 +6,7 @@ AI_Pathfinder::AI_Pathfinder(World* world, glm::vec3 start, glm::vec3 target) : 
 }
 
 void AI_Pathfinder::update(GameObject& g) {
-	if(!PATH_->has_path() || (!PATH_->has_next() && !PATH_->has_prev())) { return; }
+	if(!PATH_->has_path() || (!PATH_->has_next() && !PATH_->has_prev())) { g.has_collision = false; return; }
 
 	if(glm::length(g.get_position() - cur_goal) <= stoppage) {
 		if(!PATH_->has_next() || !PATH_->has_prev()) {
@@ -22,7 +22,7 @@ void AI_Pathfinder::update(GameObject& g) {
 
 }
 
-void AI_Pathfinder::receive(int msg) {
+void AI_Pathfinder::receive(std::string component, std::string action) {
 
 }
 void AI_Pathfinder::activate() {

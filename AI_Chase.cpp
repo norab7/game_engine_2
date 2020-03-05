@@ -17,7 +17,7 @@ void AI_Chase::update(GameObject& g) {
 
 }
 
-void AI_Chase::receive(int msg) {
+void AI_Chase::receive(std::string component, std::string action) {
 
 }
 void AI_Chase::activate() {

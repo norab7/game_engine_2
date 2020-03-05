@@ -15,7 +15,7 @@ void AI_Waypoint::update(GameObject& g) {
 	g.velocity += (direction * speed);
 }
 
-void AI_Waypoint::receive(int msg) {
+void AI_Waypoint::receive(std::string component, std::string action) {
 
 }
 void AI_Waypoint::activate() {

@@ -42,10 +42,17 @@ void GameObject::update_physics(float& delta) {
 	if(ai_ != nullptr) { ai_->update(*this); }
 	if(collider_ != nullptr) { collider_->update(*this); }
 
+	if(life != -1) {
+		life -= (delta * 60.0f);
+		if(life <= 0) { alive = false; }
+	}
+
 }
 
 void GameObject::update_move(float& delta) {
 	this->delta_time = delta;
+	if(is_static) { return; }
+
 	if(glm::length(velocity) > 0) { at_rest = false; }
 
 	if(!at_rest || glm::length(velocity) == 0) {
@@ -54,13 +61,6 @@ void GameObject::update_move(float& delta) {
 		pos.x += velocity.x; // *delta_time;
 		pos.y += velocity.y; // *delta_time;
 		pos.z += velocity.z; // *delta_time;
-
-		float stoppage = 0.005f;
-		if(!falling) {
-			pos.x = (glm::length(pos.x - get_position().x) <= stoppage) ? get_position().x : pos.x;
-			pos.y = (glm::length(pos.y - get_position().y) <= stoppage) ? get_position().y : pos.y;
-			pos.z = (glm::length(pos.z - get_position().z) <= stoppage) ? get_position().z : pos.z;
-		}
 
 		if(pos.y <= 0.0f) {
 			pos.y = 0;
@@ -72,10 +72,16 @@ void GameObject::update_move(float& delta) {
 
 		set_position(pos);
 		float air_drag = 0.9f;
-		velocity = glm::vec3(velocity.x * air_drag, velocity.y, velocity.z * air_drag);
+		float x_vel = velocity.x;
+		float z_vel = velocity.z;
 
-		//glm::vec3 temp(get_position());
-		//POSITION_ = &temp;
+		if(!falling) {
+			x_vel *= air_drag;
+			z_vel *= air_drag;
+		}
+
+		velocity = glm::vec3(x_vel, velocity.y, z_vel);
+
 	}
 }
 
@@ -93,9 +99,9 @@ void GameObject::add_velocity(float x, float y, float z) {
 }
 
 // TODO: update to allow sending messages to game objects, may require giving them an id to distinguish them
-void GameObject::send(int msg) {
+void GameObject::send(std::string component, std::string action) {
 	for(unsigned i = 0; i < components.size(); i++) {
-		components[i]->receive(msg);
+		components[i]->receive(component, action);
 	}
 }
 
@@ -127,8 +133,10 @@ void GameObject::rotate(float angle, glm::vec3 axis, bool radians) {
 
 void GameObject::scale(float scale) {
 	matrix = glm::scale(matrix, glm::vec3(scale));
+	//bounds->scale(scale);
 }
 
 void GameObject::scale(glm::vec3 scale) {
 	matrix = glm::scale(matrix, scale);
+	//bounds->scale(scale);
 }

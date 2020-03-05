@@ -21,10 +21,10 @@ void Model::load(const std::string& path) {
 void Model::update(GameObject& g) {
 	glm::mat4 matrix(g.get_matrix());
 
-	if(g.has_collision) {
-		glm::vec3 pos(g.get_position());
-		g.bounds = new AABB(min + pos, max + pos, centre + pos);
-	}
+	//if(g.has_collision) {
+	glm::vec3 pos(g.get_position());
+	g.bounds = new AABB(min + pos, max + pos, centre + pos);
+	//}
 
 	shader_->use();
 	shader_->setMat4("model", matrix);
@@ -34,8 +34,11 @@ void Model::update(GameObject& g) {
 	}
 }
 
-void Model::receive(int msg) {
-	// std::cout << "Model Msg: " << msg << std::endl;
+void Model::receive(std::string component, std::string action) {
+	if(component != "Model") { return; }
+
+	if(action == "scale") {}
+
 }
 
 void Model::activate() {

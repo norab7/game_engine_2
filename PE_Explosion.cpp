@@ -1,36 +1,32 @@
 #include "PE_Explosion.h"
 #include <glfw3.h>
 
-PE_Explosion::PE_Explosion(glm::vec3 position, I_Graphics* graphics, I_Physics* physics, glm::vec3 velocity, float life, unsigned count, float v_offset)
-	: created_time(glfwGetTime()), graphics_(graphics), physics_(physics), velocity(velocity), life_span(life), active_max(count), velocity_offset(v_offset) {
-
-	for(unsigned i = 0; i < count; i++) {
-		GameObject* particle = new GameObject(position, graphics, nullptr, nullptr, physics);
-
-		glm::vec3 temp_velocity {0};
-		temp_velocity.x = velocity.x + (((-v_offset - v_offset) * ((float) rand() / RAND_MAX)) + v_offset);
-		temp_velocity.y = velocity.y + (((-v_offset - v_offset) * ((float) rand() / RAND_MAX)) + v_offset);
-		temp_velocity.z = velocity.z + (((-v_offset - v_offset) * ((float) rand() / RAND_MAX)) + v_offset);
-		particle->velocity = temp_velocity;
-
-		particles.push_back(particle);
-	}
+PE_Explosion::PE_Explosion(glm::vec3 vel, unsigned max, I_Graphics* g, I_Physics* p, I_Collider* c, std::vector<GameObject*>* self, std::vector<GameObject*>* objects) : P_VEL_(vel), SIZE_(max), graphics(g), physics(p), collisions(c), PARTICLES_(self), OBJECTS_(objects) {
+	ACC_ = 15.0f;
 }
 
 void PE_Explosion::update(GameObject& g) {
-	for(GameObject* particle : particles) {
-		particle->update_input(g.delta_time);
-		particle->update_physics(g.delta_time);
-		particle->update_move(g.delta_time);
-		particle->update_graphics(g.delta_time);
-	}
+	ACC_ += g.delta_time * 60.0f;
+	if(ACC_ > 20.0f) {
+		for(unsigned i = 0; i < SIZE_; i++) {
+			GameObject* object = new GameObject(g.get_position(), graphics, nullptr, nullptr, physics, nullptr, nullptr, collisions);
+			object->life = 20.0f;
+			object->mass = 1.0f;
 
-	if(glfwGetTime() - created_time >= life_span) {
-		g.alive = false;
+			float rand_val = 1.0f;
+			float x_ran = (float) (rand() % (int) rand_val) - rand_val / 2.0f;
+			//float y_ran = (float) (rand() % (int) rand_val) - rand_val / 2.0f;
+			float z_ran = (float) (rand() % (int) rand_val) - rand_val / 2.0f;
+
+			object->velocity += glm::vec3(x_ran, 0, z_ran) + P_VEL_;
+			object->scale(glm::vec3(5));
+			OBJECTS_->push_back(object);
+		}
+		ACC_ = 0;
 	}
 }
 
-void PE_Explosion::receive(int msg) {
+void PE_Explosion::receive(std::string component, std::string action) {
 
 }
 void PE_Explosion::activate() {

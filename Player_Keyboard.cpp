@@ -31,7 +31,7 @@ void Player_Keyboard::update(GameObject& g) {
 	if(key_map[GLFW_KEY_M]) { std::cout << "Position: (" << g.get_position().x << "," << g.get_position().y << "," << g.get_position().z << ")" << std::endl; }
 }
 
-void Player_Keyboard::receive(int msg) {
+void Player_Keyboard::receive(std::string component, std::string action) {
 	// TODO: incorporate some form of message system
 }
 

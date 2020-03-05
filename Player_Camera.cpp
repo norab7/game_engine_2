@@ -39,7 +39,7 @@ void Player_Camera::update(GameObject& g) {
 	g.view = glm::lookAt(g.get_position(), g.get_position() + g.front, g.up);
 }
 
-void Player_Camera::receive(int message) {
+void Player_Camera::receive(std::string component, std::string action) {
 
 }
 
