@@ -2,12 +2,12 @@
 #include <glfw3.h>
 
 PE_Explosion::PE_Explosion(glm::vec3 vel, unsigned max, I_Graphics* g, I_Physics* p, I_Collider* c, std::vector<GameObject*>* self, std::vector<GameObject*>* objects) : P_VEL_(vel), SIZE_(max), graphics(g), physics(p), collisions(c), PARTICLES_(self), OBJECTS_(objects) {
-	ACC_ = 15.0f;
+	ACC_ = 5.0f;
 }
 
 void PE_Explosion::update(GameObject& g) {
 	ACC_ += g.delta_time * 60.0f;
-	if(ACC_ > 20.0f) {
+	if(ACC_ > 10.0f) {
 		for(unsigned i = 0; i < SIZE_; i++) {
 			GameObject* object = new GameObject(g.get_position(), graphics, nullptr, nullptr, physics, nullptr, nullptr, collisions);
 			object->life = 20.0f;
