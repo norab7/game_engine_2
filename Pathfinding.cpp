@@ -28,7 +28,7 @@ float Node::calculate_f(Node& end) {
 }
 
 /* Pathfinding */
-void Pathfinding::search(World* world, const glm::vec3& start, const glm::vec3& end) {
+void Pathfinding::search(PathmapWorld* world, const glm::vec3& start, const glm::vec3& end) {
 
 	// Initialize start node
 	WORLD_ = world;
@@ -134,7 +134,7 @@ std::vector<Node> Pathfinding::get_neighbours(const Node& cur) {
 	return nodes;
 }
 
-std::vector<glm::vec3> Pathfinding::get_path(World* world, const glm::vec3& start, const glm::vec3& end) {
+std::vector<glm::vec3> Pathfinding::get_path(PathmapWorld* world, const glm::vec3& start, const glm::vec3& end) {
 	search(world, start, end);
 	std::vector<glm::vec3> res {};
 

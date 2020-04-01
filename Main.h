@@ -12,12 +12,13 @@
 #include <map>
 #include <memory>
 
-#ifndef __store__
-#define __store__
-#include "Store.h"
-#endif // !__store__
-#include "World.h"
-#include "Flock.h"
+#include "Shader.h"
+#include "Model.h"
+#include "GameObject.h"
+
+#include "Player_Keyboard.h"
+#include "Player_Camera.h"
+
 
 /* Window Settings */
 GLFWwindow* window;
@@ -27,9 +28,9 @@ const unsigned int WINDOW_HEIGHT = 1200;
 glm::mat4 model, projection, view;
 
 /* Class Instances */
-Shader* shader;
 const char* vshader = "shader_vertex.vs";
 const char* fshader = "shader_fragment.fs";
+Shader* shader;
 
 /* Variables */
 bool shut_down = false;
@@ -47,38 +48,17 @@ float ms_per_frame = (1.0f / 60.0f);
 float second_timer = 0.0f;
 
 // Game Objects
-std::vector<GameObject*> flock_objects;
-std::vector<GameObject*> flock_objects2;
 std::vector<GameObject*> game_objects;
-std::vector<GameObject*> non_self_colide {};
 GameObject* player;
-GameObject* lamp;
-GameObject* emitter;
 
 /* Stats and Analytics */
 unsigned frames = 0, updates = 0;
 
-/* World Variables */
-World* world;
-std::vector<GameObject*> level_objects;
-const float grid_spacing = 6.0f;
-const int LEVEL_WIDTH = 24;
-const int LEVEL_DEPTH = 24;
-const int LEVEL_HEIGHT = 2;
-int world_grid[LEVEL_WIDTH][LEVEL_DEPTH][LEVEL_HEIGHT] = {0};
-
 /* Functions */
-void setup();
-void setup_world(const unsigned& x, const unsigned& y, const unsigned& z);
-void setup_maze();
+void setup_glfw_glad();
 void setup_initial_objects();
-void setup_floor();
-void setup_a_star(const unsigned& x, const unsigned& y, const unsigned& z);
-void setup_boids(const unsigned& x, const unsigned& y, const unsigned& z);
-void setup_emitters();
-void setup_bouncers(unsigned max);
 
-
+/* Standard Rendering and Callback Methods */
 void render_scene();
 void process_input();
 void callback_window_resize(GLFWwindow* window, int w, int h);

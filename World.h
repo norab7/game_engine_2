@@ -1,37 +1,44 @@
-#pragma once
-#include <glm/glm.hpp>
-#include <vector>
-#include <iostream>
+/* Class Object that contains the generic world environment data and information
 
+Indexed chunks with a set distance away from the player in index values
+if the player traverses to a new chunk check/load additional at world edge
+
+Only care about horizontal values for loading chunks for simplicity
+leave room for adding in vertical chunks for future
+
+Start at coords (0,0,0) and spread in a positive direction for starters
+Make it so the world can be offset as a whole
+
+*/
+
+#pragma once
+#include <map>
+
+#include "Point.h"
+#include "Chunk.h"
 
 class World {
-	const bool in_range(const unsigned& val, const unsigned& range) const;
+
+	/* Chunk Values */
+	std::map<Point, Chunk> chunks;
+	const unsigned chunkRadius = 1; // Number of chunks around the player character
+	const unsigned chunkXLength = 10;
+	const unsigned chunkYLength = 10; // Split height even over zero
+	const unsigned chunkZLength = 10;
+
 public:
-	std::vector<glm::vec3> closed {};
-	std::vector<glm::vec3> open {};
-	glm::vec3 ORIGIN_ {0};
+	World() = default;
+	~World() = default;
 
-	const unsigned WIDTH_ = 10;
-	const unsigned LENGTH_ = 10;
-	const unsigned HEIGHT_ = 4;
-	const float GRIDSPACE_ = 6;
-	bool*** GRID_;
+	bool drawWorld();
+	bool resetWorld();
 
-	World(const unsigned& width, const unsigned& height, const unsigned& length, const glm::vec3& origin = glm::vec3(0));
-	World(const glm::vec3& grid, const glm::vec3& origin = glm::vec3(0));
+	std::map<Point, Chunk> all_chunks();
+	Chunk* chunk(const unsigned& x, const unsigned& z);
+	bool chunkTransitioned();
+	bool hasChunkLoaded(const unsigned& x, const unsigned& z);
+	bool loadChunk(const unsigned& x, const unsigned& z);
+	bool resetChunk(const unsigned& x, const unsigned& z);
 
-	const glm::vec3 get_min_limits() const;
-	const glm::vec3 get_max_limits() const;
-
-	const glm::vec3 translate(const glm::vec3& coords) const;
-
-	const bool walkable(const glm::vec3& coords) const;
-	const bool walkable(const unsigned& width, const unsigned& height, const unsigned& length) const;
-
-	const std::vector<glm::vec3> get_neighbours(const glm::vec3& coords) const;
-	const std::vector<glm::vec3> get_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const;
-
-	const std::vector<glm::vec3> get_walkable_neighbours(const glm::vec3& coords) const;
-	const std::vector<glm::vec3> get_walkable_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const;
 
 };

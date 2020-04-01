@@ -3,7 +3,7 @@
 #include <vector>
 #include <list>
 
-#include "World.h"
+#include "PathmapWorld.h"
 
 class Node {
 public:
@@ -32,7 +32,7 @@ class Pathfinding {
 
 
 	//std::list<Node> path {};
-	World* WORLD_;
+	PathmapWorld* WORLD_;
 	Node* cur_node;
 
 	Node* start_node;
@@ -47,7 +47,7 @@ public:
 	Pathfinding() = default;
 	~Pathfinding() = default;
 
-	void search(World* world, const glm::vec3& start, const glm::vec3& end);
+	void search(PathmapWorld* world, const glm::vec3& start, const glm::vec3& end);
 
 	bool has_path();
 	glm::vec3& get_current_pos();
@@ -58,5 +58,5 @@ public:
 	bool has_next();
 	bool has_prev();
 
-	std::vector<glm::vec3> get_path(World* world, const glm::vec3& start, const glm::vec3& end);
+	std::vector<glm::vec3> get_path(PathmapWorld* world, const glm::vec3& start, const glm::vec3& end);
 };

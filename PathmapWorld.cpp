@@ -1,7 +1,7 @@
-#include "World.h"
+#include "PathmapWorld.h"
 #include <glfw3.h>
 
-World::World(const unsigned& width, const unsigned& height, const unsigned& length, const glm::vec3& origin) :WIDTH_(width), HEIGHT_(height), LENGTH_(length), ORIGIN_(origin) {
+PathmapWorld::PathmapWorld(const unsigned& width, const unsigned& height, const unsigned& length, const glm::vec3& origin) :WIDTH_(width), HEIGHT_(height), LENGTH_(length), ORIGIN_(origin) {
 	unsigned percentage = 15.0f;
 
 	GRID_ = new bool** [WIDTH_];
@@ -25,27 +25,27 @@ World::World(const unsigned& width, const unsigned& height, const unsigned& leng
 	}
 }
 
-World::World(const glm::vec3& grid, const glm::vec3& origin) : World::World(grid.x, grid.y, grid.z, origin) {
+PathmapWorld::PathmapWorld(const glm::vec3& grid, const glm::vec3& origin) : PathmapWorld::PathmapWorld(grid.x, grid.y, grid.z, origin) {
 
 }
 
-const glm::vec3 World::translate(const glm::vec3& coords) const {
+const glm::vec3 PathmapWorld::translate(const glm::vec3& coords) const {
 	return (coords * GRIDSPACE_) + ORIGIN_;
 }
 
-const bool World::in_range(const unsigned& val, const unsigned& range) const {
+const bool PathmapWorld::in_range(const unsigned& val, const unsigned& range) const {
 	return (val < range && val >= 0);
 }
 
 
-const glm::vec3 World::get_min_limits() const {
+const glm::vec3 PathmapWorld::get_min_limits() const {
 	return ORIGIN_;
 }
-const glm::vec3 World::get_max_limits() const {
+const glm::vec3 PathmapWorld::get_max_limits() const {
 	return ORIGIN_ + glm::vec3(WIDTH_, HEIGHT_, LENGTH_);
 }
 
-const bool World::walkable(const glm::vec3& coords)  const {
+const bool PathmapWorld::walkable(const glm::vec3& coords)  const {
 	const unsigned x = coords.x;
 	const unsigned y = coords.y;
 	const unsigned z = coords.z;
@@ -56,11 +56,11 @@ const bool World::walkable(const glm::vec3& coords)  const {
 
 	return (GRID_[x][y][z]);
 }
-const bool World::walkable(const unsigned& width, const unsigned& height, const unsigned& length)  const {
+const bool PathmapWorld::walkable(const unsigned& width, const unsigned& height, const unsigned& length)  const {
 	return walkable(glm::vec3(width, height, length));
 }
 
-const std::vector<glm::vec3> World::get_neighbours(const glm::vec3& coords) const {
+const std::vector<glm::vec3> PathmapWorld::get_neighbours(const glm::vec3& coords) const {
 	const unsigned x = coords.x;
 	const unsigned y = coords.y;
 	const unsigned z = coords.z;
@@ -76,11 +76,11 @@ const std::vector<glm::vec3> World::get_neighbours(const glm::vec3& coords) cons
 
 	return res;
 }
-const std::vector<glm::vec3> World::get_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const {
+const std::vector<glm::vec3> PathmapWorld::get_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const {
 	return get_neighbours(glm::vec3(width, height, length));
 }
 
-const std::vector<glm::vec3> World::get_walkable_neighbours(const glm::vec3& coords) const {
+const std::vector<glm::vec3> PathmapWorld::get_walkable_neighbours(const glm::vec3& coords) const {
 	const unsigned x = coords.x;
 	const unsigned y = coords.y;
 	const unsigned z = coords.z;
@@ -96,6 +96,6 @@ const std::vector<glm::vec3> World::get_walkable_neighbours(const glm::vec3& coo
 
 	return res;
 }
-const std::vector<glm::vec3> World::get_walkable_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const {
+const std::vector<glm::vec3> PathmapWorld::get_walkable_neighbours(const unsigned& width, const unsigned& height, const unsigned& length) const {
 	return get_walkable_neighbours(glm::vec3(width, height, length));
 }

@@ -157,7 +157,6 @@
     <ClCompile Include="AI_Waypoint.cpp" />
     <ClCompile Include="AI_Boid.cpp" />
     <ClCompile Include="Collisions.cpp" />
-    <ClCompile Include="Flock.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
     <ClCompile Include="PE_Emitter.cpp" />
@@ -169,10 +168,8 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Keyboard.cpp" />
-    <ClCompile Include="Render.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="World.cpp" />
+    <ClCompile Include="PathmapWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
@@ -181,13 +178,14 @@
     <ClInclude Include="AI_Pathfinder.h" />
     <ClInclude Include="AI_Waypoint.h" />
     <ClInclude Include="AI_Boid.h" />
+    <ClInclude Include="Cell.h" />
+    <ClInclude Include="Chunk.h" />
     <ClInclude Include="Collisions.h" />
-    <ClInclude Include="Flock.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="I_AI.h" />
     <ClInclude Include="I_Collider.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="PE_Emitter.h" />
-    <ClInclude Include="Store.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="I_AABB.h" />
     <ClInclude Include="I_Camera.h" />
@@ -203,10 +201,9 @@
     <ClInclude Include="Player_Camera.h" />
     <ClInclude Include="Player_Keyboard.h" />
     <ClInclude Include="Rigid_Body_Physics.h" />
-    <ClInclude Include="Render.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="PathmapWorld.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>

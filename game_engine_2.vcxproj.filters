@@ -46,6 +46,9 @@
     <Filter Include="Components\Colliders">
       <UniqueIdentifier>{be66eacd-28f7-4d44-b554-e66087fbfecf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{c753facf-00b1-437d-8447-38377e725d75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -60,17 +63,11 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Render.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Player_Camera.cpp">
       <Filter>Components\Inputs</Filter>
@@ -96,9 +93,6 @@
     <ClCompile Include="Pathfinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AI_Pathfinder.cpp">
       <Filter>Components\AI</Filter>
     </ClCompile>
@@ -108,14 +102,14 @@
     <ClCompile Include="AI_Waypoint.cpp">
       <Filter>Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Flock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AI_Boid.cpp">
       <Filter>Components\AI</Filter>
     </ClCompile>
     <ClCompile Include="PE_Emitter.cpp">
       <Filter>Components\Particle Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="PathmapWorld.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,9 +126,6 @@
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
       <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
@@ -154,9 +145,6 @@
     </ClInclude>
     <ClInclude Include="I_Component.h">
       <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="I_Camera.h">
       <Filter>Interfaces</Filter>
@@ -182,9 +170,6 @@
     <ClInclude Include="PE_Explosion.h">
       <Filter>Components\Particle Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Store.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="I_AI.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -192,9 +177,6 @@
       <Filter>Components\AI</Filter>
     </ClInclude>
     <ClInclude Include="Pathfinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AI_Pathfinder.h">
@@ -209,14 +191,26 @@
     <ClInclude Include="AI_Waypoint.h">
       <Filter>Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Flock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AI_Boid.h">
       <Filter>Components\AI</Filter>
     </ClInclude>
     <ClInclude Include="PE_Emitter.h">
       <Filter>Components\Particle Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="PathmapWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Chunk.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

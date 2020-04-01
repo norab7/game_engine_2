@@ -2,9 +2,9 @@
 #include <vector>
 #include <iostream>
 #include <glm/glm.hpp>
+#include <glm\ext\matrix_transform.hpp>
 
 #include "I_Component.h"
-#include "Transform.h"
 #include "AABB.h"
 
 /* Class forward Declarations - Much like includes */

@@ -1,6 +1,6 @@
 #pragma once
 #include "I_AI.h"
-#include "World.h"
+#include "PathmapWorld.h"
 #include "Pathfinding.h"
 
 class AI_Pathfinder : public I_AI {
@@ -15,7 +15,7 @@ class AI_Pathfinder : public I_AI {
 
 public:
 	Pathfinding* PATH_ = new Pathfinding();
-	World* WORLD_ = nullptr;
+	PathmapWorld* WORLD_ = nullptr;
 	glm::vec3 START_ {0};
 	glm::vec3 TARGET_ {0};
 
@@ -23,7 +23,7 @@ public:
 	bool has_path = false;
 	bool forward = false;
 
-	AI_Pathfinder(World* world, glm::vec3 start, glm::vec3 target);
+	AI_Pathfinder(PathmapWorld* world, glm::vec3 start, glm::vec3 target);
 	~AI_Pathfinder() = default;
 
 	void update(GameObject& g) override;
