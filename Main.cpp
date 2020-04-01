@@ -1,5 +1,8 @@
 #define STB_IMAGE_IMPLEMENTATION // Must be done before using stb_image.h
 #include "Main.h"
+
+#include "World.h"
+
 #include <time.h>
 
 GameObject* test = nullptr;
@@ -7,6 +10,10 @@ GameObject* test = nullptr;
 int main(int argc, char** argv) {
 	setup_glfw_glad();
 	setup_initial_objects();
+
+	Point p = Point::rect(0.f, 0.f, 0.f);
+	World* w = new World(p, 1, 10, 10);
+
 
 	std::cout << "Setup Complete : Beginning Game Loop" << std::endl;
 	last_time = glfwGetTime();

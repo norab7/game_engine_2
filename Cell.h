@@ -16,10 +16,16 @@ class Cell {
 	/* Cell Properties */
 
 public:
-	Cell() = default;
+	Cell();
 	~Cell() = default;
 
 	bool drawCell();
 	bool resetCell();
 
 };
+
+/* Cell.cpp file when built */
+//#include "Cell.h"
+Cell::Cell() {
+
+}

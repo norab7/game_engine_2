@@ -15,6 +15,7 @@ If there exists a chunk at the coordinates load it, otherwise spawn fresh
 #include "Cell.h"
 
 class Chunk {
+	const Point& anchorPoint;
 
 	/* Cell Values */
 	std::map<Point, Cell> cells;
@@ -23,12 +24,16 @@ class Chunk {
 	const unsigned zCellCount = 10;
 
 public:
-	Chunk() = default;
+	Chunk(const Point& p);
 	~Chunk() = default;
 
 	bool drawChunk();
 	bool resetChunk();
 
-
-
 };
+
+/* Chunk.cpp file when built */
+//#include "Chunk.h"
+Chunk::Chunk(const Point& p) : anchorPoint(p) {
+
+}
