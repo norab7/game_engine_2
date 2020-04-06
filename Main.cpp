@@ -62,6 +62,8 @@ int main(int argc, char** argv) {
 
 	}
 
+	// w->printWorld(); // Test for getting values from each world object
+
 	std::cout << "Press return to exit";
 	std::cin.ignore();
 	return 0;

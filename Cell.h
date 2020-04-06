@@ -12,20 +12,30 @@ Each cell will contain only 1 gameobject currently
 #pragma once
 
 class Cell {
+	const Point cellPosition;
 
 	/* Cell Properties */
+	bool active = false;
+	// VertexType type;
 
 public:
-	Cell();
+	Cell(const Point& pos);
 	~Cell() = default;
 
 	bool drawCell();
 	bool resetCell();
+	bool isActive();
+
+	void printCell();
 
 };
 
 /* Cell.cpp file when built */
 //#include "Cell.h"
-Cell::Cell() {
+Cell::Cell(const Point& pos) : cellPosition(pos) {
 
+}
+
+void Cell::printCell() {
+	cellPosition.print(true);
 }

@@ -9,6 +9,9 @@ leave room for adding in vertical chunks for future
 Start at coords (0,0,0) and spread in a positive direction for starters
 Make it so the world can be offset as a whole
 
+Anchor coords are the (0,0) of each chunk, with an increasing value for both (x,z) values
+the Y coordinate will not be used for now to keep the coords easy and simple
+
 */
 
 #pragma once
@@ -22,9 +25,9 @@ class World {
 
 	/* Chunk Values */
 	std::map<Point, Chunk> chunks {};
-	const unsigned chunkRadius = 1; // Number of chunks around the player character
-	const unsigned chunkLength = 10;
-	const unsigned chunkHeight = 10; // Split height even over zero
+	const int chunkRadius = 1; // Number of chunks around the player character
+	const int chunkLength = 10;
+	const int chunkHeight = 10; // Split height even over zero
 
 public:
 	World();
@@ -36,6 +39,8 @@ public:
 	World(Point& anchor, unsigned length, unsigned height);
 	World(Point& anchor, unsigned radius, unsigned length, unsigned height);
 	~World() = default;
+
+	void printWorld();
 
 	bool drawWorld();
 	bool resetWorld();
@@ -73,24 +78,36 @@ World::World(Point& anchor, unsigned radius)
 World::World(Point& anchor, unsigned length, unsigned height)
 	: World(anchor, chunkRadius, length, height) {
 }
-World::World(Point& anchor, unsigned radius, unsigned length, unsigned height) : anchorPoint(anchor), chunkRadius(radius), chunkLength(length), chunkHeight(height) {
+World::World(Point& anchor, unsigned radius, unsigned length, unsigned height)
+	: anchorPoint(anchor), chunkRadius(radius), chunkLength(length), chunkHeight(height) {
+
 	std::cout << "Setting up World Chunks" << std::endl;
 
-	anchorPoint.anchor(chunkLength).floor(); // Normalise anchor point to centre chunk coords
+	anchorPoint.anchor(chunkLength).floor(); // Normalise anchor point to middle chunk anchor coords
 
-	int xEnd = anchorPoint.xi() + (chunkLength * chunkRadius);
-	int zEnd = anchorPoint.zi() + (chunkLength * chunkRadius);
+	int offset = chunkLength * chunkRadius;
+	int xEnd = anchorPoint.xi() + offset;
+	int zEnd = anchorPoint.zi() + offset;
 
 	// Generate Chunks based on the anchor point offsetting them by the radius and length
 	for(int zIndex = anchorPoint.zi() - (chunkLength * chunkRadius); zIndex <= zEnd; zIndex += chunkLength) {
 		for(int xIndex = anchorPoint.xi() - (chunkLength * chunkRadius); xIndex <= xEnd; xIndex += chunkLength) {
 			Point chunkPoint = Point::rect(xIndex, 0.0f, zIndex);
-			chunks.insert(std::pair<Point, Chunk>(chunkPoint, *new Chunk(chunkPoint)));
+			chunks.insert(std::pair<Point, Chunk>(chunkPoint, *new Chunk(chunkPoint, chunkLength, chunkHeight)));
+
 		}
 	}
-	std::cout << std::endl;
 }
 
+void World::printWorld() {
+	Point temp = Point::rect(0, 0, 0);
+	for(int zIndex = 0; zIndex < (chunkRadius * 2) + 1; zIndex++) {
+		for(int xIndex = 0; xIndex < (chunkRadius * 2) + 1; xIndex++) {
+			temp.set((xIndex - chunkRadius) * chunkLength, 0, (zIndex - chunkRadius) * chunkLength);
+			chunks.at(temp).printChunk();
+		}
+	}
+}
 
 
 

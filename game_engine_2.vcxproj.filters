@@ -200,9 +200,6 @@
     <ClInclude Include="PathmapWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cell.h">
-      <Filter>World</Filter>
-    </ClInclude>
     <ClInclude Include="Chunk.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -210,6 +207,9 @@
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Point.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
       <Filter>World</Filter>
     </ClInclude>
   </ItemGroup>

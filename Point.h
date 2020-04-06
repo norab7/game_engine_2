@@ -20,6 +20,8 @@ public:
 	static Point rect(float x, float y, float z);
 	static Point polar(float radius, float angle, float z);
 
+	void set(const float x, const float y, const float z);
+
 	float magnitude() const;
 	float magnitude(const Point& p);
 
@@ -29,16 +31,16 @@ public:
 	Point& floor();
 	Point& round();
 
-	void print(bool newline = false);
+	const void print(bool newline = false) const;
 
-	/* Internal Value Getters of different types */
-	const float& x();
-	const float& y();
-	const float& z();
+	/* Internal Value Getters of different types (x,y,z:floats) (xi,yi,zi:ints) */
+	const float& x() const;
+	const float& y() const;
+	const float& z() const;
 
-	const int& xi();
-	const int& yi();
-	const int& zi();
+	const int& xi() const;
+	const int& yi() const;
+	const int& zi() const;
 
 	/* Logic Overloads*/
 	bool operator== (const Point& p) const;
@@ -69,6 +71,8 @@ inline Point::Point(const Point& p) : X_(p.X_), Y_(p.Y_), Z_(p.Z_) {}
 inline Point Point::rect(float x, float y, float z) { return Point(x, y, z); }
 inline Point Point::polar(float radius, float angle, float vert) { return Point(radius * std::cos(angle), vert, radius * std::sin(angle)); }
 
+inline void Point::set(const float x, const float y, const float z) { X_ = x; Y_ = y; Z_ = z; }
+
 inline float Point::magnitude() const { return std::sqrt(std::pow(this->X_, 2) + std::pow(this->Y_, 2) + std::pow(this->Z_, 2)); }
 inline float Point::magnitude(const Point& p) { return Point(*this + p).magnitude(); }
 
@@ -96,33 +100,25 @@ inline Point& Point::round() {
 }
 
 /* Print (x,y,z) with no leading/trailing spaces or newlines */
-inline void Point::print(bool newline) { std::cout << "(" << X_ << "," << Y_ << "," << Z_ << ")"; if(newline) { std::cout << std::endl; } }
+inline const void Point::print(bool newline) const { std::cout << "(" << X_ << "," << Y_ << "," << Z_ << ")"; if(newline) { std::cout << std::endl; } }
 
 /* Getters and Setters */
-inline const float& Point::x() { return this->X_; }
-inline const float& Point::y() { return this->Y_; }
-inline const float& Point::z() { return this->Z_; }
+inline const float& Point::x() const { return this->X_; }
+inline const float& Point::y() const { return this->Y_; }
+inline const float& Point::z()  const { return this->Z_; }
 
-inline const int& Point::xi() { return static_cast<int>(this->X_); }
-inline const int& Point::yi() { return static_cast<int>(this->Y_); }
-inline const int& Point::zi() { return static_cast<int>(this->Z_); }
+inline const int& Point::xi() const { return static_cast<int>(this->X_); }
+inline const int& Point::yi() const { return static_cast<int>(this->Y_); }
+inline const int& Point::zi() const { return static_cast<int>(this->Z_); }
 
 
 /* Logic Overloads */
 inline bool Point::operator==(const Point& p) const { return (this->X_ == p.X_) && (this->Y_ == p.Y_) && (this->Z_ == p.Z_); }
 inline bool Point::operator!= (const Point& p) const { return !operator==(p); }
-inline bool Point::operator<(const Point& p) const {
-	float r = std::sqrt(std::pow(this->X_, 2) + std::pow(this->Y_, 2) + std::pow(this->Z_, 2));
-	float r2 = std::sqrt(std::pow(p.X_, 2) + std::pow(p.Y_, 2) + std::pow(p.Z_, 2));
-	return r < r2;
-}
-inline bool Point::operator> (const Point& p) const {
-	float r = std::sqrt(std::pow(this->X_, 2) + std::pow(this->Y_, 2) + std::pow(this->Z_, 2));
-	float r2 = std::sqrt(std::pow(p.X_, 2) + std::pow(p.Y_, 2) + std::pow(p.Z_, 2));
-	return r > r2;
-}
+inline bool Point::operator<(const Point& p) const { return (this->Y_ < p.Y_) || (this->Y_ == p.Y_ && this->Z_ < p.Z_) || (this->Y_ == p.Y_ && this->Z_ == p.Z_ && this->X_ < p.X_); }
+inline bool Point::operator> (const Point& p) const { return p < *this; }
 inline bool Point::operator<= (const Point& p) const { return !operator>(p); }
-inline bool Point::operator>= (const Point& p) const { return !operator< (p); }
+inline bool Point::operator>= (const Point& p) const { return !operator<(p); }
 
 
 /* Arithmetic Overloads */
