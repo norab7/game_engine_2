@@ -9,18 +9,18 @@ If only two values are given, assume vertical axis to be zero
 */
 class Point {
 
-	float X_, Y_, Z_; // Y is vertical in OpenGL
-
 	Point(float x, float y, float z);
 
 public:
+	float X_, Y_, Z_; // Y is vertical in OpenGL
+
 	Point(const Point& p);
 	~Point() = default;
 
 	static Point rect(float x, float y, float z);
 	static Point polar(float radius, float angle, float z);
 
-	void set(const float x, const float y, const float z);
+	Point& set(const float x, const float y, const float z);
 
 	float magnitude() const;
 	float magnitude(const Point& p);
@@ -31,12 +31,14 @@ public:
 	Point& floor();
 	Point& round();
 
+	std::vector<float> toFloat();
+
 	const void print(bool newline = false) const;
 
 	/* Internal Value Getters of different types (x,y,z:floats) (xi,yi,zi:ints) */
-	const float& x() const;
-	const float& y() const;
-	const float& z() const;
+	//const float& x() const;
+	//const float& y() const;
+	//const float& z() const;
 
 	const int& xi() const;
 	const int& yi() const;
@@ -71,7 +73,7 @@ inline Point::Point(const Point& p) : X_(p.X_), Y_(p.Y_), Z_(p.Z_) {}
 inline Point Point::rect(float x, float y, float z) { return Point(x, y, z); }
 inline Point Point::polar(float radius, float angle, float vert) { return Point(radius * std::cos(angle), vert, radius * std::sin(angle)); }
 
-inline void Point::set(const float x, const float y, const float z) { X_ = x; Y_ = y; Z_ = z; }
+inline Point& Point::set(const float x, const float y, const float z) { X_ = x; Y_ = y; Z_ = z; return *this; }
 
 inline float Point::magnitude() const { return std::sqrt(std::pow(this->X_, 2) + std::pow(this->Y_, 2) + std::pow(this->Z_, 2)); }
 inline float Point::magnitude(const Point& p) { return Point(*this + p).magnitude(); }
@@ -99,13 +101,17 @@ inline Point& Point::round() {
 	return *this;
 }
 
+inline std::vector<float> Point::toFloat() {
+	return std::vector<float>{X_, Y_, Z_};
+}
+
 /* Print (x,y,z) with no leading/trailing spaces or newlines */
 inline const void Point::print(bool newline) const { std::cout << "(" << X_ << "," << Y_ << "," << Z_ << ")"; if(newline) { std::cout << std::endl; } }
 
 /* Getters and Setters */
-inline const float& Point::x() const { return this->X_; }
-inline const float& Point::y() const { return this->Y_; }
-inline const float& Point::z()  const { return this->Z_; }
+//inline const float& Point::x() const { return this->X_; }
+//inline const float& Point::y() const { return this->Y_; }
+//inline const float& Point::z()  const { return this->Z_; }
 
 inline const int& Point::xi() const { return static_cast<int>(this->X_); }
 inline const int& Point::yi() const { return static_cast<int>(this->Y_); }

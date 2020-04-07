@@ -6,13 +6,14 @@
 #include <time.h>
 
 GameObject* test = nullptr;
+Point p = Point::rect(0.f, 0.f, 0.f);
+World* w;
 
 int main(int argc, char** argv) {
 	setup_glfw_glad();
 	setup_initial_objects();
 
-	Point p = Point::rect(0.f, 0.f, 0.f);
-	World* w = new World(p, 1, 10, 10);
+	w = new World(p, 1, 10, 10);
 
 
 	std::cout << "Setup Complete : Beginning Game Loop" << std::endl;
@@ -36,10 +37,10 @@ int main(int argc, char** argv) {
 			float physics_time = delta_time * ms_per_frame;
 
 			// Physics
-
+			player->update_move(delta_time);
 
 			// Movement
-
+			//print_vector("PlayerPosition", player->get_position());
 
 			updates++;
 			lag -= ms_per_frame;
@@ -47,6 +48,7 @@ int main(int argc, char** argv) {
 
 		// Render Scene
 		render_scene();
+
 		frames++;
 
 		if(glfwGetTime() - second_timer > 1) {
@@ -112,7 +114,7 @@ void setup_glfw_glad() {
 
 void setup_initial_objects() {
 	std::cout << "Setting up initial Objects" << std::endl;
-	player = new GameObject(glm::vec3(0), nullptr, new Player_Keyboard(KEY_PRESS), new Player_Camera(mouse_offset));
+	player = new GameObject(glm::vec3(0, 10, 0), nullptr, new Player_Keyboard(KEY_PRESS), new Player_Camera(mouse_offset));
 	game_objects.push_back(player);
 }
 
@@ -127,6 +129,8 @@ void render_scene() {
 	shader->setMat4("projection", projection);
 	//player->update(GameObject::UPDATE_TYPE::CAMERA);
 	shader->setMat4("view", glm::translate(player->view, glm::vec3(0, -3, 0)));
+
+	w->drawWorld(shader);
 
 	// Buffers
 	glfwSwapBuffers(window);

@@ -18,22 +18,34 @@ itself allowing more dynamic curves and build up of the world.
 #pragma once
 #include <map>
 
+#include "World.h"
 #include "Point.h"
 #include "Cell.h"
+
+#include "Shader.h" // Find a way to get rid of this (decouple)
+#include "Mesh.h"
+
+class World;
 
 class Chunk {
 	const Point anchorPoint;
 
 	/* Cell Values */
 	std::map<Point, Cell> cells;
+	std::vector<Point> activeCells; // Only need to render active cells, indexed cells map means just store it's index
+	std::vector<Point> mesh; // May need a mesh class to store this data
+
 	const unsigned horCellCount;
 	const unsigned vertCellCount;
 
 public:
+	std::vector<Mesh> meshes;
 	Chunk(const Point& p, const unsigned& horCells, const unsigned& vertCells);
 	~Chunk() = default;
 
-	bool drawChunk();
+	void build(const World& w);
+
+	bool drawChunk(Shader* shader);
 	bool resetChunk();
 	void printChunk();
 };
@@ -43,22 +55,79 @@ public:
 Chunk::Chunk(const Point& p, const unsigned& horCells, const unsigned& vertCells)
 	: anchorPoint(p), horCellCount(horCells), vertCellCount(vertCells) {
 
-	for(int zIndex = 0; zIndex < horCellCount; zIndex++) {
-		for(int xIndex = 0; xIndex < horCellCount; xIndex++) {
-			Point cellPos = Point(anchorPoint) + Point::rect(xIndex, 0, zIndex);
-			cells.insert(std::pair<Point, Cell>(cellPos, *new Cell(cellPos)));
+	for(int yIndex = 0; yIndex < vertCellCount; yIndex++) {
+		for(int zIndex = 0; zIndex < horCellCount; zIndex++) {
+			for(int xIndex = 0; xIndex < horCellCount; xIndex++) {
+				// TODO: Can generate basic surface of terrain with heightmap checks here
+				Point cellPos = Point(anchorPoint) + Point::rect(xIndex, yIndex, zIndex);
+				bool cellActive = (yIndex == vertCellCount - 1);
+				bool cellFilled = (yIndex < vertCellCount - 1);
+
+				if(cellFilled) { cells.insert(std::pair<Point, Cell>(cellPos, *new Cell(cellPos, cellActive, cellFilled))); }
+				if(cellActive) { activeCells.push_back(cellPos); }
+
+			}
 		}
 	}
+}
 
+void Chunk::build(const World& w) {
+	Point offset = Point::rect(0.5f, 0.5f, 0.5f);
+	float half = 0.5f;
+
+	for(Point p : activeCells) {
+		Point centre = p + offset;
+
+		/* TODO: Adjust vertices and indices to match surrounding cells */
+		std::vector<float> vertices {
+			centre.X_, centre.Y_ + half, centre.Z_, // 0 - top 
+			centre.X_ + half, centre.Y_, centre.Z_, // 1 - right
+			centre.X_, centre.Y_, centre.Z_ + half, // 2 - front
+			centre.X_ - half, centre.Y_, centre.Z_, // 3 - left
+			centre.X_, centre.Y_, centre.Z_ - half, // 4 - back
+			centre.X_, centre.Y_ - half, centre.Z_  // 5 - bottom
+		};
+
+		std::vector<unsigned> indices {
+			1, 0, 2, // top right front
+			3, 0, 2, // top left front
+			3, 0, 4, // top left back
+			1, 0, 4, // top right back
+			1, 5, 2, // bottom right front
+			3, 5, 2, // bottom left front
+			3, 5, 4, // bottom left back
+			1, 5, 4  // bottom right back
+		};
+
+		meshes.push_back(*new Mesh(centre.toFloat(), vertices, indices));
+
+	}
+
+}
+
+bool Chunk::drawChunk(Shader* shader) {
+	glm::mat4 mat(1);
+
+	shader->use();
+	shader->setMat4("model", mat);
+
+
+	for(Mesh m : meshes) {
+		m.Draw(*shader);
+	}
+
+	return true;
 }
 
 void Chunk::printChunk() {
 	Point temp = Point::rect(0, 0, 0);
 
-	for(int zIndex = 0; zIndex < horCellCount; zIndex++) {
-		for(int xIndex = 0; xIndex < horCellCount; xIndex++) {
-			temp.set(xIndex + anchorPoint.xi(), 0, zIndex + anchorPoint.zi());
-			cells.at(temp).printCell();
+	for(int yIndex = 0; yIndex < vertCellCount; yIndex++) {
+		for(int zIndex = 0; zIndex < horCellCount; zIndex++) {
+			for(int xIndex = 0; xIndex < horCellCount; xIndex++) {
+				temp.set(xIndex + anchorPoint.xi(), yIndex + anchorPoint.yi(), zIndex + anchorPoint.zi());
+				cells.at(temp).printCell();
+			}
 		}
 	}
 }

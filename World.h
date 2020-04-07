@@ -20,11 +20,13 @@ the Y coordinate will not be used for now to keep the coords easy and simple
 #include "Point.h"
 #include "Chunk.h"
 
+class Shader;
+
 class World {
 	Point anchorPoint = Point::rect(0.0f, 0.0f, 0.0f);
 
 	/* Chunk Values */
-	std::map<Point, Chunk> chunks {};
+	std::map<Point, Chunk*> chunks {};
 	const int chunkRadius = 1; // Number of chunks around the player character
 	const int chunkLength = 10;
 	const int chunkHeight = 10; // Split height even over zero
@@ -40,19 +42,15 @@ public:
 	World(Point& anchor, unsigned radius, unsigned length, unsigned height);
 	~World() = default;
 
-	void printWorld();
 
-	bool drawWorld();
+	bool drawWorld(Shader* shader);
 	bool resetWorld();
 
 	std::map<Point, Chunk> all_chunks();
 	Chunk* chunk(const unsigned& x, const unsigned& z);
 	bool chunkTransitioned();
-	bool hasChunkLoaded(const unsigned& x, const unsigned& z);
-	bool loadChunk(const unsigned& x, const unsigned& z);
-	bool resetChunk(const unsigned& x, const unsigned& z);
 
-
+	void printWorld();
 };
 
 /* World.cpp file when built */
@@ -89,14 +87,27 @@ World::World(Point& anchor, unsigned radius, unsigned length, unsigned height)
 	int xEnd = anchorPoint.xi() + offset;
 	int zEnd = anchorPoint.zi() + offset;
 
-	// Generate Chunks based on the anchor point offsetting them by the radius and length
-	for(int zIndex = anchorPoint.zi() - (chunkLength * chunkRadius); zIndex <= zEnd; zIndex += chunkLength) {
-		for(int xIndex = anchorPoint.xi() - (chunkLength * chunkRadius); xIndex <= xEnd; xIndex += chunkLength) {
-			Point chunkPoint = Point::rect(xIndex, 0.0f, zIndex);
-			chunks.insert(std::pair<Point, Chunk>(chunkPoint, *new Chunk(chunkPoint, chunkLength, chunkHeight)));
-
+	for(int zIndex = 0; zIndex < (chunkRadius * 2) + 1; zIndex++) {
+		for(int xIndex = 0; xIndex < (chunkRadius * 2) + 1; xIndex++) {
+			Point chunkPoint = Point::rect((xIndex - chunkRadius) * chunkLength, 0.0f, (zIndex - chunkRadius) * chunkLength);
+			chunks.insert(std::pair<Point, Chunk*>(chunkPoint, new Chunk(chunkPoint, chunkLength, chunkHeight)));
 		}
 	}
+
+	for(std::pair<Point, Chunk*> c : chunks) {
+		c.second->build(*this);
+	}
+}
+
+bool World::drawWorld(Shader* shader) {
+
+
+	for(std::pair<Point, Chunk*> c : chunks) {
+		if(c.second->meshes.size() > 0) {
+		}
+		c.second->drawChunk(shader);
+	}
+	return true;
 }
 
 void World::printWorld() {
@@ -104,7 +115,7 @@ void World::printWorld() {
 	for(int zIndex = 0; zIndex < (chunkRadius * 2) + 1; zIndex++) {
 		for(int xIndex = 0; xIndex < (chunkRadius * 2) + 1; xIndex++) {
 			temp.set((xIndex - chunkRadius) * chunkLength, 0, (zIndex - chunkRadius) * chunkLength);
-			chunks.at(temp).printChunk();
+			chunks.at(temp)->printChunk();
 		}
 	}
 }

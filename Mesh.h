@@ -36,6 +36,7 @@ public:
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
 
+	Mesh(const std::vector<float> centre, const std::vector<float>& vert, const std::vector<unsigned>& ind);
 	Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures);
 
 	void Draw(Shader& shader, bool wire = false);

@@ -15,16 +15,19 @@ class Cell {
 	const Point cellPosition;
 
 	/* Cell Properties */
-	bool active = false;
-	// VertexType type;
+	bool cellActive;
+	bool cellFilled;
+	// CellType type = Type.DIRT; // TODO: some form of different cells
 
 public:
-	Cell(const Point& pos);
+	Cell(const Point& pos, const bool& active, const bool& filled);
 	~Cell() = default;
 
-	bool drawCell();
+	bool setMesh(std::vector<float> vert, std::vector<float> ind);
+
 	bool resetCell();
 	bool isActive();
+	bool isFilled();
 
 	void printCell();
 
@@ -32,10 +35,15 @@ public:
 
 /* Cell.cpp file when built */
 //#include "Cell.h"
-Cell::Cell(const Point& pos) : cellPosition(pos) {
+Cell::Cell(const Point& pos, const bool& active, const bool& filled)
+	: cellPosition(pos), cellActive(active), cellFilled(filled) {
 
 }
 
 void Cell::printCell() {
-	cellPosition.print(true);
+	if(cellActive) {
+		std::cout << "Pos: ";
+		cellPosition.print();
+		std::cout << " Active: " << cellActive << " Filled: " << cellFilled << std::endl;
+	}
 }

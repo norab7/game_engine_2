@@ -2,6 +2,22 @@
 
 #include "Mesh.h"
 
+Mesh::Mesh(const std::vector<float> centre, const std::vector<float>& vert, const std::vector<unsigned>& ind) {
+
+	for(unsigned i = 0; i < vert.size(); i += 3) { // For each given vertex
+		Vertex vertex;
+		vertex.Position = glm::vec3(vert[i], vert[i + 1], vert[i + 2]);
+		vertex.Normal = glm::vec3(centre[0] + vert[i], centre[1] + vert[i + 1], centre[2] + vert[i + 2]);
+		vertex.TexCoords = glm::vec2((i + 3) % 3, (i + 3) % 3);
+		this->vertices.push_back(vertex);
+	}
+
+	this->indices = ind;
+	this->textures = std::vector<Texture> {};
+
+	setup_mesh();
+}
+
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures) {
 	this->vertices = vertices;
 	this->indices = indices;
