@@ -23,7 +23,7 @@ public:
 	Cell(const Point& pos, const bool& active, const bool& filled);
 	~Cell() = default;
 
-	bool setMesh(std::vector<float> vert, std::vector<float> ind);
+	void buildCell(std::vector<float> vert, std::vector<float> ind);
 
 	bool resetCell();
 	bool isActive();

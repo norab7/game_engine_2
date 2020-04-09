@@ -43,7 +43,7 @@ public:
 	Chunk(const Point& p, const unsigned& horCells, const unsigned& vertCells);
 	~Chunk() = default;
 
-	void build(const World& w);
+	void buildChunk(const World& w);
 
 	bool drawChunk(Shader* shader);
 	bool resetChunk();
@@ -71,7 +71,7 @@ Chunk::Chunk(const Point& p, const unsigned& horCells, const unsigned& vertCells
 	}
 }
 
-void Chunk::build(const World& w) {
+void Chunk::buildChunk(const World& w) {
 	Point offset = Point::rect(0.5f, 0.5f, 0.5f);
 	float half = 0.5f;
 
@@ -99,7 +99,19 @@ void Chunk::build(const World& w) {
 			1, 5, 4  // bottom right back
 		};
 
-		meshes.push_back(*new Mesh(centre.toFloat(), vertices, indices));
+		std::vector<glm::vec3> normals;
+		for(unsigned i = 0; i < indices.size(); i += 3) { // Loops through ALL indices
+			std::vector<glm::vec3> v {};
+
+			for(unsigned j = 0; j < 3; j++) { // Loops through 3 indices
+				unsigned offset = indices[i + j] * 3;
+				v.push_back(glm::vec3 {vertices[offset],vertices[offset + 1],vertices[offset + 2]});
+			}
+
+			normals.push_back(glm::normalize(glm::cross(v[1] - v[0], v[2] - v[0])));
+		}
+
+		meshes.push_back(*new Mesh(centre.toFloat(), vertices, indices, normals));
 
 	}
 

@@ -95,7 +95,7 @@ World::World(Point& anchor, unsigned radius, unsigned length, unsigned height)
 	}
 
 	for(std::pair<Point, Chunk*> c : chunks) {
-		c.second->build(*this);
+		c.second->buildChunk(*this);
 	}
 }
 

@@ -2,12 +2,13 @@
 
 #include "Mesh.h"
 
-Mesh::Mesh(const std::vector<float> centre, const std::vector<float>& vert, const std::vector<unsigned>& ind) {
+Mesh::Mesh(const std::vector<float> centre, const std::vector<float>& vert, const std::vector<unsigned>& ind, const std::vector<glm::vec3>& norm) {
 
 	for(unsigned i = 0; i < vert.size(); i += 3) { // For each given vertex
 		Vertex vertex;
 		vertex.Position = glm::vec3(vert[i], vert[i + 1], vert[i + 2]);
-		vertex.Normal = glm::vec3(centre[0] + vert[i], centre[1] + vert[i + 1], centre[2] + vert[i + 2]);
+		vertex.Normal = norm[i / 3];
+		//vertex.Normal = glm::normalize(glm::vec3(centre[0] + vert[i], centre[1] + vert[i + 1], centre[2] + vert[i + 2]));
 		vertex.TexCoords = glm::vec2((i + 3) % 3, (i + 3) % 3);
 		this->vertices.push_back(vertex);
 	}
